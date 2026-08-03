@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="180dp"
+    android:minHeight="60dp"
+    android:minResizeWidth="160dp"
+    android:minResizeHeight="50dp"
+    android:maxResizeWidth="500dp"
+    android:maxResizeHeight="300dp"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen"
+    android:initialLayout="@layout/prayer_times_widget"
+    android:resizeMode="horizontal|vertical"
+    android:description="@string/widget_description" />

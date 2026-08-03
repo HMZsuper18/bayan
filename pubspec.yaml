@@ -1,0 +1,66 @@
+name: bayan
+description: "Bayan (بيان) - Quranic study app with offline OCR, Tafseer, and recitations"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+  flutter_bloc: ^9.1.0
+  camera: ^0.11.1
+  image: ^4.5.3
+  path_provider: ^2.1.5
+  equatable: ^2.0.7
+  hive_flutter: ^1.1.0
+  hive: ^2.2.3
+
+  geolocator: ^13.0.2
+  geocoding: ^3.0.0
+  just_audio: ^0.9.43
+  flutter_svg: ^2.0.17
+  flutter_tesseract_ocr: ^0.4.24
+  home_widget: ^0.9.3
+  dio: ^5.4.0
+  carousel_slider: ^5.1.2
+  share_plus: ^13.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: true
+
+  generate: true
+
+  assets:
+    - assets/images/
+    - assets/images/shuyukh/
+    - assets/data/
+    - assets/fonts/
+    - assets/tessdata_config.json
+    - assets/tessdata/
+
+  fonts:
+    - family: Uthmanic
+      fonts:
+        - asset: assets/fonts/Uthmanic-Regular.ttf
+    - family: AmiriQuran
+      fonts:
+        - asset: assets/fonts/AmiriQuran-Regular.ttf
+    - family: Tajawal
+      fonts:
+        - asset: assets/fonts/Tajawal-Regular.ttf
+        - asset: assets/fonts/Tajawal-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Tajawal-Bold.ttf
+          weight: 700
