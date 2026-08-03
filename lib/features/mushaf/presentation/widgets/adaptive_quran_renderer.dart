@@ -58,13 +58,13 @@ class AdaptiveQuranRenderer extends StatelessWidget {
   }
 
   static const _page1Lines = [
-    'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ',
-    'ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ١ ٱلرَّحْمَـٰنِ',
-    'ٱلرَّحِيمِ ٢ مَـٰلِكِ يَوْمِ ٱلدِّينِ ٣ إِيَّاكَ',
-    'نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ٤ ٱهْدِنَا',
-    'ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ ٥ صِرَٰطَ ٱلَّذِينَ',
+    'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ١',
+    'ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢ ٱلرَّحْمَـٰنِ',
+    'ٱلرَّحِيمِ ٣ مَـٰلِكِ يَوْمِ ٱلدِّينِ ٤ إِيَّاكَ',
+    'نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ٥ ٱهْدِنَا',
+    'ٱلصِّرَٰطَ ٱلْمُسْتَقِيمِ ٦ صِرَٰطَ ٱلَّذِينَ',
     'أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ',
-    'عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ ٦',
+    'عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ ٧',
   ];
 
   static const _page2Lines = [
@@ -107,43 +107,31 @@ class AdaptiveQuranRenderer extends StatelessWidget {
     );
   }
 
-  static const _basmalahText =
-      'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ';
-
-  /// The special-page lines go through [QuranTextNormalizer.preProcessForDisplay]
-  /// (which strips U+0670 and reorders marks), so the comparison target must be
-  /// normalized the same way, otherwise the basmalah would be misclassified as
-  /// a regular verse span.
-  static final String _normalizedBasmalahText =
-      QuranTextNormalizer.preProcessForDisplay(_basmalahText);
-
   static final _markerPattern = RegExp(r'[\u0660-\u0669]+');
 
   List<List<_SpanInfo>> _buildLineSpans() {
     final lines = _getSpecialLines();
 
-    // The special page layout always opens with the basmalah on line 0. The
-    // basmalah is a decorative header, not a verse: it must never be tappable
-    // or selectable. The remaining lines reproduce the surah's real verses.
     // Each Arabic-Indic number marker sits at the *end* of its ayah, so the
     // marker and the text before it belong to the same verse while the text
     // that follows starts the next verse. We walk the spans in that order and
     // map each one to the correct [VerseModel] (instead of a blind global
     // counter).
     //
-    // The special layout is only ever built for page 1 / surah 1 (whose
-    // bundled data still contains the basmalah as verse 1:1, so the visual
-    // verses start at data index 1) or page 2 / surah 2 (no bundled basmalah,
-    // visual verses start at data index 0).
-    final basmalahOffset = _specialPageKey == 1 ? 1 : 0;
+    // The special layout is only ever built for page 1 / surah 1 or page 2 /
+    // surah 2. On page 1 the basmalah is Al-Fatiha's numbered verse ١, so line
+    // 0 is a real verse that maps straight to data index 0. On page 2 the
+    // basmalah is an unnumbered opening header (Al-Baqarah's first verse is
+    // الٓمٓ), so line 0 is decorative and maps to no verse.
+    final headerLine = _specialPageKey == 2 ? 0 : -1;
 
     final result = <List<_SpanInfo>>[];
-    var currentVerse = -1; // -1 while inside the basmalah header.
+    var currentVerse = -1; // -1 while still before the first real verse.
     var awaitingNewVerse = false; // Set when a marker closed the previous verse.
 
-    void addTextSpan(List<_SpanInfo> spans, String text, bool isFirstLine) {
+    void addTextSpan(List<_SpanInfo> spans, String text, int lineIndex) {
       if (text.trim().isEmpty) return;
-      if (isFirstLine) {
+      if (lineIndex == headerLine) {
         spans.add(_SpanInfo(text, -1));
         awaitingNewVerse = false;
         return;
@@ -152,8 +140,7 @@ class AdaptiveQuranRenderer extends StatelessWidget {
         currentVerse++;
       }
       awaitingNewVerse = false;
-      final verseIndex = currentVerse + basmalahOffset;
-      spans.add(_SpanInfo(text, verseIndex < verses.length ? verseIndex : -1));
+      spans.add(_SpanInfo(text, currentVerse < verses.length ? currentVerse : -1));
     }
 
     for (int li = 0; li < lines.length; li++) {
@@ -164,16 +151,16 @@ class AdaptiveQuranRenderer extends StatelessWidget {
 
       for (final m in matches) {
         if (m.start > lastEnd) {
-          addTextSpan(spans, line.substring(lastEnd, m.start), li == 0);
+          addTextSpan(spans, line.substring(lastEnd, m.start), li);
         }
-        final markerVerse = currentVerse < 0 ? -1 : currentVerse + basmalahOffset;
+        final markerVerse = currentVerse < 0 ? -1 : currentVerse;
         spans.add(_SpanInfo(m.group(0)!, markerVerse));
         awaitingNewVerse = true;
         lastEnd = m.end;
       }
 
       if (lastEnd < line.length) {
-        addTextSpan(spans, line.substring(lastEnd), li == 0);
+        addTextSpan(spans, line.substring(lastEnd), li);
       }
 
       if (spans.isEmpty) {
@@ -241,9 +228,7 @@ class AdaptiveQuranRenderer extends StatelessWidget {
             )
           : baseStyle;
 
-      final isBasmalah = span.text.trim() == _normalizedBasmalahText;
-
-      if (verse == null || isBasmalah) {
+      if (verse == null) {
         textSpans.add(TextSpan(text: span.text, style: spanStyle));
       } else {
         textSpans.add(TextSpan(

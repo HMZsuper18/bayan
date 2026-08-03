@@ -51,18 +51,18 @@ class MushafTextRenderer extends StatelessWidget {
     return result;
   }
 
-  /// Al-Fatiha's basmalah is bundled in the data as verse 1:1, but it is a
-  /// header, not a verse. When rendering surah 1 that data verse is skipped and
-  /// shown via [_buildBasmalah] instead, and the remaining ayahs are renumbered
-  /// (١..٦) so the display matches the printed mushaf.
-  bool get _hasBundledBasmalah =>
-      surahId == 1 && verses.isNotEmpty && verses.first.verseNumber == 1;
-
+  /// Al-Fatiha is the only surah whose basmalah is itself verse 1:1 (numbered ١
+  /// in the printed mushaf), so it renders like any other verse. For all other
+  /// surahs (except At-Tawbah, which has none) the basmalah is an unnumbered
+  /// opening header drawn by [_buildBasmalah].
   bool get _shouldShowBasmalah =>
-      showBasmalah && surahId != 9 && verses.isNotEmpty && verses.first.verseNumber == 1;
+      showBasmalah &&
+      surahId != 1 &&
+      surahId != 9 &&
+      verses.isNotEmpty &&
+      verses.first.verseNumber == 1;
 
-  int _displayNumber(VerseModel verse) =>
-      _hasBundledBasmalah ? verse.verseNumber - 1 : verse.verseNumber;
+  int _displayNumber(VerseModel verse) => verse.verseNumber;
 
   TextStyle _verseStyle(Color color, Color? background) {
     return TextStyle(
@@ -138,8 +138,6 @@ class MushafTextRenderer extends StatelessWidget {
     final spans = <InlineSpan>[];
 
     for (final verse in verses) {
-      if (_hasBundledBasmalah && verse.verseNumber == 1) continue;
-
       final isSelected = selectedVerse?.id == verse.id;
       final isPlaying = playingVerseNumber == verse.verseNumber;
 
@@ -182,7 +180,6 @@ class MushafTextRenderer extends StatelessWidget {
     final rows = <Widget>[];
     var added = 0;
     for (int i = 0; i < verses.length; i++) {
-      if (_hasBundledBasmalah && verses[i].verseNumber == 1) continue;
       if (added > 0) rows.add(const SizedBox(height: 12));
       rows.add(_buildVerseBlock(verses[i], translations![i]));
       added++;

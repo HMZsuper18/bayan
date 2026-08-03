@@ -165,8 +165,6 @@ class _MushafPageViewerState extends State<MushafPageViewer> {
   }
 
   void _onVerseTap(VerseModel verse) {
-    // The basmalah is a header, not a verse — never select it.
-    if (verse.surahId == 1 && verse.verseNumber == 1) return;
     _verseSwitchTimer?.cancel();
     if (_selectedVerse?.id == verse.id) {
       setState(() {

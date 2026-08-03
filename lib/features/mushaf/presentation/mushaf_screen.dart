@@ -385,8 +385,6 @@ class _SurahPageState extends State<_SurahPage> {
   }
 
   void _onVerseTap(VerseModel verse) {
-    // The basmalah is a header, not a verse — never select it.
-    if (verse.surahId == 1 && verse.verseNumber == 1) return;
     _verseSwitchTimer?.cancel();
     if (!mounted) return;
     if (_selectedVerse?.id == verse.id) {
