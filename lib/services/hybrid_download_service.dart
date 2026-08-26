@@ -18,6 +18,8 @@ class HybridDownloadService with WidgetsBindingObserver {
 
   final Map<String, ReciterModel> _activeReciters = {};
 
+  Timer? _handoffTimer;
+
   void initialize() {
     if (_initialized) return;
     _initialized = true;
@@ -25,9 +27,9 @@ class HybridDownloadService with WidgetsBindingObserver {
     _dm.initialize();
   }
 
-  void startDownload(ReciterModel reciter) {
+  Future<void> startDownload(ReciterModel reciter) {
     _activeReciters[reciter.id] = reciter;
-    _dartEngine.downloadReciter(reciter);
+    return _dartEngine.downloadReciter(reciter);
   }
 
   void cancelDownload(String reciterId) {
@@ -47,26 +49,29 @@ class HybridDownloadService with WidgetsBindingObserver {
 
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _handoffTimer?.cancel();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.paused) {
-      _handoffToDownloadManager();
+    if (state == AppLifecycleState.paused) {
+      _handoffTimer?.cancel();
+      _handoffTimer = Timer(const Duration(seconds: 3), _handoffToDownloadManager);
     } else if (state == AppLifecycleState.resumed) {
+      _handoffTimer?.cancel();
       _cancelDownloadManagerAndResume();
     }
   }
 
   Future<void> _handoffToDownloadManager() async {
-    for (final entry in _activeReciters.entries) {
+    for (final entry in Map.from(_activeReciters).entries) {
       final reciterId = entry.key;
       final reciter = entry.value;
 
       if (!_dartEngine.isDownloading(reciterId)) continue;
 
       _dartEngine.pauseDownload(reciterId);
+
       await Future.delayed(const Duration(milliseconds: 500));
 
       try {

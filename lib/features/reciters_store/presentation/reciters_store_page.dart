@@ -97,12 +97,8 @@ class _RecitersStorePageState extends State<RecitersStorePage> {
       });
     }
 
-    HybridDownloadService.instance.startDownload(reciter);
-
     try {
-      await _service.downloadReciter(reciter);
-
-      if (!mounted || !_downloadingIds.contains(reciter.id)) return;
+      await HybridDownloadService.instance.startDownload(reciter);
 
       final downloadedIds = await _service.getDownloadedReciterIds();
       final isActuallyDownloaded = downloadedIds.contains(reciter.id);
