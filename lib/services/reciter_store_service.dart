@@ -166,6 +166,29 @@ class ReciterStoreService {
     return ids;
   }
 
+  Future<Set<String>> getPartialReciterIds() async {
+    final base = await _recitersDir;
+    final baseDir = Directory(base);
+    if (!await baseDir.exists()) return {};
+    final ids = <String>{};
+    final entries = await baseDir.list().toList();
+    for (final entry in entries) {
+      if (entry is Directory) {
+        final reciterId = entry.path.split('/').last;
+        final dir = await _reciterDir(reciterId);
+        int count = 0;
+        for (int i = 1; i <= 114; i++) {
+          final f = File('$dir/${i.toString().padLeft(3, '0')}.opus');
+          if (await f.exists() && (await f.length()) >= 1024) count++;
+        }
+        if (count > 0 && count < 114) {
+          ids.add(reciterId);
+        }
+      }
+    }
+    return ids;
+  }
+
   Future<List<ReciterModel>> getDownloadedReciters() async {
     final downloadedIds = await getDownloadedReciterIds();
     final allReciters = HiveService.getAllReciters();
@@ -907,13 +930,20 @@ class ReciterStoreService {
           final surah = nextDownload;
           if (surah > surahCount) break;
           nextDownload++;
-          await downloadSurah(surah);
+          try {
+            await downloadSurah(surah);
+          } catch (e) {
+            debugPrint('Worker error for surah $surah: $e');
+          }
         }
       }
 
       await Future.wait([
         for (int i = 0; i < downloadWorkers; i++) worker(),
-      ]);
+      ]).catchError((e) {
+        debugPrint('Worker pool error: $e');
+        return <void>[];
+      });
 
       if (!_downloading.contains(reciter.id)) return;
 

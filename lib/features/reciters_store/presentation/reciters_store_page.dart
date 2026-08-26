@@ -40,6 +40,7 @@ class _RecitersStorePageState extends State<RecitersStorePage> {
     super.initState();
     _loadDownloaded();
     _syncActiveDownloads();
+    _autoResumePartialDownloads();
     _sub = _service.progressStream.listen((p) {
       if (!mounted) return;
       debugPrint('📊 Progress - ${p.reciterId}: ${(p.fraction * 100).toStringAsFixed(1)}%');
@@ -85,6 +86,28 @@ class _RecitersStorePageState extends State<RecitersStorePage> {
       });
     } catch (e) {
       debugPrint('Error syncing active downloads: $e');
+    }
+  }
+
+  Future<void> _autoResumePartialDownloads() async {
+    try {
+      final partialIds = await _service.getPartialReciterIds();
+      if (partialIds.isEmpty || !mounted) return;
+      final allReciters = HiveService.getAllReciters();
+      for (final reciterId in partialIds) {
+        if (!mounted) return;
+        if (_downloadingIds.contains(reciterId)) continue;
+        final reciter = allReciters.where((r) => r.id == reciterId).firstOrNull;
+        if (reciter == null) continue;
+        if (_service.isDownloading(reciterId)) continue;
+        setState(() {
+          _downloadingIds.add(reciter.id);
+          _progress[reciter.id] = 0;
+        });
+        _download(reciter);
+      }
+    } catch (e) {
+      debugPrint('Error auto-resuming partial downloads: $e');
     }
   }
 

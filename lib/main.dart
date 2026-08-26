@@ -5,6 +5,7 @@ import 'data/database/hive_service.dart';
 import 'data/database/settings_service.dart';
 import 'services/default_reciter_service.dart';
 import 'services/hybrid_download_service.dart';
+import 'services/download_manager_service.dart';
 import 'app.dart';
 
 void main() async {
@@ -20,6 +21,8 @@ void main() async {
   await HiveService.init();
   await SettingsService.init();
   await DefaultReciterService.init();
+  DownloadManagerService.instance.initialize();
+  await DownloadManagerService.instance.cancelAll();
   HybridDownloadService.instance.initialize();
   runApp(const App());
 }
