@@ -10,15 +10,16 @@ class HybridDownloadService {
   final ReciterStoreService _dartEngine = ReciterStoreService.instance;
   final BackgroundDownloadService _bgService = BackgroundDownloadService.instance;
 
-  bool _initialized = false;
+  bool _bgInitialized = false;
 
-  void initialize() {
-    if (_initialized) return;
-    _initialized = true;
-    _bgService.initialize();
+  Future<void> _ensureBgInitialized() async {
+    if (_bgInitialized) return;
+    _bgInitialized = true;
+    await _bgService.initialize();
   }
 
   Future<void> startDownload(ReciterModel reciter) async {
+    await _ensureBgInitialized();
     await _bgService.startDownload(reciter);
     return _dartEngine.downloadReciter(reciter);
   }

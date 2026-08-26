@@ -46,10 +46,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/prayer_times_widget_info" />
         </receiver>
-        <service
-            android:name="com.icapps.flutter_background_service.BackgroundService"
-            android:foregroundServiceType="dataSync"
-            android:exported="false" />
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
