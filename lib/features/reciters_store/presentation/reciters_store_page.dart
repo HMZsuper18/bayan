@@ -153,18 +153,11 @@ class _RecitersStorePageState extends State<RecitersStorePage> {
       }
     } catch (e) {
       debugPrint('❌ Download failed for ${reciter.id} (${reciter.name}): $e');
-      _service.cancelDownload(reciter.id);
       if (mounted) {
         setState(() {
           _downloadingIds.remove(reciter.id);
           _progress.remove(reciter.id);
-          _downloadedIds.remove(reciter.id);
-          _statusMessages.remove(reciter.id);
         });
-        final l10n = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(l10n.downloadFailed(reciter.name))),
-        );
       }
     }
   }

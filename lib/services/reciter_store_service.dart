@@ -1036,6 +1036,8 @@ class ReciterStoreService {
           ),
         );
       }
+    } catch (e) {
+      debugPrint('downloadReciter error for ${reciter.id}: $e');
     } finally {
       _downloading.remove(reciter.id);
       _emitActive();
