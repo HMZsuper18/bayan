@@ -10,7 +10,7 @@ import 'package:bayan/data/models/reciter_model.dart';
 import 'package:bayan/data/database/hive_service.dart';
 import 'package:bayan/services/default_reciter_service.dart';
 import 'package:bayan/services/reciter_store_service.dart';
-import 'package:bayan/services/background_download_service.dart';
+import 'package:bayan/services/hybrid_download_service.dart';
 import 'reciter_info_sheet.dart';
 
 const _categoryOrder = [
@@ -97,8 +97,7 @@ class _RecitersStorePageState extends State<RecitersStorePage> {
       });
     }
 
-    // Start background service for notification and to keep download alive
-    await BackgroundDownloadService.instance.startDownload(reciter);
+    HybridDownloadService.instance.startDownload(reciter);
 
     try {
       await _service.downloadReciter(reciter);
@@ -153,7 +152,7 @@ class _RecitersStorePageState extends State<RecitersStorePage> {
 
   Future<void> _cancelDownload(ReciterModel reciter) async {
     try {
-      await _service.cancelDownload(reciter.id);
+      HybridDownloadService.instance.cancelDownload(reciter.id);
       if (mounted) {
         setState(() {
           _downloadingIds.remove(reciter.id);

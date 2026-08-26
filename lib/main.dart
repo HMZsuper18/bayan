@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'data/database/hive_service.dart';
 import 'data/database/settings_service.dart';
 import 'services/default_reciter_service.dart';
-import 'services/background_download_service.dart';
+import 'services/hybrid_download_service.dart';
 import 'app.dart';
 
 void main() async {
@@ -20,6 +20,6 @@ void main() async {
   await HiveService.init();
   await SettingsService.init();
   await DefaultReciterService.init();
-  await BackgroundDownloadService.instance.initialize();
+  HybridDownloadService.instance.initialize();
   runApp(const App());
 }
