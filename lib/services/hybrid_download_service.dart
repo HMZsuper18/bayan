@@ -56,10 +56,10 @@ class HybridDownloadService with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       _handoffTimer?.cancel();
-      _handoffTimer = Timer(const Duration(seconds: 3), _handoffToDownloadManager);
+      _handoffTimer = Timer(const Duration(seconds: 30), _handoffToDownloadManager);
     } else if (state == AppLifecycleState.resumed) {
       _handoffTimer?.cancel();
-      _cancelDownloadManagerAndResume();
+      _onResume();
     }
   }
 
@@ -72,12 +72,27 @@ class HybridDownloadService with WidgetsBindingObserver {
 
       _dartEngine.pauseDownload(reciterId);
 
-      await Future.delayed(const Duration(milliseconds: 500));
-
       try {
         await _submitRemainingToDM(reciter);
       } catch (e) {
         debugPrint('HybridDownload: handoff failed for $reciterId: $e');
+      }
+    }
+  }
+
+  Future<void> _onResume() async {
+    _dm.flushCompletedToInternal();
+
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    for (final reciterId in List.from(_activeReciters.keys)) {
+      if (_dm.activeReciters.contains(reciterId)) {
+        await _dm.cancelDownloadManager(reciterId);
+      }
+
+      final reciter = _activeReciters[reciterId];
+      if (reciter != null && !_dartEngine.isDownloading(reciterId)) {
+        _dartEngine.resumeDownload(reciterId);
       }
     }
   }
@@ -157,17 +172,4 @@ class HybridDownloadService with WidgetsBindingObserver {
     'fares': 14,
     'tunaiji': 161,
   };
-
-  Future<void> _cancelDownloadManagerAndResume() async {
-    for (final reciterId in List.from(_activeReciters.keys)) {
-      if (_dm.activeReciters.contains(reciterId)) {
-        await _dm.cancelDownloadManager(reciterId);
-
-        final reciter = _activeReciters[reciterId];
-        if (reciter != null && !_dartEngine.isDownloading(reciterId)) {
-          _dartEngine.resumeDownload(reciterId);
-        }
-      }
-    }
-  }
 }

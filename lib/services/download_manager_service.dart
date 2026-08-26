@@ -186,6 +186,14 @@ class DownloadManagerService {
     }
   }
 
+  Future<void> flushCompletedToInternal() async {
+    try {
+      await _channel.invokeMethod('flushCompletedToInternal');
+    } catch (e) {
+      debugPrint('DownloadManager: flushCompletedToInternal failed: $e');
+    }
+  }
+
   void dispose() {
     _stopPolling();
     _progressController.close();

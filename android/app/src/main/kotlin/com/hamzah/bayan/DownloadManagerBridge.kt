@@ -25,6 +25,9 @@ class DownloadManagerBridge(
             val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             if (id == -1L) return
             val reciterId = idToReciter[id] ?: return
+
+            copyToInternal(id)
+
             channel.invokeMethod("onDownloadComplete", mapOf(
                 "reciterId" to reciterId,
                 "downloadId" to id,
@@ -74,9 +77,6 @@ class DownloadManagerBridge(
 
         val requestIdsList = mutableListOf<Long>()
 
-        val extBase = context.getExternalFilesDir(null)
-            ?: return result.error("NO_EXTERNAL", "External files dir unavailable", null)
-
         for (i in ids.indices) {
             val url = urls[i]
             val filePath = paths[i]
@@ -86,25 +86,16 @@ class DownloadManagerBridge(
             if (internalFile.exists() && internalFile.length() > 1024) continue
 
             val relativePath = filePath.substringAfter("/reciters/")
-            val extFile = File(extBase, "reciters/$relativePath")
-            extFile.parentFile?.mkdirs()
+            internalFile.parentFile?.mkdirs()
 
             val req = DownloadManager.Request(Uri.parse(url))
                 .setDestinationInExternalFilesDir(context, "reciters", relativePath)
                 .setNotificationVisibility(
-                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                    DownloadManager.Request.VISIBILITY_HIDDEN
                 )
-                .setTitle("بيان")
-                .setDescription("Downloading ${reciterId}...")
                 .setAllowedOverMetered(true)
                 .setAllowedOverRoaming(true)
                 .setRequiresCharging(false)
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                req.setNotificationVisibility(
-                    DownloadManager.Request.VISIBILITY_VISIBLE
-                )
-            }
 
             val id = dm.enqueue(req)
             requestIdsList.add(id)
@@ -159,7 +150,7 @@ class DownloadManagerBridge(
             var received = 0L
             var total = 0L
             var activeCount = 0
-            var hadItems = ids.isNotEmpty()
+            val initialCount = ids.size
 
             val iter = ids.iterator()
             while (iter.hasNext()) {
@@ -210,11 +201,26 @@ class DownloadManagerBridge(
                 "received" to received,
                 "total" to total,
                 "active" to activeCount,
-                "complete" to (activeCount == 0 && hadItems),
+                "complete" to (activeCount == 0 && initialCount > 0),
             )
         }
 
         result.success(reciterProgress)
+    }
+
+    fun flushCompletedToInternal() {
+        for ((id, _) in idToReciter.toMap()) {
+            val cursor = dm.query(DownloadManager.Query().setFilterById(id)) ?: continue
+            if (cursor.moveToFirst()) {
+                val status = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS)
+                )
+                if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                    copyToInternal(id)
+                }
+            }
+            cursor.close()
+        }
     }
 
     private fun copyToInternal(downloadId: Long) {
