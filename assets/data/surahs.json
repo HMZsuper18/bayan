@@ -1,0 +1,1142 @@
+[
+  {
+    "id": 1,
+    "name_ar": "الفاتحة",
+    "name_en": "Al-Fatihah",
+    "name_simple": "الفاتحة",
+    "ayah_count": 7,
+    "revelation_type": "Makkah",
+    "revelation_order": 5,
+    "bism_pre": 0
+  },
+  {
+    "id": 2,
+    "name_ar": "البقرة",
+    "name_en": "Al-Baqarah",
+    "name_simple": "البقرة",
+    "ayah_count": 286,
+    "revelation_type": "Madinah",
+    "revelation_order": 87,
+    "bism_pre": 1
+  },
+  {
+    "id": 3,
+    "name_ar": "آل عمران",
+    "name_en": "Ali 'Imran",
+    "name_simple": "آل عمران",
+    "ayah_count": 200,
+    "revelation_type": "Madinah",
+    "revelation_order": 89,
+    "bism_pre": 1
+  },
+  {
+    "id": 4,
+    "name_ar": "النساء",
+    "name_en": "An-Nisa",
+    "name_simple": "النساء",
+    "ayah_count": 176,
+    "revelation_type": "Madinah",
+    "revelation_order": 92,
+    "bism_pre": 1
+  },
+  {
+    "id": 5,
+    "name_ar": "المائدة",
+    "name_en": "Al-Ma'idah",
+    "name_simple": "المائدة",
+    "ayah_count": 120,
+    "revelation_type": "Madinah",
+    "revelation_order": 112,
+    "bism_pre": 1
+  },
+  {
+    "id": 6,
+    "name_ar": "الأنعام",
+    "name_en": "Al-An'am",
+    "name_simple": "الأنعام",
+    "ayah_count": 165,
+    "revelation_type": "Makkah",
+    "revelation_order": 55,
+    "bism_pre": 1
+  },
+  {
+    "id": 7,
+    "name_ar": "الأعراف",
+    "name_en": "Al-A'raf",
+    "name_simple": "الأعراف",
+    "ayah_count": 206,
+    "revelation_type": "Makkah",
+    "revelation_order": 39,
+    "bism_pre": 1
+  },
+  {
+    "id": 8,
+    "name_ar": "الأنفال",
+    "name_en": "Al-Anfal",
+    "name_simple": "الأنفال",
+    "ayah_count": 75,
+    "revelation_type": "Madinah",
+    "revelation_order": 88,
+    "bism_pre": 1
+  },
+  {
+    "id": 9,
+    "name_ar": "التوبة",
+    "name_en": "At-Tawbah",
+    "name_simple": "التوبة",
+    "ayah_count": 129,
+    "revelation_type": "Madinah",
+    "revelation_order": 113,
+    "bism_pre": 0
+  },
+  {
+    "id": 10,
+    "name_ar": "يونس",
+    "name_en": "Yunus",
+    "name_simple": "يونس",
+    "ayah_count": 109,
+    "revelation_type": "Makkah",
+    "revelation_order": 51,
+    "bism_pre": 1
+  },
+  {
+    "id": 11,
+    "name_ar": "هود",
+    "name_en": "Hud",
+    "name_simple": "هود",
+    "ayah_count": 123,
+    "revelation_type": "Makkah",
+    "revelation_order": 52,
+    "bism_pre": 1
+  },
+  {
+    "id": 12,
+    "name_ar": "يوسف",
+    "name_en": "Yusuf",
+    "name_simple": "يوسف",
+    "ayah_count": 111,
+    "revelation_type": "Makkah",
+    "revelation_order": 53,
+    "bism_pre": 1
+  },
+  {
+    "id": 13,
+    "name_ar": "الرعد",
+    "name_en": "Ar-Ra'd",
+    "name_simple": "الرعد",
+    "ayah_count": 43,
+    "revelation_type": "Madinah",
+    "revelation_order": 96,
+    "bism_pre": 1
+  },
+  {
+    "id": 14,
+    "name_ar": "ابراهيم",
+    "name_en": "Ibrahim",
+    "name_simple": "ابراهيم",
+    "ayah_count": 52,
+    "revelation_type": "Makkah",
+    "revelation_order": 72,
+    "bism_pre": 1
+  },
+  {
+    "id": 15,
+    "name_ar": "الحجر",
+    "name_en": "Al-Hijr",
+    "name_simple": "الحجر",
+    "ayah_count": 99,
+    "revelation_type": "Makkah",
+    "revelation_order": 54,
+    "bism_pre": 1
+  },
+  {
+    "id": 16,
+    "name_ar": "النحل",
+    "name_en": "An-Nahl",
+    "name_simple": "النحل",
+    "ayah_count": 128,
+    "revelation_type": "Makkah",
+    "revelation_order": 70,
+    "bism_pre": 1
+  },
+  {
+    "id": 17,
+    "name_ar": "الإسراء",
+    "name_en": "Al-Isra",
+    "name_simple": "الإسراء",
+    "ayah_count": 111,
+    "revelation_type": "Makkah",
+    "revelation_order": 50,
+    "bism_pre": 1
+  },
+  {
+    "id": 18,
+    "name_ar": "الكهف",
+    "name_en": "Al-Kahf",
+    "name_simple": "الكهف",
+    "ayah_count": 110,
+    "revelation_type": "Makkah",
+    "revelation_order": 69,
+    "bism_pre": 1
+  },
+  {
+    "id": 19,
+    "name_ar": "مريم",
+    "name_en": "Maryam",
+    "name_simple": "مريم",
+    "ayah_count": 98,
+    "revelation_type": "Makkah",
+    "revelation_order": 44,
+    "bism_pre": 1
+  },
+  {
+    "id": 20,
+    "name_ar": "طه",
+    "name_en": "Taha",
+    "name_simple": "طه",
+    "ayah_count": 135,
+    "revelation_type": "Makkah",
+    "revelation_order": 45,
+    "bism_pre": 1
+  },
+  {
+    "id": 21,
+    "name_ar": "الأنبياء",
+    "name_en": "Al-Anbya",
+    "name_simple": "الأنبياء",
+    "ayah_count": 112,
+    "revelation_type": "Makkah",
+    "revelation_order": 73,
+    "bism_pre": 1
+  },
+  {
+    "id": 22,
+    "name_ar": "الحج",
+    "name_en": "Al-Hajj",
+    "name_simple": "الحج",
+    "ayah_count": 78,
+    "revelation_type": "Madinah",
+    "revelation_order": 103,
+    "bism_pre": 1
+  },
+  {
+    "id": 23,
+    "name_ar": "المؤمنون",
+    "name_en": "Al-Mu'minun",
+    "name_simple": "المؤمنون",
+    "ayah_count": 118,
+    "revelation_type": "Makkah",
+    "revelation_order": 74,
+    "bism_pre": 1
+  },
+  {
+    "id": 24,
+    "name_ar": "النور",
+    "name_en": "An-Nur",
+    "name_simple": "النور",
+    "ayah_count": 64,
+    "revelation_type": "Madinah",
+    "revelation_order": 102,
+    "bism_pre": 1
+  },
+  {
+    "id": 25,
+    "name_ar": "الفرقان",
+    "name_en": "Al-Furqan",
+    "name_simple": "الفرقان",
+    "ayah_count": 77,
+    "revelation_type": "Makkah",
+    "revelation_order": 42,
+    "bism_pre": 1
+  },
+  {
+    "id": 26,
+    "name_ar": "الشعراء",
+    "name_en": "Ash-Shu'ara",
+    "name_simple": "الشعراء",
+    "ayah_count": 227,
+    "revelation_type": "Makkah",
+    "revelation_order": 47,
+    "bism_pre": 1
+  },
+  {
+    "id": 27,
+    "name_ar": "النمل",
+    "name_en": "An-Naml",
+    "name_simple": "النمل",
+    "ayah_count": 93,
+    "revelation_type": "Makkah",
+    "revelation_order": 48,
+    "bism_pre": 1
+  },
+  {
+    "id": 28,
+    "name_ar": "القصص",
+    "name_en": "Al-Qasas",
+    "name_simple": "القصص",
+    "ayah_count": 88,
+    "revelation_type": "Makkah",
+    "revelation_order": 49,
+    "bism_pre": 1
+  },
+  {
+    "id": 29,
+    "name_ar": "العنكبوت",
+    "name_en": "Al-'Ankabut",
+    "name_simple": "العنكبوت",
+    "ayah_count": 69,
+    "revelation_type": "Makkah",
+    "revelation_order": 85,
+    "bism_pre": 1
+  },
+  {
+    "id": 30,
+    "name_ar": "الروم",
+    "name_en": "Ar-Rum",
+    "name_simple": "الروم",
+    "ayah_count": 60,
+    "revelation_type": "Makkah",
+    "revelation_order": 84,
+    "bism_pre": 1
+  },
+  {
+    "id": 31,
+    "name_ar": "لقمان",
+    "name_en": "Luqman",
+    "name_simple": "لقمان",
+    "ayah_count": 34,
+    "revelation_type": "Makkah",
+    "revelation_order": 57,
+    "bism_pre": 1
+  },
+  {
+    "id": 32,
+    "name_ar": "السجدة",
+    "name_en": "As-Sajdah",
+    "name_simple": "السجدة",
+    "ayah_count": 30,
+    "revelation_type": "Makkah",
+    "revelation_order": 75,
+    "bism_pre": 1
+  },
+  {
+    "id": 33,
+    "name_ar": "الأحزاب",
+    "name_en": "Al-Ahzab",
+    "name_simple": "الأحزاب",
+    "ayah_count": 73,
+    "revelation_type": "Madinah",
+    "revelation_order": 90,
+    "bism_pre": 1
+  },
+  {
+    "id": 34,
+    "name_ar": "سبإ",
+    "name_en": "Saba",
+    "name_simple": "سبإ",
+    "ayah_count": 54,
+    "revelation_type": "Makkah",
+    "revelation_order": 58,
+    "bism_pre": 1
+  },
+  {
+    "id": 35,
+    "name_ar": "فاطر",
+    "name_en": "Fatir",
+    "name_simple": "فاطر",
+    "ayah_count": 45,
+    "revelation_type": "Makkah",
+    "revelation_order": 43,
+    "bism_pre": 1
+  },
+  {
+    "id": 36,
+    "name_ar": "يس",
+    "name_en": "Ya-Sin",
+    "name_simple": "يس",
+    "ayah_count": 83,
+    "revelation_type": "Makkah",
+    "revelation_order": 41,
+    "bism_pre": 1
+  },
+  {
+    "id": 37,
+    "name_ar": "الصافات",
+    "name_en": "As-Saffat",
+    "name_simple": "الصافات",
+    "ayah_count": 182,
+    "revelation_type": "Makkah",
+    "revelation_order": 56,
+    "bism_pre": 1
+  },
+  {
+    "id": 38,
+    "name_ar": "ص",
+    "name_en": "Sad",
+    "name_simple": "ص",
+    "ayah_count": 88,
+    "revelation_type": "Makkah",
+    "revelation_order": 38,
+    "bism_pre": 1
+  },
+  {
+    "id": 39,
+    "name_ar": "الزمر",
+    "name_en": "Az-Zumar",
+    "name_simple": "الزمر",
+    "ayah_count": 75,
+    "revelation_type": "Makkah",
+    "revelation_order": 59,
+    "bism_pre": 1
+  },
+  {
+    "id": 40,
+    "name_ar": "غافر",
+    "name_en": "Ghafir",
+    "name_simple": "غافر",
+    "ayah_count": 85,
+    "revelation_type": "Makkah",
+    "revelation_order": 60,
+    "bism_pre": 1
+  },
+  {
+    "id": 41,
+    "name_ar": "فصلت",
+    "name_en": "Fussilat",
+    "name_simple": "فصلت",
+    "ayah_count": 54,
+    "revelation_type": "Makkah",
+    "revelation_order": 61,
+    "bism_pre": 1
+  },
+  {
+    "id": 42,
+    "name_ar": "الشورى",
+    "name_en": "Ash-Shuraa",
+    "name_simple": "الشورى",
+    "ayah_count": 53,
+    "revelation_type": "Makkah",
+    "revelation_order": 62,
+    "bism_pre": 1
+  },
+  {
+    "id": 43,
+    "name_ar": "الزخرف",
+    "name_en": "Az-Zukhruf",
+    "name_simple": "الزخرف",
+    "ayah_count": 89,
+    "revelation_type": "Makkah",
+    "revelation_order": 63,
+    "bism_pre": 1
+  },
+  {
+    "id": 44,
+    "name_ar": "الدخان",
+    "name_en": "Ad-Dukhan",
+    "name_simple": "الدخان",
+    "ayah_count": 59,
+    "revelation_type": "Makkah",
+    "revelation_order": 64,
+    "bism_pre": 1
+  },
+  {
+    "id": 45,
+    "name_ar": "الجاثية",
+    "name_en": "Al-Jathiyah",
+    "name_simple": "الجاثية",
+    "ayah_count": 37,
+    "revelation_type": "Makkah",
+    "revelation_order": 65,
+    "bism_pre": 1
+  },
+  {
+    "id": 46,
+    "name_ar": "الأحقاف",
+    "name_en": "Al-Ahqaf",
+    "name_simple": "الأحقاف",
+    "ayah_count": 35,
+    "revelation_type": "Makkah",
+    "revelation_order": 66,
+    "bism_pre": 1
+  },
+  {
+    "id": 47,
+    "name_ar": "محمد",
+    "name_en": "Muhammad",
+    "name_simple": "محمد",
+    "ayah_count": 38,
+    "revelation_type": "Madinah",
+    "revelation_order": 95,
+    "bism_pre": 1
+  },
+  {
+    "id": 48,
+    "name_ar": "الفتح",
+    "name_en": "Al-Fath",
+    "name_simple": "الفتح",
+    "ayah_count": 29,
+    "revelation_type": "Madinah",
+    "revelation_order": 111,
+    "bism_pre": 1
+  },
+  {
+    "id": 49,
+    "name_ar": "الحجرات",
+    "name_en": "Al-Hujurat",
+    "name_simple": "الحجرات",
+    "ayah_count": 18,
+    "revelation_type": "Madinah",
+    "revelation_order": 106,
+    "bism_pre": 1
+  },
+  {
+    "id": 50,
+    "name_ar": "ق",
+    "name_en": "Qaf",
+    "name_simple": "ق",
+    "ayah_count": 45,
+    "revelation_type": "Makkah",
+    "revelation_order": 34,
+    "bism_pre": 1
+  },
+  {
+    "id": 51,
+    "name_ar": "الذاريات",
+    "name_en": "Adh-Dhariyat",
+    "name_simple": "الذاريات",
+    "ayah_count": 60,
+    "revelation_type": "Makkah",
+    "revelation_order": 67,
+    "bism_pre": 1
+  },
+  {
+    "id": 52,
+    "name_ar": "الطور",
+    "name_en": "At-Tur",
+    "name_simple": "الطور",
+    "ayah_count": 49,
+    "revelation_type": "Makkah",
+    "revelation_order": 76,
+    "bism_pre": 1
+  },
+  {
+    "id": 53,
+    "name_ar": "النجم",
+    "name_en": "An-Najm",
+    "name_simple": "النجم",
+    "ayah_count": 62,
+    "revelation_type": "Makkah",
+    "revelation_order": 23,
+    "bism_pre": 1
+  },
+  {
+    "id": 54,
+    "name_ar": "القمر",
+    "name_en": "Al-Qamar",
+    "name_simple": "القمر",
+    "ayah_count": 55,
+    "revelation_type": "Makkah",
+    "revelation_order": 37,
+    "bism_pre": 1
+  },
+  {
+    "id": 55,
+    "name_ar": "الرحمن",
+    "name_en": "Ar-Rahman",
+    "name_simple": "الرحمن",
+    "ayah_count": 78,
+    "revelation_type": "Madinah",
+    "revelation_order": 97,
+    "bism_pre": 1
+  },
+  {
+    "id": 56,
+    "name_ar": "الواقعة",
+    "name_en": "Al-Waqi'ah",
+    "name_simple": "الواقعة",
+    "ayah_count": 96,
+    "revelation_type": "Makkah",
+    "revelation_order": 46,
+    "bism_pre": 1
+  },
+  {
+    "id": 57,
+    "name_ar": "الحديد",
+    "name_en": "Al-Hadid",
+    "name_simple": "الحديد",
+    "ayah_count": 29,
+    "revelation_type": "Madinah",
+    "revelation_order": 94,
+    "bism_pre": 1
+  },
+  {
+    "id": 58,
+    "name_ar": "المجادلة",
+    "name_en": "Al-Mujadila",
+    "name_simple": "المجادلة",
+    "ayah_count": 22,
+    "revelation_type": "Madinah",
+    "revelation_order": 105,
+    "bism_pre": 1
+  },
+  {
+    "id": 59,
+    "name_ar": "الحشر",
+    "name_en": "Al-Hashr",
+    "name_simple": "الحشر",
+    "ayah_count": 24,
+    "revelation_type": "Madinah",
+    "revelation_order": 101,
+    "bism_pre": 1
+  },
+  {
+    "id": 60,
+    "name_ar": "الممتحنة",
+    "name_en": "Al-Mumtahanah",
+    "name_simple": "الممتحنة",
+    "ayah_count": 13,
+    "revelation_type": "Madinah",
+    "revelation_order": 91,
+    "bism_pre": 1
+  },
+  {
+    "id": 61,
+    "name_ar": "الصف",
+    "name_en": "As-Saf",
+    "name_simple": "الصف",
+    "ayah_count": 14,
+    "revelation_type": "Madinah",
+    "revelation_order": 109,
+    "bism_pre": 1
+  },
+  {
+    "id": 62,
+    "name_ar": "الجمعة",
+    "name_en": "Al-Jumu'ah",
+    "name_simple": "الجمعة",
+    "ayah_count": 11,
+    "revelation_type": "Madinah",
+    "revelation_order": 110,
+    "bism_pre": 1
+  },
+  {
+    "id": 63,
+    "name_ar": "المنافقون",
+    "name_en": "Al-Munafiqun",
+    "name_simple": "المنافقون",
+    "ayah_count": 11,
+    "revelation_type": "Madinah",
+    "revelation_order": 104,
+    "bism_pre": 1
+  },
+  {
+    "id": 64,
+    "name_ar": "التغابن",
+    "name_en": "At-Taghabun",
+    "name_simple": "التغابن",
+    "ayah_count": 18,
+    "revelation_type": "Madinah",
+    "revelation_order": 108,
+    "bism_pre": 1
+  },
+  {
+    "id": 65,
+    "name_ar": "الطلاق",
+    "name_en": "At-Talaq",
+    "name_simple": "الطلاق",
+    "ayah_count": 12,
+    "revelation_type": "Madinah",
+    "revelation_order": 99,
+    "bism_pre": 1
+  },
+  {
+    "id": 66,
+    "name_ar": "التحريم",
+    "name_en": "At-Tahrim",
+    "name_simple": "التحريم",
+    "ayah_count": 12,
+    "revelation_type": "Madinah",
+    "revelation_order": 107,
+    "bism_pre": 1
+  },
+  {
+    "id": 67,
+    "name_ar": "الملك",
+    "name_en": "Al-Mulk",
+    "name_simple": "الملك",
+    "ayah_count": 30,
+    "revelation_type": "Makkah",
+    "revelation_order": 77,
+    "bism_pre": 1
+  },
+  {
+    "id": 68,
+    "name_ar": "القلم",
+    "name_en": "Al-Qalam",
+    "name_simple": "القلم",
+    "ayah_count": 52,
+    "revelation_type": "Makkah",
+    "revelation_order": 2,
+    "bism_pre": 1
+  },
+  {
+    "id": 69,
+    "name_ar": "الحاقة",
+    "name_en": "Al-Haqqah",
+    "name_simple": "الحاقة",
+    "ayah_count": 52,
+    "revelation_type": "Makkah",
+    "revelation_order": 78,
+    "bism_pre": 1
+  },
+  {
+    "id": 70,
+    "name_ar": "المعارج",
+    "name_en": "Al-Ma'arij",
+    "name_simple": "المعارج",
+    "ayah_count": 44,
+    "revelation_type": "Makkah",
+    "revelation_order": 79,
+    "bism_pre": 1
+  },
+  {
+    "id": 71,
+    "name_ar": "نوح",
+    "name_en": "Nuh",
+    "name_simple": "نوح",
+    "ayah_count": 28,
+    "revelation_type": "Makkah",
+    "revelation_order": 71,
+    "bism_pre": 1
+  },
+  {
+    "id": 72,
+    "name_ar": "الجن",
+    "name_en": "Al-Jinn",
+    "name_simple": "الجن",
+    "ayah_count": 28,
+    "revelation_type": "Makkah",
+    "revelation_order": 40,
+    "bism_pre": 1
+  },
+  {
+    "id": 73,
+    "name_ar": "المزمل",
+    "name_en": "Al-Muzzammil",
+    "name_simple": "المزمل",
+    "ayah_count": 20,
+    "revelation_type": "Makkah",
+    "revelation_order": 3,
+    "bism_pre": 1
+  },
+  {
+    "id": 74,
+    "name_ar": "المدثر",
+    "name_en": "Al-Muddaththir",
+    "name_simple": "المدثر",
+    "ayah_count": 56,
+    "revelation_type": "Makkah",
+    "revelation_order": 4,
+    "bism_pre": 1
+  },
+  {
+    "id": 75,
+    "name_ar": "القيامة",
+    "name_en": "Al-Qiyamah",
+    "name_simple": "القيامة",
+    "ayah_count": 40,
+    "revelation_type": "Makkah",
+    "revelation_order": 31,
+    "bism_pre": 1
+  },
+  {
+    "id": 76,
+    "name_ar": "الانسان",
+    "name_en": "Al-Insan",
+    "name_simple": "الانسان",
+    "ayah_count": 31,
+    "revelation_type": "Madinah",
+    "revelation_order": 98,
+    "bism_pre": 1
+  },
+  {
+    "id": 77,
+    "name_ar": "المرسلات",
+    "name_en": "Al-Mursalat",
+    "name_simple": "المرسلات",
+    "ayah_count": 50,
+    "revelation_type": "Makkah",
+    "revelation_order": 33,
+    "bism_pre": 1
+  },
+  {
+    "id": 78,
+    "name_ar": "النبإ",
+    "name_en": "An-Naba",
+    "name_simple": "النبإ",
+    "ayah_count": 40,
+    "revelation_type": "Makkah",
+    "revelation_order": 80,
+    "bism_pre": 1
+  },
+  {
+    "id": 79,
+    "name_ar": "النازعات",
+    "name_en": "An-Nazi'at",
+    "name_simple": "النازعات",
+    "ayah_count": 46,
+    "revelation_type": "Makkah",
+    "revelation_order": 81,
+    "bism_pre": 1
+  },
+  {
+    "id": 80,
+    "name_ar": "عبس",
+    "name_en": "'Abasa",
+    "name_simple": "عبس",
+    "ayah_count": 42,
+    "revelation_type": "Makkah",
+    "revelation_order": 24,
+    "bism_pre": 1
+  },
+  {
+    "id": 81,
+    "name_ar": "التكوير",
+    "name_en": "At-Takwir",
+    "name_simple": "التكوير",
+    "ayah_count": 29,
+    "revelation_type": "Makkah",
+    "revelation_order": 7,
+    "bism_pre": 1
+  },
+  {
+    "id": 82,
+    "name_ar": "الإنفطار",
+    "name_en": "Al-Infitar",
+    "name_simple": "الإنفطار",
+    "ayah_count": 19,
+    "revelation_type": "Makkah",
+    "revelation_order": 82,
+    "bism_pre": 1
+  },
+  {
+    "id": 83,
+    "name_ar": "المطففين",
+    "name_en": "Al-Mutaffifin",
+    "name_simple": "المطففين",
+    "ayah_count": 36,
+    "revelation_type": "Makkah",
+    "revelation_order": 86,
+    "bism_pre": 1
+  },
+  {
+    "id": 84,
+    "name_ar": "الإنشقاق",
+    "name_en": "Al-Inshiqaq",
+    "name_simple": "الإنشقاق",
+    "ayah_count": 25,
+    "revelation_type": "Makkah",
+    "revelation_order": 83,
+    "bism_pre": 1
+  },
+  {
+    "id": 85,
+    "name_ar": "البروج",
+    "name_en": "Al-Buruj",
+    "name_simple": "البروج",
+    "ayah_count": 22,
+    "revelation_type": "Makkah",
+    "revelation_order": 27,
+    "bism_pre": 1
+  },
+  {
+    "id": 86,
+    "name_ar": "الطارق",
+    "name_en": "At-Tariq",
+    "name_simple": "الطارق",
+    "ayah_count": 17,
+    "revelation_type": "Makkah",
+    "revelation_order": 36,
+    "bism_pre": 1
+  },
+  {
+    "id": 87,
+    "name_ar": "الأعلى",
+    "name_en": "Al-A'la",
+    "name_simple": "الأعلى",
+    "ayah_count": 19,
+    "revelation_type": "Makkah",
+    "revelation_order": 8,
+    "bism_pre": 1
+  },
+  {
+    "id": 88,
+    "name_ar": "الغاشية",
+    "name_en": "Al-Ghashiyah",
+    "name_simple": "الغاشية",
+    "ayah_count": 26,
+    "revelation_type": "Makkah",
+    "revelation_order": 68,
+    "bism_pre": 1
+  },
+  {
+    "id": 89,
+    "name_ar": "الفجر",
+    "name_en": "Al-Fajr",
+    "name_simple": "الفجر",
+    "ayah_count": 30,
+    "revelation_type": "Makkah",
+    "revelation_order": 10,
+    "bism_pre": 1
+  },
+  {
+    "id": 90,
+    "name_ar": "البلد",
+    "name_en": "Al-Balad",
+    "name_simple": "البلد",
+    "ayah_count": 20,
+    "revelation_type": "Makkah",
+    "revelation_order": 35,
+    "bism_pre": 1
+  },
+  {
+    "id": 91,
+    "name_ar": "الشمس",
+    "name_en": "Ash-Shams",
+    "name_simple": "الشمس",
+    "ayah_count": 15,
+    "revelation_type": "Makkah",
+    "revelation_order": 26,
+    "bism_pre": 1
+  },
+  {
+    "id": 92,
+    "name_ar": "الليل",
+    "name_en": "Al-Layl",
+    "name_simple": "الليل",
+    "ayah_count": 21,
+    "revelation_type": "Makkah",
+    "revelation_order": 9,
+    "bism_pre": 1
+  },
+  {
+    "id": 93,
+    "name_ar": "الضحى",
+    "name_en": "Ad-Duhaa",
+    "name_simple": "الضحى",
+    "ayah_count": 11,
+    "revelation_type": "Makkah",
+    "revelation_order": 11,
+    "bism_pre": 1
+  },
+  {
+    "id": 94,
+    "name_ar": "الشرح",
+    "name_en": "Ash-Sharh",
+    "name_simple": "الشرح",
+    "ayah_count": 8,
+    "revelation_type": "Makkah",
+    "revelation_order": 12,
+    "bism_pre": 1
+  },
+  {
+    "id": 95,
+    "name_ar": "التين",
+    "name_en": "At-Tin",
+    "name_simple": "التين",
+    "ayah_count": 8,
+    "revelation_type": "Makkah",
+    "revelation_order": 28,
+    "bism_pre": 1
+  },
+  {
+    "id": 96,
+    "name_ar": "العلق",
+    "name_en": "Al-'Alaq",
+    "name_simple": "العلق",
+    "ayah_count": 19,
+    "revelation_type": "Makkah",
+    "revelation_order": 1,
+    "bism_pre": 1
+  },
+  {
+    "id": 97,
+    "name_ar": "القدر",
+    "name_en": "Al-Qadr",
+    "name_simple": "القدر",
+    "ayah_count": 5,
+    "revelation_type": "Makkah",
+    "revelation_order": 25,
+    "bism_pre": 1
+  },
+  {
+    "id": 98,
+    "name_ar": "البينة",
+    "name_en": "Al-Bayyinah",
+    "name_simple": "البينة",
+    "ayah_count": 8,
+    "revelation_type": "Madinah",
+    "revelation_order": 100,
+    "bism_pre": 1
+  },
+  {
+    "id": 99,
+    "name_ar": "الزلزلة",
+    "name_en": "Az-Zalzalah",
+    "name_simple": "الزلزلة",
+    "ayah_count": 8,
+    "revelation_type": "Madinah",
+    "revelation_order": 93,
+    "bism_pre": 1
+  },
+  {
+    "id": 100,
+    "name_ar": "العاديات",
+    "name_en": "Al-'Adiyat",
+    "name_simple": "العاديات",
+    "ayah_count": 11,
+    "revelation_type": "Makkah",
+    "revelation_order": 14,
+    "bism_pre": 1
+  },
+  {
+    "id": 101,
+    "name_ar": "القارعة",
+    "name_en": "Al-Qari'ah",
+    "name_simple": "القارعة",
+    "ayah_count": 11,
+    "revelation_type": "Makkah",
+    "revelation_order": 30,
+    "bism_pre": 1
+  },
+  {
+    "id": 102,
+    "name_ar": "التكاثر",
+    "name_en": "At-Takathur",
+    "name_simple": "التكاثر",
+    "ayah_count": 8,
+    "revelation_type": "Makkah",
+    "revelation_order": 16,
+    "bism_pre": 1
+  },
+  {
+    "id": 103,
+    "name_ar": "العصر",
+    "name_en": "Al-'Asr",
+    "name_simple": "العصر",
+    "ayah_count": 3,
+    "revelation_type": "Makkah",
+    "revelation_order": 13,
+    "bism_pre": 1
+  },
+  {
+    "id": 104,
+    "name_ar": "الهمزة",
+    "name_en": "Al-Humazah",
+    "name_simple": "الهمزة",
+    "ayah_count": 9,
+    "revelation_type": "Makkah",
+    "revelation_order": 32,
+    "bism_pre": 1
+  },
+  {
+    "id": 105,
+    "name_ar": "الفيل",
+    "name_en": "Al-Fil",
+    "name_simple": "الفيل",
+    "ayah_count": 5,
+    "revelation_type": "Makkah",
+    "revelation_order": 19,
+    "bism_pre": 1
+  },
+  {
+    "id": 106,
+    "name_ar": "قريش",
+    "name_en": "Quraysh",
+    "name_simple": "قريش",
+    "ayah_count": 4,
+    "revelation_type": "Makkah",
+    "revelation_order": 29,
+    "bism_pre": 1
+  },
+  {
+    "id": 107,
+    "name_ar": "الماعون",
+    "name_en": "Al-Ma'un",
+    "name_simple": "الماعون",
+    "ayah_count": 7,
+    "revelation_type": "Makkah",
+    "revelation_order": 17,
+    "bism_pre": 1
+  },
+  {
+    "id": 108,
+    "name_ar": "الكوثر",
+    "name_en": "Al-Kawthar",
+    "name_simple": "الكوثر",
+    "ayah_count": 3,
+    "revelation_type": "Makkah",
+    "revelation_order": 15,
+    "bism_pre": 1
+  },
+  {
+    "id": 109,
+    "name_ar": "الكافرون",
+    "name_en": "Al-Kafirun",
+    "name_simple": "الكافرون",
+    "ayah_count": 6,
+    "revelation_type": "Makkah",
+    "revelation_order": 18,
+    "bism_pre": 1
+  },
+  {
+    "id": 110,
+    "name_ar": "النصر",
+    "name_en": "An-Nasr",
+    "name_simple": "النصر",
+    "ayah_count": 3,
+    "revelation_type": "Madinah",
+    "revelation_order": 114,
+    "bism_pre": 1
+  },
+  {
+    "id": 111,
+    "name_ar": "المسد",
+    "name_en": "Al-Masad",
+    "name_simple": "المسد",
+    "ayah_count": 5,
+    "revelation_type": "Makkah",
+    "revelation_order": 6,
+    "bism_pre": 1
+  },
+  {
+    "id": 112,
+    "name_ar": "الإخلاص",
+    "name_en": "Al-Ikhlas",
+    "name_simple": "الإخلاص",
+    "ayah_count": 4,
+    "revelation_type": "Makkah",
+    "revelation_order": 22,
+    "bism_pre": 1
+  },
+  {
+    "id": 113,
+    "name_ar": "الفلق",
+    "name_en": "Al-Falaq",
+    "name_simple": "الفلق",
+    "ayah_count": 5,
+    "revelation_type": "Makkah",
+    "revelation_order": 20,
+    "bism_pre": 1
+  },
+  {
+    "id": 114,
+    "name_ar": "الناس",
+    "name_en": "An-Nas",
+    "name_simple": "الناس",
+    "ayah_count": 6,
+    "revelation_type": "Makkah",
+    "revelation_order": 21,
+    "bism_pre": 1
+  }
+]
