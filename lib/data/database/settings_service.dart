@@ -35,6 +35,7 @@ class SettingsService {
   static const String _lastMushafPageKey = 'last_mushaf_page';
   static const String _lastMushafSurahKey = 'last_mushaf_surah';
   static const String _cameraRationaleKey = 'camera_rationale_shown';
+  static const String _prayerCalculationMethodKey = 'prayer_calculation_method';
 
   static double get fontSize {
     final val = _b.get(_fontSizeKey);
@@ -153,5 +154,14 @@ class SettingsService {
   static set translationLanguage(String value) {
     _b.put(_translationLangKey, value);
     translationLanguageNotifier.value = value;
+  }
+
+  /// Prayer calculation method key. 'auto' means detect from GPS location.
+  /// Valid values: 'auto', 'ummAlQura', 'muslimWorldLeague', 'egyptian', 'isna', 'karachi'.
+  static String get prayerCalculationMethod =>
+      _b.get(_prayerCalculationMethodKey) ?? 'auto';
+
+  static set prayerCalculationMethod(String value) {
+    _b.put(_prayerCalculationMethodKey, value);
   }
 }

@@ -196,6 +196,14 @@
   "removeBookmark": "Remove bookmark",
   "noBookmarks": "No bookmarks yet — tap the bookmark icon on any ayah",
   "jumpToVerse": "Go to the verse being recited",
+  "calculationMethod": "Prayer Calculation Method",
+  "autoDetect": "Auto (based on location)",
+  "ummAlQura": "Umm Al-Qura",
+  "muslimWorldLeague": "Muslim World League",
+  "egyptian": "Egyptian",
+  "isna": "ISNA",
+  "karachi": "Karachi",
+  "iqamahDisclaimer": "Default iqamah times — actual times may vary by mosque",
   "@adhanCountdown": {
     "placeholders": {
       "time": {}

@@ -1155,6 +1155,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to the verse being recited'**
   String get jumpToVerse;
+
+  /// No description provided for @calculationMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Prayer Calculation Method'**
+  String get calculationMethod;
+
+  /// No description provided for @autoDetect.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto (based on location)'**
+  String get autoDetect;
+
+  /// No description provided for @ummAlQura.
+  ///
+  /// In en, this message translates to:
+  /// **'Umm Al-Qura'**
+  String get ummAlQura;
+
+  /// No description provided for @muslimWorldLeague.
+  ///
+  /// In en, this message translates to:
+  /// **'Muslim World League'**
+  String get muslimWorldLeague;
+
+  /// No description provided for @egyptian.
+  ///
+  /// In en, this message translates to:
+  /// **'Egyptian'**
+  String get egyptian;
+
+  /// No description provided for @isna.
+  ///
+  /// In en, this message translates to:
+  /// **'ISNA'**
+  String get isna;
+
+  /// No description provided for @karachi.
+  ///
+  /// In en, this message translates to:
+  /// **'Karachi'**
+  String get karachi;
+
+  /// No description provided for @iqamahDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Default iqamah times — actual times may vary by mosque'**
+  String get iqamahDisclaimer;
 }
 
 class _AppLocalizationsDelegate

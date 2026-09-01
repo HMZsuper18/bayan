@@ -570,4 +570,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get jumpToVerse => 'Go to the verse being recited';
+
+  @override
+  String get calculationMethod => 'Prayer Calculation Method';
+
+  @override
+  String get autoDetect => 'Auto (based on location)';
+
+  @override
+  String get ummAlQura => 'Umm Al-Qura';
+
+  @override
+  String get muslimWorldLeague => 'Muslim World League';
+
+  @override
+  String get egyptian => 'Egyptian';
+
+  @override
+  String get isna => 'ISNA';
+
+  @override
+  String get karachi => 'Karachi';
+
+  @override
+  String get iqamahDisclaimer =>
+      'Default iqamah times — actual times may vary by mosque';
 }

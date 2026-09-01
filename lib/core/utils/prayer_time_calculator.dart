@@ -1,6 +1,7 @@
 import 'dart:math';
 import '../../data/models/prayer_time_model.dart';
 import '../../data/database/settings_service.dart';
+import 'hijri_date.dart';
 
 enum CalculationMethod {
   ummAlQura,
@@ -29,9 +30,7 @@ extension _CalculationMethodX on CalculationMethod {
   int ishaMinutesAfterMaghrib(DateTime date) {
     switch (this) {
       case CalculationMethod.ummAlQura:
-        final month = date.month;
-        final day = date.day;
-        if (month == 9 && day >= 1 && day <= 30) return 120;
+        if (_isRamadan(date)) return 120;
         return 90;
       case CalculationMethod.muslimWorldLeague:
       case CalculationMethod.egyptian:
@@ -39,6 +38,11 @@ extension _CalculationMethodX on CalculationMethod {
       case CalculationMethod.karachi:
         return -1;
     }
+  }
+
+  static bool _isRamadan(DateTime date) {
+    final hijri = HijriDate.fromGregorian(date.year, date.month, date.day);
+    return hijri[1] == 9;
   }
 
   double? get ishaAngle {
@@ -60,10 +64,55 @@ extension _CalculationMethodX on CalculationMethod {
 class PrayerTimeCalculator {
   PrayerTimeCalculator._();
 
-  static List<PrayerTimeModel> getDefault() => calculate(
-        latitude: SettingsService.latitude,
-        longitude: SettingsService.longitude,
-      );
+  static List<PrayerTimeModel> getDefault() {
+    final lat = SettingsService.latitude;
+    final lng = SettingsService.longitude;
+    final saved = SettingsService.prayerCalculationMethod;
+    final method = saved == 'auto'
+        ? detectMethod(lat, lng)
+        : methodFromKey(saved);
+    return calculate(
+      latitude: lat,
+      longitude: lng,
+      method: method,
+    );
+  }
+
+  static CalculationMethod detectMethod(double latitude, double longitude) {
+    if (latitude >= 15 && latitude <= 32 && longitude >= 35 && longitude <= 60) {
+      return CalculationMethod.ummAlQura;
+    }
+    if (latitude >= 15 && latitude <= 72 && longitude >= -170 && longitude <= -50) {
+      return CalculationMethod.isna;
+    }
+    if (latitude >= 15 && latitude <= 37 && longitude >= -20 && longitude <= 35) {
+      return CalculationMethod.egyptian;
+    }
+    if (latitude >= 5 && latitude <= 37 && longitude >= 60 && longitude <= 100) {
+      return CalculationMethod.karachi;
+    }
+    if (latitude >= 35 && latitude <= 72 && longitude >= -25 && longitude <= 45) {
+      return CalculationMethod.muslimWorldLeague;
+    }
+    return CalculationMethod.muslimWorldLeague;
+  }
+
+  static CalculationMethod methodFromKey(String key) {
+    switch (key) {
+      case 'ummAlQura':
+        return CalculationMethod.ummAlQura;
+      case 'muslimWorldLeague':
+        return CalculationMethod.muslimWorldLeague;
+      case 'egyptian':
+        return CalculationMethod.egyptian;
+      case 'isna':
+        return CalculationMethod.isna;
+      case 'karachi':
+        return CalculationMethod.karachi;
+      default:
+        return CalculationMethod.muslimWorldLeague;
+    }
+  }
 
   static List<PrayerTimeModel> calculate({
     required double latitude,

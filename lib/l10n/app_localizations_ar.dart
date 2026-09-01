@@ -567,4 +567,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get jumpToVerse => 'الانتقال إلى الآية الجارية';
+
+  @override
+  String get calculationMethod => 'طريقة حساب مواقيت الصلاة';
+
+  @override
+  String get autoDetect => 'تلقائي (بناءً على الموقع)';
+
+  @override
+  String get ummAlQura => 'أم القرى';
+
+  @override
+  String get muslimWorldLeague => 'رابطة العالم الإسلامي';
+
+  @override
+  String get egyptian => 'المصري';
+
+  @override
+  String get isna => 'الجمعية الإسلامية لأمريكا الشمالية';
+
+  @override
+  String get karachi => 'كراتشي';
+
+  @override
+  String get iqamahDisclaimer =>
+      'أوقات الإقامة الافتراضية — الأوقات الفعلية قد تختلف حسب المسجد';
 }

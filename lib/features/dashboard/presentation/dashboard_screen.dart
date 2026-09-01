@@ -320,11 +320,18 @@ class _DashboardViewState extends State<DashboardView>
                         child: IconButton(
                           padding: EdgeInsets.zero,
                           icon: const Icon(Icons.settings_rounded),
-                          onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const SettingsScreen(),
-                            ),
-                          ),
+                          onPressed: () {
+                            final bloc = context.read<DashboardBloc>();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => const SettingsScreen(),
+                              ),
+                            ).then((_) {
+                              if (mounted) {
+                                bloc.add(const LoadDashboard());
+                              }
+                            });
+                          },
                         ),
                       ),
                       Text(

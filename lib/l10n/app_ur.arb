@@ -196,6 +196,14 @@
   "removeBookmark": "نشان ہٹائیں",
   "noBookmarks": "ابھی کوئی نشان نہیں — کسی بھی آیت پر نشان کی علامت دبائیں",
   "jumpToVerse": "پڑھی جا رہی آیت پر جائیں",
+  "calculationMethod": "نماز کے اوقات کی شماریاتی طریقہ",
+  "autoDetect": "خودکار (مقام کی بنیاد پر)",
+  "ummAlQura": "ام القری",
+  "muslimWorldLeague": "مسلم لیگ عالمی",
+  "egyptian": "مصری",
+  "isna": "ISNA",
+  "karachi": "کراچی",
+  "iqamahDisclaimer": "طے شدہ اقامت کے اوقات — اصل اوقات مسجد کے مطابق مختلف ہو سکتے ہیں",
   "@adhanCountdown": {
     "placeholders": {
       "time": {}

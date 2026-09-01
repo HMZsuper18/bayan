@@ -5,6 +5,7 @@ import '../../../data/models/prayer_time_model.dart';
 import '../../../data/models/reciter_model.dart';
 import '../../../data/repositories/quran_repository.dart';
 import '../../../core/utils/prayer_time_calculator.dart';
+import '../../../data/database/settings_service.dart';
 import '../../../services/prayer_times_widget_service.dart';
 import '../../../services/reciter_store_service.dart';
 
@@ -48,9 +49,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
     UpdatePrayerTimes event,
     Emitter<DashboardState> emit,
   ) {
+    final saved = SettingsService.prayerCalculationMethod;
+    final method = saved == 'auto'
+        ? PrayerTimeCalculator.detectMethod(event.latitude, event.longitude)
+        : PrayerTimeCalculator.methodFromKey(saved);
     final times = PrayerTimeCalculator.calculate(
       latitude: event.latitude,
       longitude: event.longitude,
+      method: method,
     );
     emit(state.copyWith(prayerTimes: times));
     PrayerTimesWidgetService.update(times);

@@ -567,4 +567,29 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get jumpToVerse => 'پڑھی جا رہی آیت پر جائیں';
+
+  @override
+  String get calculationMethod => 'نماز کے اوقات کی شماریاتی طریقہ';
+
+  @override
+  String get autoDetect => 'خودکار (مقام کی بنیاد پر)';
+
+  @override
+  String get ummAlQura => 'ام القری';
+
+  @override
+  String get muslimWorldLeague => 'مسلم لیگ عالمی';
+
+  @override
+  String get egyptian => 'مصری';
+
+  @override
+  String get isna => 'ISNA';
+
+  @override
+  String get karachi => 'کراچی';
+
+  @override
+  String get iqamahDisclaimer =>
+      'طے شدہ اقامت کے اوقات — اصل اوقات مسجد کے مطابق مختلف ہو سکتے ہیں';
 }

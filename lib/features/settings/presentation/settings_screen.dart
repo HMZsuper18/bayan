@@ -22,6 +22,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _uiLanguage = 'ar';
   String _tafseerLanguage = 'ar';
   String _translationLanguage = 'en';
+  String _prayerCalculationMethod = 'auto';
   int _currentPage = 0;
 
   final _pageController = PageController();
@@ -36,6 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _uiLanguage = SettingsService.uiLanguage;
     _tafseerLanguage = SettingsService.tafseerLanguage;
     _translationLanguage = SettingsService.translationLanguage;
+    _prayerCalculationMethod = SettingsService.prayerCalculationMethod;
   }
 
   void _onQuranFontSizeChanged(double value) {
@@ -58,6 +60,75 @@ class _SettingsScreenState extends State<SettingsScreen> {
     setState(() {
       _isDark = !_isDark;
     });
+  }
+
+  String _prayerMethodLabel(AppLocalizations l10n) {
+    switch (_prayerCalculationMethod) {
+      case 'auto': return l10n.autoDetect;
+      case 'ummAlQura': return l10n.ummAlQura;
+      case 'muslimWorldLeague': return l10n.muslimWorldLeague;
+      case 'egyptian': return l10n.egyptian;
+      case 'isna': return l10n.isna;
+      case 'karachi': return l10n.karachi;
+      default: return l10n.autoDetect;
+    }
+  }
+
+  void _showCalculationMethodPicker() {
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        child: GlassContainer(
+          borderRadius: 20,
+          blur: 12,
+          opacity: 1.8,
+          child: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    l10n.calculationMethod,
+                    style: AppTextStyles.arabicTitle.copyWith(
+                      color: AppColors.primaryGreen,
+                    ),
+                  ),
+                ),
+                const Divider(height: 0),
+                _calcMethodTile(ctx, 'auto', l10n.autoDetect),
+                _calcMethodTile(ctx, 'ummAlQura', l10n.ummAlQura),
+                _calcMethodTile(ctx, 'muslimWorldLeague', l10n.muslimWorldLeague),
+                _calcMethodTile(ctx, 'egyptian', l10n.egyptian),
+                _calcMethodTile(ctx, 'isna', l10n.isna),
+                _calcMethodTile(ctx, 'karachi', l10n.karachi),
+                const SizedBox(height: 16),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _calcMethodTile(BuildContext ctx, String value, String label) {
+    final selected = _prayerCalculationMethod == value;
+    return ListTile(
+      title: Text(label),
+      trailing: selected
+          ? Icon(Icons.check, color: AppColors.primaryGreen)
+          : null,
+      onTap: () {
+        setState(() {
+          _prayerCalculationMethod = value;
+          SettingsService.prayerCalculationMethod = value;
+        });
+        Navigator.pop(ctx);
+      },
+    );
   }
 
   @override
@@ -255,6 +326,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
               subtitle: Text(_isDark ? l10n.enabled : l10n.disabled),
               value: _isDark,
               onChanged: (_) => _toggleTheme(),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.access_time,
+                color: AppColors.primaryGreen,
+              ),
+              title: Text(l10n.calculationMethod),
+              subtitle: Text(_prayerMethodLabel(l10n)),
+              trailing: const Icon(Icons.chevron_left),
+              onTap: () => _showCalculationMethodPicker(),
             ),
             ListTile(
               leading: Icon(

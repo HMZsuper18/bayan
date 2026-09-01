@@ -6,6 +6,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/glass_container.dart';
 import '../../../../data/models/prayer_time_model.dart';
+import '../../../../core/utils/hijri_date.dart';
 
 String _prayerName(AppLocalizations l10n, String name) {
   switch (name) {
@@ -18,15 +19,33 @@ String _prayerName(AppLocalizations l10n, String name) {
   }
 }
 
-/// Minutes between the adhan and the iqamah for each prayer. Maghrib is kept
-/// short (performed right after sunset); Fajr gets the longest window so
-/// worshippers can reach the mosque in time for the morning prayer.
-int iqamahGapMinutes(String prayerName) {
+/// Minutes between the adhan and the iqamah for each prayer. Varies by day:
+/// - Friday (Jumu'ah): Dhuhr gets 30 min
+/// - Ramadan: Fajr 15 min, Maghrib 10 min, Isha 15 min
+/// - Regular days: standard gaps
+int iqamahGapMinutes(String prayerName, DateTime prayerTime) {
+  final hijri = HijriDate.fromGregorian(prayerTime.year, prayerTime.month, prayerTime.day);
+  final isRamadan = hijri[1] == 9;
+  final isFriday = prayerTime.weekday == 5;
+
+  if (isFriday && prayerName == 'Dhuhr') return 30;
+
+  if (isRamadan) {
+    switch (prayerName) {
+      case 'Fajr': return 15;
+      case 'Dhuhr': return 10;
+      case 'Asr': return 10;
+      case 'Maghrib': return 10;
+      case 'Isha': return 15;
+      default: return 10;
+    }
+  }
+
   switch (prayerName) {
     case 'Fajr': return 20;
     case 'Dhuhr': return 10;
     case 'Asr': return 10;
-    case 'Maghrib': return 5;
+    case 'Maghrib': return 10;
     case 'Isha': return 10;
     default: return 10;
   }
@@ -62,7 +81,7 @@ String _formatCountdown(Duration d) {
 String _activePrayerName(List<PrayerTimeModel> prayerTimes, DateTime now) {
   final prayers = prayerTimes.where((p) => p.name != 'Sunrise').toList();
   for (final p in prayers) {
-    final iqamah = p.time.add(Duration(minutes: iqamahGapMinutes(p.name)));
+    final iqamah = p.time.add(Duration(minutes: iqamahGapMinutes(p.name, p.time)));
     if (iqamah.isAfter(now)) return p.name;
   }
   return prayers.isNotEmpty ? prayers.first.name : '';
@@ -155,6 +174,7 @@ class _PrayerTimesWidgetState extends State<PrayerTimesWidget> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colors = Theme.of(context).colorScheme;
     return GlassContainer(
       borderRadius: 16,
       blur: 8,
@@ -192,6 +212,16 @@ class _PrayerTimesWidgetState extends State<PrayerTimesWidget> {
             prayerTimes: widget.prayerTimes,
             now: _now,
           ),
+          const SizedBox(height: 6),
+          Text(
+            AppLocalizations.of(context)!.iqamahDisclaimer,
+            style: TextStyle(
+              fontFamily: 'Tajawal',
+              fontSize: 10,
+              color: colors.onSurface.withValues(alpha: 0.4),
+            ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
@@ -225,7 +255,7 @@ class _NextPrayerSection extends StatelessWidget {
     return prayerTimes
         .where((p) => p.name != 'Sunrise')
         .map((p) {
-          final gap = Duration(minutes: iqamahGapMinutes(p.name));
+          final gap = Duration(minutes: iqamahGapMinutes(p.name, p.time));
           return _PrayerEvent(p, p.time, p.time.add(gap));
         })
         .toList();
