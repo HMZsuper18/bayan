@@ -55,7 +55,7 @@ class SurahHeaderWidget extends StatelessWidget {
         blur: 12,
         opacity: 0.12,
         padding: EdgeInsets.zero,
-        border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.6), width: 1.2),
+        border: Border.all(color: AppColors.primaryGreenOf(context).withValues(alpha: 0.6), width: 1.2),
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: Row(
@@ -81,12 +81,15 @@ class SurahHeaderWidget extends StatelessWidget {
                           color: colors.onSurface.withValues(alpha: 0.2),
                           width: 0.8,
                         ),
-                        child: Text(
-                          revelationType,
-                          style: AppTextStyles.arabicDisplay.copyWith(
-                            fontSize: fontSize - 4,
-                            color: colors.onSurface,
-                            fontWeight: FontWeight.bold,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            revelationType,
+                            style: AppTextStyles.arabicDisplay.copyWith(
+                              fontSize: fontSize - 4,
+                              color: colors.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
@@ -123,7 +126,7 @@ class SurahHeaderWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: AppColors.primaryGreen,
+                          color: AppColors.primaryGreenOf(context),
                           width: 1.5,
                         ),
                       ),

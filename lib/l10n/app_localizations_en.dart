@@ -30,6 +30,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language => 'Language';
 
   @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
   String get quranFontSize => 'Quran Font Size';
 
   @override
@@ -153,6 +159,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get primaryActionSubtitle =>
       'Browse the Holy Quran with tafseer and recitations';
+
+  @override
+  String get hijriCalendar => 'Hijri Calendar';
 
   @override
   String get startButton => 'Start Now';
@@ -595,4 +604,104 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get iqamahDisclaimer =>
       'Default iqamah times — actual times may vary by mosque';
+
+  @override
+  String get adhanNotifications => 'Adhan notifications';
+
+  @override
+  String get reminderBefore => 'Reminder before';
+
+  @override
+  String get minutes => 'minutes';
+
+  @override
+  String get notificationPermissionRequired =>
+      'Notification permission is required to receive adhan alerts.';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String get notificationDisabled =>
+      'Notifications are disabled in system settings.';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get quranIndex => 'Index';
+
+  @override
+  String get reciters => 'Reciters';
+
+  @override
+  String get qiblah => 'Qiblah';
+
+  @override
+  String get qiblahDirection => 'Qiblah Direction';
+
+  @override
+  String get qiblahInfo =>
+      'Point your device towards the Kaaba. The green arrow indicates the Qiblah direction.';
+
+  @override
+  String get feedbackTitle => 'Send Feedback';
+
+  @override
+  String get feedbackCategory => 'Category';
+
+  @override
+  String get feedbackCategoryBug => 'Bug Report';
+
+  @override
+  String get feedbackCategorySuggestion => 'Suggestion';
+
+  @override
+  String get feedbackCategoryOther => 'Other';
+
+  @override
+  String get feedbackCategoryRequired => 'Please select a category';
+
+  @override
+  String get feedbackSpecifyType => 'Please specify';
+
+  @override
+  String get feedbackEmpty => 'Please enter your feedback';
+
+  @override
+  String get feedbackError => 'Failed to send feedback. Please try again.';
+
+  @override
+  String get feedbackHint => 'Describe your feedback...';
+
+  @override
+  String get feedbackSubmit => 'Send';
+
+  @override
+  String get appIcon => 'App Icon';
+
+  @override
+  String get appIconDescription => 'Choose your preferred app icon';
+
+  @override
+  String get iconClassic => 'Classic';
+
+  @override
+  String get iconEmerald => 'Emerald';
+
+  @override
+  String get iconMidnight => 'Midnight';
+
+  @override
+  String get iconGold => 'Gold';
+
+  @override
+  String get iconRoyal => 'Royal';
+
+  @override
+  String get iqamahTimes => 'Iqamah Times';
+
+  @override
+  String get iqamahTimesDescription =>
+      'Default iqamah gap after adhan for each prayer';
 }

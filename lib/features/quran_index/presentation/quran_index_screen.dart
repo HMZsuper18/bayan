@@ -103,14 +103,14 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 4, bottom: 8),
+            padding: const EdgeInsetsDirectional.only(end: 4, bottom: 8),
             child: Text(
               l10n.juzs,
               style: TextStyle(
                 fontFamily: 'Tajawal',
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
               ),
             ),
           ),
@@ -152,14 +152,14 @@ class _QuranIndexScreenState extends State<QuranIndexScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(right: 4, bottom: 8),
+            padding: const EdgeInsetsDirectional.only(end: 4, bottom: 8),
             child: Text(
               l10n.hizbs,
               style: TextStyle(
                 fontFamily: 'Tajawal',
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
               ),
             ),
           ),
@@ -215,7 +215,7 @@ class _JuzHizbChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.primaryContainer.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(22),
-          border: Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.2)),
+          border: Border.all(color: AppColors.primaryGreenOf(context).withValues(alpha: 0.2)),
         ),
         child: Text(
           label,
@@ -223,7 +223,7 @@ class _JuzHizbChip extends StatelessWidget {
             fontFamily: 'Tajawal',
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: AppColors.primaryGreen,
+            color: AppColors.primaryGreenOf(context),
           ),
         ),
       ),
@@ -279,7 +279,7 @@ class _SurahTile extends StatelessWidget {
                     height: 36,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: AppColors.primaryGreen.withValues(alpha: 0.1),
+                      color: AppColors.primaryGreenOf(context).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Text(
@@ -288,7 +288,7 @@ class _SurahTile extends StatelessWidget {
                         fontFamily: 'Tajawal',
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.primaryGreen,
+                        color: AppColors.primaryGreenOf(context),
                       ),
                     ),
                   ),
@@ -332,13 +332,13 @@ class _SurahTile extends StatelessWidget {
                           fontFamily: 'Tajawal',
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.primaryGreen,
+                          color: AppColors.primaryGreenOf(context),
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 4),
-                  Icon(Icons.chevron_left, size: 18, color: colors.onSurface.withValues(alpha: 0.3)),
+                  Icon(Icons.chevron_right, size: 18, color: colors.onSurface.withValues(alpha: 0.3)),
                 ],
               ),
             ),

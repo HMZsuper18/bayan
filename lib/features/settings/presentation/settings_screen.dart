@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/glass_container.dart';
 import '../../../data/database/settings_service.dart';
+import '../../../services/adhan_notification_service.dart';
+import '../../../services/app_icon_service.dart';
+import '../../../core/utils/prayer_time_calculator.dart';
 import '../../../app.dart';
 import 'about_page.dart';
+import 'feedback_page.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -23,9 +28,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String _tafseerLanguage = 'ar';
   String _translationLanguage = 'en';
   String _prayerCalculationMethod = 'auto';
-  int _currentPage = 0;
-
-  final _pageController = PageController();
+  bool _adhanEnabled = false;
+  int _adhanReminderMinutes = 10;
+  static const _channel = MethodChannel('com.hamzah.bayan/adhan_notifications');
 
   @override
   void initState() {
@@ -38,6 +43,85 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _tafseerLanguage = SettingsService.tafseerLanguage;
     _translationLanguage = SettingsService.translationLanguage;
     _prayerCalculationMethod = SettingsService.prayerCalculationMethod;
+    _adhanEnabled = SettingsService.adhanEnabled;
+    _adhanReminderMinutes = SettingsService.adhanReminderMinutes;
+    _checkNotificationStatus();
+  }
+
+  Future<void> _checkNotificationStatus() async {
+    try {
+      final enabled = await _channel.invokeMethod<bool>('isNotificationsEnabled');
+      if (enabled == false && _adhanEnabled) {
+        setState(() {
+          _adhanEnabled = false;
+          SettingsService.adhanEnabled = false;
+        });
+      }
+    } on MissingPluginException {
+      // Channel not available on this platform
+    } on PlatformException {
+      // Ignore on unsupported platforms
+    }
+  }
+
+  Future<void> _toggleAdhanNotifications(bool value) async {
+    if (value) {
+      try {
+        final enabled = await _channel.invokeMethod<bool>('isNotificationsEnabled');
+        if (enabled == false) {
+          if (!mounted) return;
+          _showNotificationPermissionDialog();
+          return;
+        }
+      } on PlatformException {
+        // Proceed anyway on unsupported platforms
+      }
+      try {
+        final canExact = await _channel.invokeMethod<bool>('canScheduleExactAlarms');
+        if (canExact == false) {
+          await _channel.invokeMethod('requestExactAlarmPermission');
+        }
+      } on PlatformException {
+        // Ignore
+      }
+    }
+    setState(() {
+      _adhanEnabled = value;
+      SettingsService.adhanEnabled = value;
+    });
+    _scheduleAdhan();
+  }
+
+  void _showNotificationPermissionDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.adhanNotifications),
+        content: Text(l10n.notificationPermissionRequired),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              _openAppSettings();
+            },
+            child: Text(l10n.openSettings),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _openAppSettings() async {
+    try {
+      await _channel.invokeMethod('openNotificationSettings');
+    } on PlatformException {
+      // Ignore
+    }
   }
 
   void _onQuranFontSizeChanged(double value) {
@@ -85,28 +169,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
           borderRadius: 20,
           blur: 12,
           opacity: 1.8,
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    l10n.calculationMethod,
-                    style: AppTextStyles.arabicTitle.copyWith(
-                      color: AppColors.primaryGreen,
+          child: Material(
+            type: MaterialType.transparency,
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      l10n.calculationMethod,
+                      style: AppTextStyles.arabicTitle.copyWith(
+                        color: AppColors.primaryGreenOf(context),
+                      ),
                     ),
                   ),
-                ),
-                const Divider(height: 0),
-                _calcMethodTile(ctx, 'auto', l10n.autoDetect),
-                _calcMethodTile(ctx, 'ummAlQura', l10n.ummAlQura),
-                _calcMethodTile(ctx, 'muslimWorldLeague', l10n.muslimWorldLeague),
-                _calcMethodTile(ctx, 'egyptian', l10n.egyptian),
-                _calcMethodTile(ctx, 'isna', l10n.isna),
-                _calcMethodTile(ctx, 'karachi', l10n.karachi),
-                const SizedBox(height: 16),
-              ],
+                  const Divider(height: 0),
+                  _calcMethodTile(ctx, 'auto', l10n.autoDetect),
+                  _calcMethodTile(ctx, 'ummAlQura', l10n.ummAlQura),
+                  _calcMethodTile(ctx, 'muslimWorldLeague', l10n.muslimWorldLeague),
+                  _calcMethodTile(ctx, 'egyptian', l10n.egyptian),
+                  _calcMethodTile(ctx, 'isna', l10n.isna),
+                  _calcMethodTile(ctx, 'karachi', l10n.karachi),
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
           ),
         ),
@@ -119,7 +206,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListTile(
       title: Text(label),
       trailing: selected
-          ? Icon(Icons.check, color: AppColors.primaryGreen)
+          ? Icon(Icons.check, color: AppColors.primaryGreenOf(context))
           : null,
       onTap: () {
         setState(() {
@@ -131,9 +218,97 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  void _showReminderPicker() {
+    final l10n = AppLocalizations.of(context)!;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        child: GlassContainer(
+          borderRadius: 20,
+          blur: 12,
+          opacity: 1.8,
+          child: Material(
+            type: MaterialType.transparency,
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      l10n.reminderBefore,
+                      style: AppTextStyles.arabicTitle.copyWith(
+                        color: AppColors.primaryGreenOf(context),
+                      ),
+                    ),
+                  ),
+                  const Divider(height: 0),
+                  _reminderTile(ctx, 5, '5 ${l10n.minutes}'),
+                  _reminderTile(ctx, 10, '10 ${l10n.minutes}'),
+                  _reminderTile(ctx, 15, '15 ${l10n.minutes}'),
+                  _reminderTile(ctx, 30, '30 ${l10n.minutes}'),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _reminderTile(BuildContext ctx, int minutes, String label) {
+    final selected = _adhanReminderMinutes == minutes;
+    return ListTile(
+      title: Text(label),
+      trailing: selected
+          ? Icon(Icons.check, color: AppColors.primaryGreenOf(context))
+          : null,
+      onTap: () {
+        setState(() {
+          _adhanReminderMinutes = minutes;
+          SettingsService.adhanReminderMinutes = minutes;
+        });
+        Navigator.pop(ctx);
+        _scheduleAdhan();
+      },
+    );
+  }
+
+  Future<void> _scheduleAdhan() async {
+    final lat = SettingsService.latitude;
+    final lng = SettingsService.longitude;
+    final saved = SettingsService.prayerCalculationMethod;
+    final method = saved == 'auto'
+        ? PrayerTimeCalculator.detectMethod(lat, lng)
+        : PrayerTimeCalculator.methodFromKey(saved);
+    final times = PrayerTimeCalculator.calculate(
+      latitude: lat,
+      longitude: lng,
+      method: method,
+    );
+    final prayerData = times
+        .where((t) => t.name != 'Sunrise')
+        .map((t) => {
+              'name': t.name.toLowerCase(),
+              'hour': t.time.hour,
+              'minute': t.time.minute,
+            })
+        .toList();
+    if (_adhanEnabled) {
+      await AdhanNotificationService.instance.scheduleNotifications(
+        prayerTimes: prayerData,
+        reminderMinutes: _adhanReminderMinutes,
+      );
+    } else {
+      await AdhanNotificationService.instance.cancelAll();
+    }
+  }
+
   @override
   void dispose() {
-    _pageController.dispose();
     super.dispose();
   }
 
@@ -159,257 +334,307 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           title: Text(l10n.settings),
         ),
-        body: Column(
+        body: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
           children: [
-            Expanded(
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (page) => setState(() => _currentPage = page),
-                children: [
-                  _buildReadingSection(l10n),
-                  _buildLanguageSection(l10n),
-                ],
-              ),
+            _buildSection(
+              title: l10n.reading,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.text_fields, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.quranFontSize),
+                  subtitle: Text('$_quranFontSize'),
+                  trailing: SizedBox(
+                    width: 120,
+                    child: Slider(
+                      value: _quranFontSize,
+                      min: 16,
+                      max: 72,
+                      divisions: 14,
+                      activeColor: AppColors.primaryGreenOf(context),
+                      onChanged: _onQuranFontSizeChanged,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                  child: GlassContainer(
+                    borderRadius: 12,
+                    blur: 6,
+                    opacity: 0.1,
+                    padding: EdgeInsets.all(
+                        (_quranFontSize * 0.3).clamp(12.0, 32.0)),
+                    child: Center(
+                      child: MediaQuery(
+                        data: MediaQuery.of(
+                          context,
+                        ).copyWith(textScaler: TextScaler.linear(1.0)),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ',
+                            textDirection: TextDirection.rtl,
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.arabicVerse.copyWith(
+                              fontSize: _quranFontSize,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.font_download_outlined, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.uiFontSize),
+                  subtitle: Text('$_uiFontSize'),
+                  trailing: SizedBox(
+                    width: 120,
+                    child: Slider(
+                      value: _uiFontSize,
+                      min: 11,
+                      max: 39,
+                      divisions: 28,
+                      activeColor: AppColors.primaryGreenOf(context),
+                      onChanged: _onUiFontSizeChanged,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                  child: GlassContainer(
+                    borderRadius: 12,
+                    blur: 6,
+                    opacity: 0.1,
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            l10n.demoTitle,
+                            style: const TextStyle(
+                              fontFamily: 'Tajawal',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            l10n.demoSubtitle,
+                            style: TextStyle(
+                              fontFamily: 'Tajawal',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.6),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.chrome_reader_mode, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.mushafLayout),
+                  subtitle: Text(
+                    _mushafLayout == 'pages' ? l10n.pageView : l10n.surahView,
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => _showLayoutPicker(),
+                ),
+              ],
             ),
-            _buildPageIndicator(),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
+            _buildSection(
+              title: l10n.appearance,
+              children: [
+                SwitchListTile(
+                  secondary: Icon(Icons.dark_mode, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.darkMode),
+                  subtitle: Text(_isDark ? l10n.enabled : l10n.disabled),
+                  value: _isDark,
+                  onChanged: (_) => _toggleTheme(),
+                ),
+                ListTile(
+                  leading: Icon(Icons.palette_outlined, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.appIconDescription),
+                  subtitle: Text(AppIconService.instance.currentVariant),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => _showIconPicker(l10n),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _buildSection(
+              title: l10n.notifications,
+              children: [
+                SwitchListTile(
+                  secondary: Icon(Icons.notifications_active, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.adhanNotifications),
+                  subtitle: Text(_adhanEnabled ? l10n.enabled : l10n.disabled),
+                  value: _adhanEnabled,
+                  onChanged: (value) => _toggleAdhanNotifications(value),
+                ),
+                if (_adhanEnabled)
+                  ListTile(
+                    leading: Icon(Icons.timer, color: AppColors.primaryGreenOf(context)),
+                    title: Text(l10n.reminderBefore),
+                    subtitle: Text('$_adhanReminderMinutes ${l10n.minutes}'),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => _showReminderPicker(),
+                  ),
+                ListTile(
+                  leading: Icon(Icons.access_time, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.calculationMethod),
+                  subtitle: Text(_prayerMethodLabel(l10n)),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => _showCalculationMethodPicker(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _buildSection(
+              title: l10n.language,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.language, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.uiLanguage),
+                  subtitle: Text(
+                    _uiLanguage == 'en'
+                        ? l10n.english
+                        : _uiLanguage == 'ur'
+                            ? l10n.urdu
+                            : l10n.arabic,
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => _showUILangPicker(),
+                ),
+                ListTile(
+                  leading: Icon(Icons.subject, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.translationLanguage),
+                  subtitle: Text(
+                    _translationLanguage == 'ar'
+                        ? l10n.disable
+                        : _translationLanguage == 'en'
+                            ? l10n.english
+                            : l10n.urdu,
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => _showTranslationLangPicker(),
+                ),
+                ListTile(
+                  leading: Icon(Icons.notes, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.tafseerLanguage),
+                  subtitle: Text(
+                    _tafseerLanguage == 'ar' ? l10n.arabic : l10n.english,
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => _showTafseerLangPicker(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _buildSection(
+              title: l10n.about,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.info_outline, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.aboutApp),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const AboutPage()),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.feedback_outlined, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.feedbackTitle),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const FeedbackPage()),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPageIndicator() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(2, (index) {
-        final isActive = index == _currentPage;
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: isActive ? 24 : 8,
-          height: 8,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: isActive
-                ? AppColors.primaryGreen
-                : AppColors.primaryGreen.withValues(alpha: 0.25),
-          ),
-        );
-      }),
-    );
-  }
-
-  Widget _buildReadingSection(AppLocalizations l10n) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        _buildSection(
-          title: l10n.reading,
-          children: [
-            ListTile(
-              leading: Icon(
-                Icons.text_fields,
-                color: AppColors.primaryGreen,
-              ),
-              title: Text(l10n.quranFontSize),
-              subtitle: Text('$_quranFontSize'),
-              trailing: SizedBox(
-                width: 120,
-                child: Slider(
-                  value: _quranFontSize,
-                  min: 16,
-                  max: 72,
-                  divisions: 14,
-                  activeColor: AppColors.primaryGreen,
-                  onChanged: _onQuranFontSizeChanged,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-              child: GlassContainer(
-                borderRadius: 12,
-                blur: 6,
-                opacity: 0.1,
-                padding: EdgeInsets.all(
-                    (_quranFontSize * 0.3).clamp(12.0, 32.0)),
-                child: Center(
-                  child: MediaQuery(
-                    data: MediaQuery.of(
-                      context,
-                    ).copyWith(textScaler: TextScaler.linear(1.0)),
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ',
-                        textDirection: TextDirection.rtl,
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.arabicVerse.copyWith(
-                          fontSize: _quranFontSize,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+  void _showIconPicker(AppLocalizations l10n) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (ctx) => ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        child: GlassContainer(
+          borderRadius: 20,
+          blur: 12,
+          opacity: 1.8,
+          child: Material(
+            type: MaterialType.transparency,
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      l10n.appIcon,
+                      style: AppTextStyles.arabicTitle.copyWith(
+                        color: AppColors.primaryGreenOf(context),
                       ),
                     ),
                   ),
-                ),
+                  const Divider(height: 0),
+                  _iconTile(ctx, 'Classic', l10n.iconClassic),
+                  _iconTile(ctx, 'Emerald', l10n.iconEmerald),
+                  _iconTile(ctx, 'Midnight', l10n.iconMidnight),
+                  _iconTile(ctx, 'Gold', l10n.iconGold),
+                  _iconTile(ctx, 'Royal', l10n.iconRoyal),
+                  const SizedBox(height: 16),
+                ],
               ),
             ),
-            ListTile(
-              leading: Icon(
-                Icons.font_download_outlined,
-                color: AppColors.primaryGreen,
-              ),
-              title: Text(l10n.uiFontSize),
-              subtitle: Text('$_uiFontSize'),
-              trailing: SizedBox(
-                width: 120,
-                child: Slider(
-                  value: _uiFontSize,
-                  min: 11,
-                  max: 39,
-                  divisions: 28,
-                  activeColor: AppColors.primaryGreen,
-                  onChanged: _onUiFontSizeChanged,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-              child: GlassContainer(
-                borderRadius: 12,
-                blur: 6,
-                opacity: 0.1,
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text(
-                        l10n.demoTitle,
-                        style: const TextStyle(
-                          fontFamily: 'Tajawal',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: AlignmentDirectional.centerStart,
-                      child: Text(
-                        l10n.demoSubtitle,
-                        style: TextStyle(
-                          fontFamily: 'Tajawal',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withValues(alpha: 0.6),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SwitchListTile(
-              secondary: Icon(
-                Icons.dark_mode,
-                color: AppColors.primaryGreen,
-              ),
-              title: Text(l10n.darkMode),
-              subtitle: Text(_isDark ? l10n.enabled : l10n.disabled),
-              value: _isDark,
-              onChanged: (_) => _toggleTheme(),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.access_time,
-                color: AppColors.primaryGreen,
-              ),
-              title: Text(l10n.calculationMethod),
-              subtitle: Text(_prayerMethodLabel(l10n)),
-              trailing: const Icon(Icons.chevron_left),
-              onTap: () => _showCalculationMethodPicker(),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.chrome_reader_mode,
-                color: AppColors.primaryGreen,
-              ),
-              title: Text(l10n.mushafLayout),
-              subtitle: Text(
-                _mushafLayout == 'pages' ? l10n.pageView : l10n.surahView,
-              ),
-              trailing: const Icon(Icons.chevron_left),
-              onTap: () => _showLayoutPicker(),
-            ),
-          ],
+          ),
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildLanguageSection(AppLocalizations l10n) {
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        _buildSection(
-          title: l10n.language,
-          children: [
-            ListTile(
-              leading: Icon(Icons.language, color: AppColors.primaryGreen),
-              title: Text(l10n.uiLanguage),
-              subtitle: Text(
-                _uiLanguage == 'en'
-                    ? l10n.english
-                    : _uiLanguage == 'ur'
-                        ? l10n.urdu
-                        : l10n.arabic,
-              ),
-              trailing: const Icon(Icons.chevron_left),
-              onTap: () => _showUILangPicker(),
-            ),
-            ListTile(
-              leading:
-                  Icon(Icons.subject, color: AppColors.primaryGreen),
-              title: Text(l10n.translationLanguage),
-              subtitle: Text(
-                _translationLanguage == 'ar'
-                    ? l10n.disable
-                    : _translationLanguage == 'en'
-                        ? l10n.english
-                        : l10n.urdu,
-              ),
-              trailing: const Icon(Icons.chevron_left),
-              onTap: () => _showTranslationLangPicker(),
-            ),
-            ListTile(
-              leading: Icon(Icons.notes, color: AppColors.primaryGreen),
-              title: Text(l10n.tafseerLanguage),
-              subtitle: Text(
-                _tafseerLanguage == 'ar' ? l10n.arabic : l10n.english,
-              ),
-              trailing: const Icon(Icons.chevron_left),
-              onTap: () => _showTafseerLangPicker(),
-            ),
-            const Divider(),
-            ListTile(
-              leading: Icon(Icons.info_outline, color: AppColors.primaryGreen),
-              title: Text(l10n.aboutApp),
-              trailing: const Icon(Icons.chevron_left),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const AboutPage()),
-              ),
-            ),
-          ],
-        ),
-      ],
+  Widget _iconTile(BuildContext ctx, String variant, String label) {
+    final selected = AppIconService.instance.currentVariant == variant;
+    return ListTile(
+      leading: Icon(
+        variant == 'Classic' ? Icons.home_rounded
+            : variant == 'Emerald' ? Icons.diamond_rounded
+            : variant == 'Midnight' ? Icons.dark_mode_rounded
+            : variant == 'Gold' ? Icons.star_rounded
+            : Icons.workspace_premium_rounded,
+        color: selected ? AppColors.primaryGreenOf(context) : null,
+      ),
+      title: Text(label),
+      trailing: selected
+          ? Icon(Icons.check, color: AppColors.primaryGreenOf(context))
+          : null,
+      onTap: () async {
+        await AppIconService.instance.switchIcon(variant);
+        if (mounted) {
+          setState(() {});
+          Navigator.pop(ctx);
+        }
+      },
     );
   }
 
@@ -422,22 +647,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
       blur: 8,
       opacity: 0.08,
       padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-            child: Text(
-              title,
-              style: AppTextStyles.arabicTitle.copyWith(
-                fontSize: 16,
-                color: AppColors.primaryGreen,
+      child: Material(
+        type: MaterialType.transparency,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Text(
+                title,
+                style: AppTextStyles.arabicTitle.copyWith(
+                  fontSize: 16,
+                  color: AppColors.primaryGreenOf(context),
+                ),
               ),
             ),
-          ),
-          ...children,
-          const SizedBox(height: 8),
-        ],
+            ...children,
+            const SizedBox(height: 8),
+          ],
+        ),
       ),
     );
   }
@@ -453,24 +681,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
           borderRadius: 20,
           blur: 12,
           opacity: 1.8,
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    l10n.chooseLayout,
-                    style: AppTextStyles.arabicTitle.copyWith(
-                      color: AppColors.primaryGreen,
+          child: Material(
+            type: MaterialType.transparency,
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      l10n.chooseLayout,
+                      style: AppTextStyles.arabicTitle.copyWith(
+                        color: AppColors.primaryGreenOf(context),
+                      ),
                     ),
                   ),
-                ),
-                const Divider(height: 0),
-                _layoutTile(ctx, 'surahs', l10n.surahView, ''),
-                _layoutTile(ctx, 'pages', l10n.pageView, ''),
-                const SizedBox(height: 16),
-              ],
+                  const Divider(height: 0),
+                  _layoutTile(ctx, 'surahs', l10n.surahView, ''),
+                  _layoutTile(ctx, 'pages', l10n.pageView, ''),
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
           ),
         ),
@@ -489,25 +720,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
           borderRadius: 20,
           blur: 12,
           opacity: 1.8,
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    l10n.chooseLanguage,
-                    style: AppTextStyles.arabicTitle.copyWith(
-                      color: AppColors.primaryGreen,
+          child: Material(
+            type: MaterialType.transparency,
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      l10n.chooseLanguage,
+                      style: AppTextStyles.arabicTitle.copyWith(
+                        color: AppColors.primaryGreenOf(context),
+                      ),
                     ),
                   ),
-                ),
-                const Divider(height: 0),
-                _langTile(ctx, 'ar', l10n.arabic),
-                _langTile(ctx, 'en', l10n.english),
-                _langTile(ctx, 'ur', l10n.urdu),
-                const SizedBox(height: 16),
-              ],
+                  const Divider(height: 0),
+                  _langTile(ctx, 'ar', l10n.arabic),
+                  _langTile(ctx, 'en', l10n.english),
+                  _langTile(ctx, 'ur', l10n.urdu),
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
           ),
         ),
@@ -526,25 +760,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
           borderRadius: 20,
           blur: 12,
           opacity: 1.8,
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    l10n.tafseerLanguage,
-                    style: AppTextStyles.arabicTitle.copyWith(
-                      color: AppColors.primaryGreen,
+          child: Material(
+            type: MaterialType.transparency,
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      l10n.tafseerLanguage,
+                      style: AppTextStyles.arabicTitle.copyWith(
+                        color: AppColors.primaryGreenOf(context),
+                      ),
                     ),
                   ),
-                ),
-                const Divider(height: 0),
-                _tafseerLangTile(ctx, 'ar', l10n.arabic),
-                _tafseerLangTile(ctx, 'en', l10n.english),
-                _tafseerSoonTile(l10n.urdu, l10n.soon),
-                const SizedBox(height: 16),
-              ],
+                  const Divider(height: 0),
+                  _tafseerLangTile(ctx, 'ar', l10n.arabic),
+                  _tafseerLangTile(ctx, 'en', l10n.english),
+                  _tafseerSoonTile(l10n.urdu, l10n.soon),
+                  const SizedBox(height: 16),
+                ],
+              ),
             ),
           ),
         ),
@@ -563,7 +800,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           borderRadius: 20,
           blur: 12,
           opacity: 1.8,
-          child: SafeArea(
+          child: Material(
+            type: MaterialType.transparency,
+            child: SafeArea(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -572,7 +811,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Text(
                     l10n.translationLanguage,
                     style: AppTextStyles.arabicTitle.copyWith(
-                      color: AppColors.primaryGreen,
+                      color: AppColors.primaryGreenOf(context),
                     ),
                   ),
                 ),
@@ -585,6 +824,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
         ),
+        ),
       ),
     );
   }
@@ -594,7 +834,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListTile(
       title: Text(label),
       trailing: selected
-          ? Icon(Icons.check, color: AppColors.primaryGreen)
+          ? Icon(Icons.check, color: AppColors.primaryGreenOf(context))
           : null,
       onTap: () {
         setState(() {
@@ -623,7 +863,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListTile(
       title: Text(label),
       trailing: selected
-          ? Icon(Icons.check, color: AppColors.primaryGreen)
+          ? Icon(Icons.check, color: AppColors.primaryGreenOf(context))
           : null,
       onTap: () {
         setState(() {
@@ -640,7 +880,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListTile(
       title: Text(label),
       trailing: selected
-          ? Icon(Icons.check, color: AppColors.primaryGreen)
+          ? Icon(Icons.check, color: AppColors.primaryGreenOf(context))
           : null,
       onTap: () {
         setState(() {
@@ -664,7 +904,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       title: Text(title),
       subtitle: Text(subtitle),
       trailing: selected
-          ? Icon(Icons.check, color: AppColors.primaryGreen)
+          ? Icon(Icons.check, color: AppColors.primaryGreenOf(context))
           : null,
       onTap: () {
         setState(() {

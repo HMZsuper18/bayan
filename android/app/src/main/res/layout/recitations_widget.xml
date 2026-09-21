@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:background="@drawable/widget_bg">
+
+    <TextView
+        android:id="@+id/widget_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="القراء"
+        android:textSize="16sp"
+        android:textColor="@color/widget_title"
+        android:fontFamily="@font/tajawal_bold"
+        android:layout_marginStart="8dp" />
+
+    <LinearLayout
+        android:id="@+id/reciter_1_row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/chip_bg"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/reciter_1_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="مشاري العفاسي"
+            android:textSize="14sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeStepGranularity="0.5sp" />
+
+        <ImageView
+            android:id="@+id/play_reciter_1"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="تشغيل"
+            android:scaleType="centerInside"
+            android:padding="7dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reciter_2_row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/chip_bg"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            android:id="@+id/reciter_2_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="عبدالرحمن السديس"
+            android:textSize="14sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="14sp"
+            android:autoSizeStepGranularity="0.5sp" />
+
+        <ImageView
+            android:id="@+id/play_reciter_2"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="تشغيل"
+            android:scaleType="centerInside"
+            android:padding="7dp" />
+    </LinearLayout>
+</LinearLayout>

@@ -63,8 +63,17 @@ class _MushafScreenState extends State<MushafScreen> {
   Widget _topBarIconButton(
     BuildContext context,
     IconData icon,
-    VoidCallback onPressed,
-  ) {
+    VoidCallback onPressed, {
+    bool flipHorizontally = false,
+  }) {
+    Widget iconWidget = Icon(icon);
+    if (flipHorizontally) {
+      iconWidget = Transform(
+        alignment: Alignment.center,
+        transform: Matrix4.identity()..scale(-1.0, 1.0),
+        child: iconWidget,
+      );
+    }
     return GlassContainer(
       borderRadius: 20,
       blur: 6,
@@ -76,7 +85,7 @@ class _MushafScreenState extends State<MushafScreen> {
       child: IconButton(
         padding: EdgeInsets.zero,
         constraints: const BoxConstraints(),
-        icon: Icon(icon),
+        icon: iconWidget,
         color: Theme.of(context).colorScheme.onSurface,
         onPressed: onPressed,
       ),
@@ -131,26 +140,23 @@ class _MushafScreenState extends State<MushafScreen> {
               ),
             ),
             SafeArea(
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _topBarIconButton(
-                        context,
-                        Icons.bookmark_border_rounded,
-                        () => showBookmarksSheet(context),
-                      ),
-                      const SizedBox(width: 8),
-                      _topBarIconButton(
-                        context,
-                        Icons.arrow_back_rounded,
-                        () => Navigator.of(context).pop(),
-                      ),
-                    ],
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _topBarIconButton(
+                      context,
+                      Icons.bookmark_border_rounded,
+                      () => showBookmarksSheet(context),
+                    ),
+                    _topBarIconButton(
+                      context,
+                      Icons.arrow_back,
+                      () => Navigator.of(context).pop(),
+                      flipHorizontally: true,
+                    ),
+                  ],
                 ),
               ),
             ),

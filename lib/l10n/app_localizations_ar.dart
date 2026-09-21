@@ -30,6 +30,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get language => 'اللغة';
 
   @override
+  String get appearance => 'المظهر';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
   String get quranFontSize => 'حجم خط المصحف';
 
   @override
@@ -151,6 +157,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get primaryActionSubtitle => 'تصفح القرآن الكريم مع التفسير والقراءات';
+
+  @override
+  String get hijriCalendar => 'التقويم الهجري';
 
   @override
   String get startButton => 'ابدأ الآن';
@@ -592,4 +601,103 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get iqamahDisclaimer =>
       'أوقات الإقامة الافتراضية — الأوقات الفعلية قد تختلف حسب المسجد';
+
+  @override
+  String get adhanNotifications => 'إشعارات الأذان';
+
+  @override
+  String get reminderBefore => 'تذكير قبل';
+
+  @override
+  String get minutes => 'دقائق';
+
+  @override
+  String get notificationPermissionRequired =>
+      'إذن الإشعارات مطلوب لتلقي تنبيهات الأذان.';
+
+  @override
+  String get openSettings => 'فتح الإعدادات';
+
+  @override
+  String get notificationDisabled => 'الإشعارات معطلة في إعدادات النظام.';
+
+  @override
+  String get home => 'الرئيسية';
+
+  @override
+  String get quranIndex => 'الفهرس';
+
+  @override
+  String get reciters => 'القراء';
+
+  @override
+  String get qiblah => 'القبلة';
+
+  @override
+  String get qiblahDirection => 'اتجاه القبلة';
+
+  @override
+  String get qiblahInfo =>
+      'وجّه جهازك نحو الكعبة. السهم الأخضر يُشير إلى اتجاه القبلة.';
+
+  @override
+  String get feedbackTitle => 'إرسال ملاحظات';
+
+  @override
+  String get feedbackCategory => 'الفئة';
+
+  @override
+  String get feedbackCategoryBug => 'الإبلاغ عن خطأ';
+
+  @override
+  String get feedbackCategorySuggestion => 'اقتراح';
+
+  @override
+  String get feedbackCategoryOther => 'أخرى';
+
+  @override
+  String get feedbackCategoryRequired => 'يرجى اختيار فئة';
+
+  @override
+  String get feedbackSpecifyType => 'يرجى التحديد';
+
+  @override
+  String get feedbackEmpty => 'يرجى كتابة ملاحظاتك';
+
+  @override
+  String get feedbackError => 'فشل إرسال الملاحظات. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get feedbackHint => 'اكتب ملاحظاتك هنا...';
+
+  @override
+  String get feedbackSubmit => 'إرسال';
+
+  @override
+  String get appIcon => 'أيقونة التطبيق';
+
+  @override
+  String get appIconDescription => 'اختر أيقونة التطبيق المفضلة';
+
+  @override
+  String get iconClassic => 'كلاسيكي';
+
+  @override
+  String get iconEmerald => 'زمرد';
+
+  @override
+  String get iconMidnight => 'منتصف الليل';
+
+  @override
+  String get iconGold => 'ذهبي';
+
+  @override
+  String get iconRoyal => 'ملكي';
+
+  @override
+  String get iqamahTimes => 'أوقات الإقامة';
+
+  @override
+  String get iqamahTimesDescription =>
+      'فترة الإقامة الافتراضية بعد الأذان لكل صلاة';
 }

@@ -1,0 +1,101 @@
+.bayan-menu {
+    max-width: 270px;
+}
+
+.prayer-times-label {
+    margin-left: 4px;
+    font-size: 10pt;
+}
+
+.prayer-times-next {
+    font-weight: bold;
+    color: #00674F;
+    border-left: 3px solid #00674F;
+    padding-left: 8px;
+}
+
+.prayer-times-location {
+    font-weight: bold;
+}
+
+.bayan-prayer-row {
+    font-size: 10.5pt;
+}
+
+.bayan-prayer-time {
+    font-size: 10.5pt;
+    margin-right: 8px;
+}
+
+.bayan-button-container {}
+
+.bayan-button-action {
+    -st-icon-style: symbolic;
+    border-radius: 32px;
+    margin: 0px;
+    min-height: 22px;
+    min-width: 22px;
+    padding: 10px;
+    border: 1px solid transparent;
+}
+
+.bayan-button-action:hover,
+.bayan-button-action:focus {
+    border-color: rgba(128, 128, 128, 0.5);
+}
+
+.bayan-button-action > StIcon {
+    icon-size: 16px;
+}
+
+.bayan-button-box {
+    padding: 0px;
+    spacing: 22px;
+}
+
+.bayan-about-content {
+    spacing: 12px;
+    padding: 16px 32px;
+}
+
+.bayan-about-logo {
+    margin-bottom: 4px;
+}
+
+.bayan-about-title {
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+.bayan-about-version {
+    font-size: 9pt;
+    opacity: 0.45;
+    margin-top: 6px;
+}
+
+.bayan-about-tagline {
+    font-size: 11.5pt;
+    font-style: italic;
+    opacity: 0.45;
+    margin-top: 4px;
+}
+
+.bayan-about-links {
+    spacing: 6px;
+    margin-top: 8px;
+}
+
+.bayan-about-link {
+    color: #78aeed;
+    font-size: 10.5pt;
+    background: transparent;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.bayan-about-link:hover,
+.bayan-about-link:focus {
+    text-decoration: underline;
+    background-color: rgba(128, 128, 128, 0.15);
+}

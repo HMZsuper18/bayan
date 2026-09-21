@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="180dp"
+    android:minHeight="180dp"
+    android:minResizeWidth="180dp"
+    android:minResizeHeight="180dp"
+    android:maxResizeWidth="500dp"
+    android:maxResizeHeight="500dp"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen"
+    android:initialLayout="@layout/ayah_widget"
+    android:resizeMode="horizontal|vertical"
+    android:description="@string/ayah_widget_description" />

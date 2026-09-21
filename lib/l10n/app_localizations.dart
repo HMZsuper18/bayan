@@ -142,6 +142,18 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get language;
 
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
   /// No description provided for @quranFontSize.
   ///
   /// In en, this message translates to:
@@ -387,6 +399,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Browse the Holy Quran with tafseer and recitations'**
   String get primaryActionSubtitle;
+
+  /// No description provided for @hijriCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Hijri Calendar'**
+  String get hijriCalendar;
 
   /// No description provided for @startButton.
   ///
@@ -1203,6 +1221,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Default iqamah times — actual times may vary by mosque'**
   String get iqamahDisclaimer;
+
+  /// No description provided for @adhanNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Adhan notifications'**
+  String get adhanNotifications;
+
+  /// No description provided for @reminderBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder before'**
+  String get reminderBefore;
+
+  /// No description provided for @minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'minutes'**
+  String get minutes;
+
+  /// No description provided for @notificationPermissionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission is required to receive adhan alerts.'**
+  String get notificationPermissionRequired;
+
+  /// No description provided for @openSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
+  /// No description provided for @notificationDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are disabled in system settings.'**
+  String get notificationDisabled;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @quranIndex.
+  ///
+  /// In en, this message translates to:
+  /// **'Index'**
+  String get quranIndex;
+
+  /// No description provided for @reciters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reciters'**
+  String get reciters;
+
+  /// No description provided for @qiblah.
+  ///
+  /// In en, this message translates to:
+  /// **'Qiblah'**
+  String get qiblah;
+
+  /// No description provided for @qiblahDirection.
+  ///
+  /// In en, this message translates to:
+  /// **'Qiblah Direction'**
+  String get qiblahDirection;
+
+  /// No description provided for @qiblahInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Point your device towards the Kaaba. The green arrow indicates the Qiblah direction.'**
+  String get qiblahInfo;
+
+  /// No description provided for @feedbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Feedback'**
+  String get feedbackTitle;
+
+  /// No description provided for @feedbackCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get feedbackCategory;
+
+  /// No description provided for @feedbackCategoryBug.
+  ///
+  /// In en, this message translates to:
+  /// **'Bug Report'**
+  String get feedbackCategoryBug;
+
+  /// No description provided for @feedbackCategorySuggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion'**
+  String get feedbackCategorySuggestion;
+
+  /// No description provided for @feedbackCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get feedbackCategoryOther;
+
+  /// No description provided for @feedbackCategoryRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a category'**
+  String get feedbackCategoryRequired;
+
+  /// No description provided for @feedbackSpecifyType.
+  ///
+  /// In en, this message translates to:
+  /// **'Please specify'**
+  String get feedbackSpecifyType;
+
+  /// No description provided for @feedbackEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your feedback'**
+  String get feedbackEmpty;
+
+  /// No description provided for @feedbackError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send feedback. Please try again.'**
+  String get feedbackError;
+
+  /// No description provided for @feedbackHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your feedback...'**
+  String get feedbackHint;
+
+  /// No description provided for @feedbackSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get feedbackSubmit;
+
+  /// No description provided for @appIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'App Icon'**
+  String get appIcon;
+
+  /// No description provided for @appIconDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your preferred app icon'**
+  String get appIconDescription;
+
+  /// No description provided for @iconClassic.
+  ///
+  /// In en, this message translates to:
+  /// **'Classic'**
+  String get iconClassic;
+
+  /// No description provided for @iconEmerald.
+  ///
+  /// In en, this message translates to:
+  /// **'Emerald'**
+  String get iconEmerald;
+
+  /// No description provided for @iconMidnight.
+  ///
+  /// In en, this message translates to:
+  /// **'Midnight'**
+  String get iconMidnight;
+
+  /// No description provided for @iconGold.
+  ///
+  /// In en, this message translates to:
+  /// **'Gold'**
+  String get iconGold;
+
+  /// No description provided for @iconRoyal.
+  ///
+  /// In en, this message translates to:
+  /// **'Royal'**
+  String get iconRoyal;
+
+  /// No description provided for @iqamahTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Iqamah Times'**
+  String get iqamahTimes;
+
+  /// No description provided for @iqamahTimesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Default iqamah gap after adhan for each prayer'**
+  String get iqamahTimesDescription;
 }
 
 class _AppLocalizationsDelegate

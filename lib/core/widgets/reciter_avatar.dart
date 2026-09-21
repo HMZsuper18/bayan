@@ -60,13 +60,13 @@ class _ReciterAvatarState extends State<ReciterAvatar> {
                 fontFamily: 'Tajawal',
                 fontSize: widget.size * 0.32,
                 fontWeight: FontWeight.w700,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
               ),
             )
           : Icon(
               Icons.person_rounded,
               size: widget.size * 0.42,
-              color: AppColors.primaryGreen,
+              color: AppColors.primaryGreenOf(context),
             ),
     );
   }
@@ -138,7 +138,7 @@ class _ReciterAvatarState extends State<ReciterAvatar> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final borderColor = isDark
         ? Colors.white.withValues(alpha: 0.28)
-        : AppColors.primaryGreen.withValues(alpha: 0.45);
+        : AppColors.primaryGreenOf(context).withValues(alpha: 0.45);
     return SizedBox(
       width: widget.size,
       height: widget.size,
@@ -180,8 +180,8 @@ class _ReciterAvatarState extends State<ReciterAvatar> {
                   CircularProgressIndicator(
                     value: widget.progress > 0 ? widget.progress : null,
                     strokeWidth: 2.5,
-                    color: AppColors.primaryGreen,
-                    backgroundColor: AppColors.primaryGreen.withValues(alpha: 0.15),
+                    color: AppColors.primaryGreenOf(context),
+                    backgroundColor: AppColors.primaryGreenOf(context).withValues(alpha: 0.15),
                   ),
                   if (widget.onCancel != null)
                     GestureDetector(
@@ -210,7 +210,7 @@ class _ReciterAvatarState extends State<ReciterAvatar> {
               child: _buildStatusBadge(
                 icon: Icons.cloud_download_outlined,
                 backgroundColor: AppColors.creamWhite,
-                iconColor: AppColors.primaryGreen,
+                iconColor: AppColors.primaryGreenOf(context),
               ),
             ),
           if (widget.badge == ReciterAvatarBadge.downloaded)
@@ -219,7 +219,7 @@ class _ReciterAvatarState extends State<ReciterAvatar> {
               bottom: -1,
               child: _buildStatusBadge(
                 icon: Icons.check_rounded,
-                backgroundColor: AppColors.primaryGreen,
+                backgroundColor: AppColors.primaryGreenOf(context),
                 iconColor: AppColors.white,
               ),
             ),

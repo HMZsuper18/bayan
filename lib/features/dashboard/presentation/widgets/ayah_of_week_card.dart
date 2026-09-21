@@ -82,10 +82,7 @@ class _AyahOfWeekCardState extends State<AyahOfWeekCard> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final colors = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    // Bright mint keeps the verse reference and the CTA legible on the dark
-    // card; primaryGreen gives the light surface enough contrast too.
-    final accent = isDark ? const Color(0xFF8FE3C4) : AppColors.primaryGreen;
+    final accent = AppColors.primaryGreenOf(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -133,7 +130,7 @@ class _AyahOfWeekCardState extends State<AyahOfWeekCard> {
                   height: 22,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.4,
-                    color: AppColors.primaryGreen,
+                    color: AppColors.primaryGreenOf(context),
                   ),
                 ),
               ),
@@ -367,11 +364,11 @@ class _WeekChip extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: isDark
-            ? AppColors.primaryGreen.withValues(alpha: 0.28)
-            : AppColors.primaryGreen.withValues(alpha: 0.10),
+            ? AppColors.primaryGreenOf(context).withValues(alpha: 0.28)
+            : AppColors.primaryGreenOf(context).withValues(alpha: 0.10),
         borderRadius: BorderRadius.circular(999),
         border: Border.all(
-          color: AppColors.primaryGreenLight.withValues(alpha: 0.35),
+          color: AppColors.primaryGreenLightOf(context).withValues(alpha: 0.35),
         ),
       ),
       child: Text(

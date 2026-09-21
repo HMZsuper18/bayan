@@ -83,9 +83,9 @@ class AppState extends State<App> {
         fontFamily: 'Tajawal',
         scaffoldBackgroundColor: Colors.transparent,
         colorScheme: ColorScheme.dark(
-          primary: AppColors.primaryGreen,
-          primaryContainer: AppColors.primaryGreen.withValues(alpha: 0.2),
-          secondary: AppColors.primaryGreenLight,
+          primary: AppColors.primaryGreenDark,
+          primaryContainer: AppColors.primaryGreenDark.withValues(alpha: 0.2),
+          secondary: AppColors.primaryGreenLightDark,
           surface: Colors.transparent,
           onPrimary: AppColors.white,
           onSecondary: AppColors.white,

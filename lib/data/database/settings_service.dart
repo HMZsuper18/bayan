@@ -35,7 +35,6 @@ class SettingsService {
   static const String _lastMushafPageKey = 'last_mushaf_page';
   static const String _lastMushafSurahKey = 'last_mushaf_surah';
   static const String _cameraRationaleKey = 'camera_rationale_shown';
-  static const String _prayerCalculationMethodKey = 'prayer_calculation_method';
 
   static double get fontSize {
     final val = _b.get(_fontSizeKey);
@@ -156,12 +155,34 @@ class SettingsService {
     translationLanguageNotifier.value = value;
   }
 
-  /// Prayer calculation method key. 'auto' means detect from GPS location.
-  /// Valid values: 'auto', 'ummAlQura', 'muslimWorldLeague', 'egyptian', 'isna', 'karachi'.
-  static String get prayerCalculationMethod =>
-      _b.get(_prayerCalculationMethodKey) ?? 'auto';
+  static const String _appIconVariantKey = 'app_icon_variant';
+
+  static String get appIconVariant => _b.get(_appIconVariantKey) ?? 'Classic';
+
+  static set appIconVariant(String value) {
+    _b.put(_appIconVariantKey, value);
+  }
+
+  static const String _prayerCalculationMethodKey = 'prayer_calculation_method';
+  static const String _adhanEnabledKey = 'adhan_enabled';
+  static const String _adhanReminderMinutesKey = 'adhan_reminder_minutes';
+
+  static String get prayerCalculationMethod => _b.get(_prayerCalculationMethodKey) ?? 'auto';
 
   static set prayerCalculationMethod(String value) {
     _b.put(_prayerCalculationMethodKey, value);
+  }
+
+  static bool get adhanEnabled => _b.get(_adhanEnabledKey) == 'true';
+
+  static set adhanEnabled(bool value) {
+    _b.put(_adhanEnabledKey, value ? 'true' : 'false');
+  }
+
+  static int get adhanReminderMinutes =>
+      int.tryParse(_b.get(_adhanReminderMinutesKey) ?? '') ?? 10;
+
+  static set adhanReminderMinutes(int value) {
+    _b.put(_adhanReminderMinutesKey, value.toString());
   }
 }

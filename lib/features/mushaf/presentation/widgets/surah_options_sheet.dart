@@ -143,7 +143,7 @@ class _SurahOptionsSheetState extends State<SurahOptionsSheet> {
                       context: context,
                       icon: Icons.play_arrow_rounded,
                       label: l10n.playFullSurahFromStart,
-                      color: AppColors.primaryGreen,
+                      color: AppColors.primaryGreenOf(context),
                       onTap: () {
                         Navigator.pop(context);
                         widget.onPlayFullSurah?.call();
@@ -184,7 +184,7 @@ class _SurahOptionsSheetState extends State<SurahOptionsSheet> {
               l10n.selectReciter,
               style: AppTextStyles.arabicTitle.copyWith(
                 fontSize: 12,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
               ),
             ),
             Text(
@@ -253,7 +253,7 @@ class _SurahOptionsSheetState extends State<SurahOptionsSheet> {
           opacity: isCentered ? 0.15 : 0.08,
           border: Border.all(
             color: isCentered
-                ? AppColors.primaryGreen.withValues(alpha: 0.6)
+                ? AppColors.primaryGreenOf(context).withValues(alpha: 0.6)
                 : (Theme.of(context).brightness == Brightness.dark
                     ? Colors.white.withValues(alpha: 0.1)
                     : Colors.white.withValues(alpha: 0.3)),
@@ -274,12 +274,12 @@ class _SurahOptionsSheetState extends State<SurahOptionsSheet> {
                           fit: BoxFit.cover,
                         )
                       : null,
-                  color: AppColors.primaryGreen.withValues(alpha: 0.2),
+                  color: AppColors.primaryGreenOf(context).withValues(alpha: 0.2),
                 ),
                 child: reciter.imageAsset.isEmpty
                     ? Icon(
                         Icons.person_rounded,
-                        color: AppColors.primaryGreen,
+                        color: AppColors.primaryGreenOf(context),
                         size: 20,
                       )
                     : null,
@@ -296,7 +296,7 @@ class _SurahOptionsSheetState extends State<SurahOptionsSheet> {
                     fontWeight:
                         isCentered ? FontWeight.w600 : FontWeight.w400,
                     color: isCentered
-                        ? AppColors.primaryGreen
+                        ? AppColors.primaryGreenOf(context)
                         : colors.onSurface.withValues(alpha: 0.7),
                   ),
                 ),

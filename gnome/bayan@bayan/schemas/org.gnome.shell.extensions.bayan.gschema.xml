@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.bayan" path="/org/gnome/shell/extensions/bayan/">
+    <key name="latitude" type="d">
+      <default>0.0</default>
+      <summary>Latitude</summary>
+      <description>Latitude of your location (legacy, used for migration only)</description>
+    </key>
+    <key name="longitude" type="d">
+      <default>0.0</default>
+      <summary>Longitude</summary>
+      <description>Longitude of your location (legacy, used for migration only)</description>
+    </key>
+    <key name="recent-locations" type="s">
+      <default>'[]'</default>
+      <summary>Recent Locations</summary>
+      <description>Recently selected locations as JSON array (legacy)</description>
+    </key>
+
+    <key name="locations" type="s">
+      <default>'[]'</default>
+      <summary>Saved Locations</summary>
+      <description>Saved locations as JSON array [{id, name, lat, lng, country, timezone, methodId}]</description>
+    </key>
+    <key name="active-location-id" type="s">
+      <default>''</default>
+      <summary>Active Location ID</summary>
+      <description>Geoname ID of the currently active location</description>
+    </key>
+
+    <key name="show-hijri" type="b">
+      <default>true</default>
+      <summary>Show Hijri Date</summary>
+      <description>Show Hijri calendar date in the menu</description>
+    </key>
+    <key name="show-countdown" type="b">
+      <default>true</default>
+      <summary>Show Countdown</summary>
+      <description>Show countdown timer in the panel label</description>
+    </key>
+    <key name="show-sunrise" type="b">
+      <default>true</default>
+      <summary>Show Sunrise</summary>
+      <description>Show sunrise time in the prayer times menu</description>
+    </key>
+
+    <key name="time-format" type="s">
+      <choices>
+        <choice value="24h"/>
+        <choice value="12h"/>
+      </choices>
+      <default>'24h'</default>
+      <summary>Time Format</summary>
+      <description>Display prayer times in 24-hour or 12-hour (AM/PM) format</description>
+    </key>
+
+    <key name="asr-method" type="s">
+      <choices>
+        <choice value="hanafi"/>
+        <choice value="standard"/>
+      </choices>
+      <default>'hanafi'</default>
+      <summary>Asr Calculation</summary>
+      <description>Asr calculation method: 'hanafi' or 'standard'</description>
+    </key>
+
+    <key name="notification-fajr-enabled" type="b">
+      <default>true</default>
+      <summary>Fajr Notification</summary>
+      <description>Enable notification before Fajr</description>
+    </key>
+    <key name="notification-fajr-minutes" type="i">
+      <default>15</default>
+      <summary>Fajr Notification Minutes</summary>
+      <description>Minutes before Fajr to show notification</description>
+    </key>
+    <key name="notification-dhuhr-enabled" type="b">
+      <default>true</default>
+      <summary>Dhuhr Notification</summary>
+      <description>Enable notification before Dhuhr</description>
+    </key>
+    <key name="notification-dhuhr-minutes" type="i">
+      <default>10</default>
+      <summary>Dhuhr Notification Minutes</summary>
+      <description>Minutes before Dhuhr to show notification</description>
+    </key>
+    <key name="notification-asr-enabled" type="b">
+      <default>true</default>
+      <summary>Asr Notification</summary>
+      <description>Enable notification before Asr</description>
+    </key>
+    <key name="notification-asr-minutes" type="i">
+      <default>10</default>
+      <summary>Asr Notification Minutes</summary>
+      <description>Minutes before Asr to show notification</description>
+    </key>
+    <key name="notification-maghrib-enabled" type="b">
+      <default>true</default>
+      <summary>Maghrib Notification</summary>
+      <description>Enable notification before Maghrib</description>
+    </key>
+    <key name="notification-maghrib-minutes" type="i">
+      <default>5</default>
+      <summary>Maghrib Notification Minutes</summary>
+      <description>Minutes before Maghrib to show notification</description>
+    </key>
+    <key name="notification-isha-enabled" type="b">
+      <default>true</default>
+      <summary>Isha Notification</summary>
+      <description>Enable notification before Isha</description>
+    </key>
+    <key name="notification-isha-minutes" type="i">
+      <default>10</default>
+      <summary>Isha Notification Minutes</summary>
+      <description>Minutes before Isha to show notification</description>
+    </key>
+
+    <key name="notification-sound-enabled" type="b">
+      <default>false</default>
+      <summary>Notification Sound</summary>
+      <description>Play adhan sound with notifications</description>
+    </key>
+    <key name="notification-sound-file" type="s">
+      <default>''</default>
+      <summary>Sound File</summary>
+      <description>Path to custom adhan sound file (empty = bundled default)</description>
+    </key>
+  </schema>
+</schemalist>

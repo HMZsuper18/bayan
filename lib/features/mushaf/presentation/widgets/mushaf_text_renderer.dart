@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bayan/core/utils/quran_render_config.dart';
 import 'package:bayan/core/utils/quran_text_normalizer.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../data/database/settings_service.dart';
 import '../../../../data/models/verse_model.dart';
 
 class MushafTextRenderer extends StatelessWidget {
@@ -233,7 +234,9 @@ class MushafTextRenderer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 4),
             child: Directionality(
-              textDirection: TextDirection.ltr,
+              textDirection: SettingsService.translationLanguage == 'en'
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
               child: Text(
                 translation,
                 style: TextStyle(

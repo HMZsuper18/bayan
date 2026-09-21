@@ -54,7 +54,7 @@ class VerseWidget extends StatelessWidget {
           color: isSelected ? colors.primaryContainer : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: isSelected
-              ? Border.all(color: AppColors.primaryGreen.withValues(alpha: 0.5))
+              ? Border.all(color: AppColors.primaryGreenOf(context).withValues(alpha: 0.5))
               : null,
         ),
         child: QuranRenderConfig.rtl(

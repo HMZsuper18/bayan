@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/responsive_spacing.dart';
 import '../../../../core/widgets/glass_container.dart';
 import '../../../../core/widgets/reciter_avatar.dart';
 import '../../../../data/database/hive_service.dart';
@@ -89,31 +90,48 @@ class _ActiveDownloadsCardState extends State<ActiveDownloadsCard> {
       borderRadius: 16,
       blur: 8,
       opacity: 0.12,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(
-                Icons.download_rounded,
-                size: 18,
-                color: AppColors.primaryGreen,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                l10n.downloading,
-                style: AppTextStyles.arabicTitle.copyWith(
-                  fontSize: 16,
-                  color: AppColors.primaryGreen,
+      margin: EdgeInsets.symmetric(
+        horizontal: AppSpacing.horizontalPadding(context),
+        vertical: AppSpacing.cardSpacing(context),
+      ),
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.cardInternalPadding(context),
+        12,
+        AppSpacing.cardInternalPadding(context),
+        8,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.download_rounded,
+                  size: 18,
+                  color: AppColors.primaryGreenOf(context),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          for (final id in ids) _buildItem(id),
-        ],
+                const SizedBox(width: 8),
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(
+                      l10n.downloading,
+                      style: AppTextStyles.arabicTitle.copyWith(
+                        fontSize: 16,
+                        color: AppColors.primaryGreenOf(context),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            for (final id in ids) _buildItem(id),
+          ],
+        ),
       ),
     );
   }
@@ -139,10 +157,10 @@ class _ActiveDownloadsCardState extends State<ActiveDownloadsCard> {
           else
             CircleAvatar(
               radius: 20,
-              backgroundColor: AppColors.primaryGreen.withValues(alpha: 0.15),
-              child: const Icon(
+              backgroundColor: AppColors.primaryGreenOf(context).withValues(alpha: 0.15),
+              child: Icon(
                 Icons.person_rounded,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
                 size: 20,
               ),
             ),
@@ -150,28 +168,32 @@ class _ActiveDownloadsCardState extends State<ActiveDownloadsCard> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
                   children: [
-                    Expanded(
-                      child: Text(
-                        reciter != null ? _displayName(reciter) : id,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.englishBody.copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: colors.onSurface,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(
+                              reciter != null ? _displayName(reciter) : id,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.englishBody.copyWith(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: colors.onSurface,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
                     const SizedBox(width: 8),
                     Text(
                       '$percent%',
                       style: AppTextStyles.englishBody.copyWith(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.primaryGreen,
+                        color: AppColors.primaryGreenOf(context),
                       ),
                     ),
                   ],
@@ -183,7 +205,7 @@ class _ActiveDownloadsCardState extends State<ActiveDownloadsCard> {
                     value: progress,
                     minHeight: 6,
                     backgroundColor: colors.onSurface.withValues(alpha: 0.1),
-                    color: AppColors.primaryGreen,
+                    color: AppColors.primaryGreenOf(context),
                   ),
                 ),
               ],

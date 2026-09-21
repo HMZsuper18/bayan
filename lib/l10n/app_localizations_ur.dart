@@ -30,6 +30,12 @@ class AppLocalizationsUr extends AppLocalizations {
   String get language => 'زبان';
 
   @override
+  String get appearance => 'ظاہری شکل';
+
+  @override
+  String get notifications => 'اطلاعات';
+
+  @override
   String get quranFontSize => 'قرآن کا فونٹ سائز';
 
   @override
@@ -151,6 +157,9 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get primaryActionSubtitle => 'تفسیر اور تلاوت کے ساتھ قرآن پاک دیکھیں';
+
+  @override
+  String get hijriCalendar => 'ہجری کیلنڈر';
 
   @override
   String get startButton => 'ابھی شروع کریں';
@@ -592,4 +601,104 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get iqamahDisclaimer =>
       'طے شدہ اقامت کے اوقات — اصل اوقات مسجد کے مطابق مختلف ہو سکتے ہیں';
+
+  @override
+  String get adhanNotifications => 'اذان اطلاعات';
+
+  @override
+  String get reminderBefore => 'پہلے یاد دہانی';
+
+  @override
+  String get minutes => 'منٹ';
+
+  @override
+  String get notificationPermissionRequired =>
+      'اذان alerts حاصل کرنے کے لیے اطلاعات کی اجازت درکار ہے۔';
+
+  @override
+  String get openSettings => 'ترتیبات کھولیں';
+
+  @override
+  String get notificationDisabled => 'سسٹم کی ترتیبات میں اطلاعات بند ہیں۔';
+
+  @override
+  String get home => 'ہوم';
+
+  @override
+  String get quranIndex => 'فہرست';
+
+  @override
+  String get reciters => 'قاری';
+
+  @override
+  String get qiblah => 'قبلہ';
+
+  @override
+  String get qiblahDirection => 'قبلہ کی سمت';
+
+  @override
+  String get qiblahInfo =>
+      'اپنا ڈیوائس کعبے کی طرف موصّل کریں۔ ہرا تیر قبلہ کی سمت کی نشاندہی کرتا ہے۔';
+
+  @override
+  String get feedbackTitle => 'تاثرات بھیجیں';
+
+  @override
+  String get feedbackCategory => 'قسم';
+
+  @override
+  String get feedbackCategoryBug => 'بگ رپورٹ';
+
+  @override
+  String get feedbackCategorySuggestion => 'تجویز';
+
+  @override
+  String get feedbackCategoryOther => 'دیگر';
+
+  @override
+  String get feedbackCategoryRequired => 'براہ کرم قسم منتخب کریں';
+
+  @override
+  String get feedbackSpecifyType => 'براہ کرم بیان کریں';
+
+  @override
+  String get feedbackEmpty => 'براہ کرم اپنے تاثرات لکھیں';
+
+  @override
+  String get feedbackError =>
+      'تاثرات بھیجنے میں ناکامی۔ براہ کرم دوبارہ کوشش کریں۔';
+
+  @override
+  String get feedbackHint => 'اپنے تاثرات بیان کریں...';
+
+  @override
+  String get feedbackSubmit => 'بھیجیں';
+
+  @override
+  String get appIcon => 'آپ کا آئیکن';
+
+  @override
+  String get appIconDescription => 'اپنی پسندیدہ آپ کا آئیکن منتخب کریں';
+
+  @override
+  String get iconClassic => 'کلاسک';
+
+  @override
+  String get iconEmerald => 'زمردی';
+
+  @override
+  String get iconMidnight => 'رات';
+
+  @override
+  String get iconGold => 'سنہری';
+
+  @override
+  String get iconRoyal => 'شاہانہ';
+
+  @override
+  String get iqamahTimes => 'اقامت کے اوقات';
+
+  @override
+  String get iqamahTimesDescription =>
+      'اذان کے بعد ہر نماز کے لیے اقت کم اوقات';
 }

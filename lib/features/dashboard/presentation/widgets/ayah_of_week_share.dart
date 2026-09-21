@@ -150,7 +150,7 @@ class _AyahOfWeekShareSheetState extends State<AyahOfWeekShareSheet> {
                 child: FilledButton.icon(
                   onPressed: _sharing ? null : _share,
                   style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
+                    backgroundColor: AppColors.primaryGreenOf(context),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),

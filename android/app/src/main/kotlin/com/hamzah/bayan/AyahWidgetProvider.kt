@@ -1,0 +1,84 @@
+package com.hamzah.bayan
+
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetProvider
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
+import android.os.Bundle
+import android.widget.RemoteViews
+import es.antonborri.home_widget.HomeWidgetLaunchIntent
+
+class AyahWidgetProvider : AppWidgetProvider() {
+
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)
+        for (appWidgetId in appWidgetIds) {
+            val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
+            updateWidget(context, appWidgetManager, appWidgetId, prefs, options)
+        }
+    }
+
+    override fun onAppWidgetOptionsChanged(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle?
+    ) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)
+        updateWidget(context, appWidgetManager, appWidgetId, prefs, newOptions)
+    }
+
+    private fun updateWidget(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        prefs: SharedPreferences,
+        options: Bundle?
+    ) {
+        val width = options?.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) ?: 0
+        val isCompact = width < 300
+        val layoutId = if (isCompact) R.layout.ayah_widget_compact else R.layout.ayah_widget
+
+        val views = RemoteViews(context.packageName, layoutId)
+
+        val ayahText = prefs.getString("ayah_text", null)
+            ?: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"
+        val ayahSurah = prefs.getString("ayah_surah", null) ?: "الفاتحة"
+        val ayahNumber = prefs.getString("ayah_number", null) ?: "١"
+
+        views.setTextViewText(R.id.ayah_text, ayahText)
+        views.setTextViewText(R.id.ayah_surah, ayahSurah)
+        views.setTextViewText(R.id.ayah_number, "الآية $ayahNumber")
+
+        val shareIntent = Intent(context, MainActivity::class.java).apply {
+            action = HomeWidgetLaunchIntent.HOME_WIDGET_LAUNCH_ACTION
+            data = Uri.parse("bayan://share/ayah")
+        }
+        val sharePendingIntent = PendingIntent.getActivity(
+            context, 4, shareIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        views.setOnClickPendingIntent(R.id.share_button, sharePendingIntent)
+
+        val widgetIntent = Intent(context, MainActivity::class.java).apply {
+            action = HomeWidgetLaunchIntent.HOME_WIDGET_LAUNCH_ACTION
+            data = Uri.parse("bayan://widget/ayah")
+        }
+        val widgetPendingIntent = PendingIntent.getActivity(
+            context, 5, widgetIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        views.setOnClickPendingIntent(R.id.widget_title, widgetPendingIntent)
+
+        appWidgetManager.updateAppWidget(appWidgetId, views)
+    }
+}

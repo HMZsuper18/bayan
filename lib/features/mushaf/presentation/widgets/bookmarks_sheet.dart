@@ -64,7 +64,7 @@ class BookmarksSheet extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
             child: Row(
               children: [
-                Icon(Icons.bookmark_rounded, color: AppColors.primaryGreen, size: 20),
+                Icon(Icons.bookmark_rounded, color: AppColors.primaryGreenOf(context), size: 20),
                 const SizedBox(width: 8),
                 Text(
                   l10n.bookmarks,
@@ -155,12 +155,12 @@ class _BookmarkTile extends StatelessWidget {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: AppColors.primaryGreen.withValues(alpha: 0.12),
+          color: AppColors.primaryGreenOf(context).withValues(alpha: 0.12),
           shape: BoxShape.circle,
         ),
-        child: const Icon(
+        child: Icon(
           Icons.menu_book_rounded,
-          color: AppColors.primaryGreen,
+          color: AppColors.primaryGreenOf(context),
           size: 20,
         ),
       ),

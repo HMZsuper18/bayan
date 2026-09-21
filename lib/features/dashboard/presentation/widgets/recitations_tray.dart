@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/responsive_spacing.dart';
 import '../../../../core/widgets/glass_container.dart';
 import '../../../../core/widgets/reciter_avatar.dart';
 import '../../../../data/models/reciter_model.dart';
@@ -81,49 +82,60 @@ class RecitationsTray extends StatelessWidget {
       borderRadius: 16,
       blur: 8,
       opacity: 0.12,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            l10n.recitations,
-            style: AppTextStyles.arabicTitle.copyWith(
-              fontSize: 16,
-              color: AppColors.primaryGreen,
+      margin: EdgeInsets.symmetric(
+        horizontal: AppSpacing.horizontalPadding(context),
+        vertical: AppSpacing.cardSpacing(context),
+      ),
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.cardInternalPadding(context),
+        12,
+        AppSpacing.cardInternalPadding(context),
+        12,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.recitations,
+              style: AppTextStyles.arabicTitle.copyWith(
+                fontSize: 16,
+                color: AppColors.primaryGreenOf(context),
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: _listHeight(context),
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.zero,
-              itemCount: reciters.length + 1,
-              separatorBuilder: (_, _) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                if (index == reciters.length) {
-                  return _AddReciterButton(
-                    label: l10n.addReciter,
-                    onTap: onAddReciter,
+            const SizedBox(height: 10),
+            SizedBox(
+              height: _listHeight(context),
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.zero,
+                itemCount: reciters.length + 1,
+                separatorBuilder: (_, _) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  if (index == reciters.length) {
+                    return _AddReciterButton(
+                      label: l10n.addReciter,
+                      onTap: onAddReciter,
+                    );
+                  }
+        
+                  final reciter = reciters[index];
+                  final isDownloading = downloadingIds.contains(reciter.id);
+                  final progress = downloadProgress[reciter.id] ?? 0;
+        
+                  return _ReciterTrayItem(
+                    reciter: reciter,
+                    displayName: _reciterDisplayName(l10n, reciter),
+                    isDownloading: isDownloading,
+                    downloadProgress: progress,
                   );
-                }
-
-                final reciter = reciters[index];
-                final isDownloading = downloadingIds.contains(reciter.id);
-                final progress = downloadProgress[reciter.id] ?? 0;
-
-                return _ReciterTrayItem(
-                  reciter: reciter,
-                  displayName: _reciterDisplayName(l10n, reciter),
-                  isDownloading: isDownloading,
-                  downloadProgress: progress,
-                );
-              },
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -208,7 +220,7 @@ class _ReciterTrayItem extends StatelessWidget {
                             border: Border.all(
                               color: Theme.of(context).brightness == Brightness.dark
                                   ? Colors.white.withValues(alpha: 0.28)
-                                  : AppColors.primaryGreen.withValues(alpha: 0.45),
+                                  : AppColors.primaryGreenOf(context).withValues(alpha: 0.45),
                               width: 1.5,
                             ),
                           ),
@@ -232,7 +244,7 @@ class _ReciterTrayItem extends StatelessWidget {
                   fontSize: 10,
                   height: 1.1,
                   color: isDownloading
-                      ? AppColors.primaryGreen
+                      ? AppColors.primaryGreenOf(context)
                       : Theme.of(context)
                           .colorScheme
                           .onSurface
@@ -276,12 +288,12 @@ class _AddReciterButton extends StatelessWidget {
               height: size,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColors.primaryGreen, width: 1.5),
-                color: AppColors.primaryGreen.withValues(alpha: 0.08),
+                border: Border.all(color: AppColors.primaryGreenOf(context), width: 1.5),
+                color: AppColors.primaryGreenOf(context).withValues(alpha: 0.08),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.add_rounded,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
                 size: 28,
               ),
             ),
@@ -292,7 +304,7 @@ class _AddReciterButton extends StatelessWidget {
               style: AppTextStyles.englishBody.copyWith(
                 fontSize: 10,
                 height: 1.1,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
                 fontWeight: FontWeight.w600,
               ),
               maxLines: 1,

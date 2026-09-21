@@ -3,19 +3,26 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
+
+import '../../../../core/utils/responsive_spacing.dart';
 import '../../../../core/widgets/glass_container.dart';
 import '../../../../data/models/prayer_time_model.dart';
 import '../../../../core/utils/hijri_date.dart';
 
 String _prayerName(AppLocalizations l10n, String name) {
   switch (name) {
-    case 'Fajr': return l10n.fajr;
-    case 'Dhuhr': return l10n.dhuhr;
-    case 'Asr': return l10n.asr;
-    case 'Maghrib': return l10n.maghrib;
-    case 'Isha': return l10n.isha;
-    default: return name;
+    case 'Fajr':
+      return l10n.fajr;
+    case 'Dhuhr':
+      return l10n.dhuhr;
+    case 'Asr':
+      return l10n.asr;
+    case 'Maghrib':
+      return l10n.maghrib;
+    case 'Isha':
+      return l10n.isha;
+    default:
+      return name;
   }
 }
 
@@ -24,7 +31,11 @@ String _prayerName(AppLocalizations l10n, String name) {
 /// - Ramadan: Fajr 15 min, Maghrib 10 min, Isha 15 min
 /// - Regular days: standard gaps
 int iqamahGapMinutes(String prayerName, DateTime prayerTime) {
-  final hijri = HijriDate.fromGregorian(prayerTime.year, prayerTime.month, prayerTime.day);
+  final hijri = HijriDate.fromGregorian(
+    prayerTime.year,
+    prayerTime.month,
+    prayerTime.day,
+  );
   final isRamadan = hijri[1] == 9;
   final isFriday = prayerTime.weekday == 5;
 
@@ -32,22 +43,34 @@ int iqamahGapMinutes(String prayerName, DateTime prayerTime) {
 
   if (isRamadan) {
     switch (prayerName) {
-      case 'Fajr': return 15;
-      case 'Dhuhr': return 10;
-      case 'Asr': return 10;
-      case 'Maghrib': return 10;
-      case 'Isha': return 15;
-      default: return 10;
+      case 'Fajr':
+        return 15;
+      case 'Dhuhr':
+        return 10;
+      case 'Asr':
+        return 10;
+      case 'Maghrib':
+        return 10;
+      case 'Isha':
+        return 15;
+      default:
+        return 10;
     }
   }
 
   switch (prayerName) {
-    case 'Fajr': return 20;
-    case 'Dhuhr': return 10;
-    case 'Asr': return 10;
-    case 'Maghrib': return 10;
-    case 'Isha': return 10;
-    default: return 10;
+    case 'Fajr':
+      return 20;
+    case 'Dhuhr':
+      return 10;
+    case 'Asr':
+      return 10;
+    case 'Maghrib':
+      return 10;
+    case 'Isha':
+      return 10;
+    default:
+      return 10;
   }
 }
 
@@ -60,8 +83,8 @@ String _localizedTime(BuildContext context, DateTime t) {
   final period = lang == 'ar'
       ? (isPm ? 'م' : 'ص')
       : lang == 'ur'
-          ? (isPm ? 'ش' : 'ص')
-          : (isPm ? 'PM' : 'AM');
+      ? (isPm ? 'ش' : 'ص')
+      : (isPm ? 'PM' : 'AM');
   return '$hour:$minute $period';
 }
 
@@ -81,7 +104,9 @@ String _formatCountdown(Duration d) {
 String _activePrayerName(List<PrayerTimeModel> prayerTimes, DateTime now) {
   final prayers = prayerTimes.where((p) => p.name != 'Sunrise').toList();
   for (final p in prayers) {
-    final iqamah = p.time.add(Duration(minutes: iqamahGapMinutes(p.name, p.time)));
+    final iqamah = p.time.add(
+      Duration(minutes: iqamahGapMinutes(p.name, p.time)),
+    );
     if (iqamah.isAfter(now)) return p.name;
   }
   return prayers.isNotEmpty ? prayers.first.name : '';
@@ -93,42 +118,29 @@ class _LocationGlassButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool locating;
 
-  const _LocationGlassButton({
-    this.onPressed,
-    this.locating = false,
-  });
+  const _LocationGlassButton({this.onPressed, this.locating = false});
 
   @override
   Widget build(BuildContext context) {
     return Tooltip(
       message: AppLocalizations.of(context)!.updateLocation,
-      child: GlassContainer(
-        borderRadius: 22,
-        blur: 14,
-        opacity: 0.16,
-        width: 44,
-        height: 44,
-        border: Border.all(
-          color: AppColors.primaryGreen.withValues(alpha: 0.35),
-        ),
-        child: locating
-            ? const Padding(
-                padding: EdgeInsets.all(12),
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.4,
-                  color: AppColors.primaryGreen,
-                ),
-              )
-            : IconButton(
-                padding: EdgeInsets.zero,
-                iconSize: 20,
-                icon: const Icon(
-                  Icons.my_location,
-                  color: AppColors.primaryGreen,
-                ),
-                onPressed: onPressed,
+      child: locating
+          ? Padding(
+              padding: const EdgeInsets.all(12),
+              child: CircularProgressIndicator(
+                strokeWidth: 2.4,
+                color: AppColors.primaryGreenOf(context),
               ),
-      ),
+            )
+          : IconButton(
+              padding: EdgeInsets.zero,
+              iconSize: 20,
+              icon: Icon(
+                Icons.my_location,
+                color: AppColors.primaryGreenOf(context),
+              ),
+              onPressed: onPressed,
+            ),
     );
   }
 }
@@ -173,56 +185,30 @@ class _PrayerTimesWidgetState extends State<PrayerTimesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final colors = Theme.of(context).colorScheme;
     return GlassContainer(
       borderRadius: 16,
       blur: 8,
       opacity: 0.12,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.access_time_rounded, color: AppColors.primaryGreen, size: 18),
-              const SizedBox(width: 8),
-              Text(
-                l10n.prayerTimes,
-                style: AppTextStyles.arabicTitle.copyWith(
-                  fontSize: 16,
-                  color: AppColors.primaryGreen,
-                ),
-              ),
-              const Spacer(),
-              _LocationGlassButton(
-                locating: widget.locating,
-                onPressed: widget.onLocationTap,
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          _NextPrayerSection(
-            prayerTimes: widget.prayerTimes,
-            now: _now,
-          ),
-          const SizedBox(height: 12),
-          _PrayerScheduleBar(
-            prayerTimes: widget.prayerTimes,
-            now: _now,
-          ),
-          const SizedBox(height: 6),
-          Text(
-            AppLocalizations.of(context)!.iqamahDisclaimer,
-            style: TextStyle(
-              fontFamily: 'Tajawal',
-              fontSize: 10,
-              color: colors.onSurface.withValues(alpha: 0.4),
+      margin: EdgeInsets.symmetric(
+        horizontal: AppSpacing.horizontalPadding(context),
+        vertical: AppSpacing.cardSpacing(context),
+      ),
+
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _NextPrayerSection(
+              prayerTimes: widget.prayerTimes,
+              now: _now,
+              locating: widget.locating,
+              onLocationTap: widget.onLocationTap,
             ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+            const SizedBox(height: 12),
+            _PrayerScheduleBar(prayerTimes: widget.prayerTimes, now: _now),
+          ],
+        ),
       ),
     );
   }
@@ -243,22 +229,23 @@ class _PrayerEvent {
 class _NextPrayerSection extends StatelessWidget {
   final List<PrayerTimeModel> prayerTimes;
   final DateTime now;
+  final bool locating;
+  final VoidCallback? onLocationTap;
 
   const _NextPrayerSection({
     required this.prayerTimes,
     required this.now,
+    this.locating = false,
+    this.onLocationTap,
   });
 
   static const _accent = Color(0xFFFFD9A0);
 
   List<_PrayerEvent> get _todayEvents {
-    return prayerTimes
-        .where((p) => p.name != 'Sunrise')
-        .map((p) {
-          final gap = Duration(minutes: iqamahGapMinutes(p.name, p.time));
-          return _PrayerEvent(p, p.time, p.time.add(gap));
-        })
-        .toList();
+    return prayerTimes.where((p) => p.name != 'Sunrise').map((p) {
+      final gap = Duration(minutes: iqamahGapMinutes(p.name, p.time));
+      return _PrayerEvent(p, p.time, p.time.add(gap));
+    }).toList();
   }
 
   /// The next event whose iqamah is still ahead. When the day is over, rolls
@@ -307,15 +294,17 @@ class _NextPrayerSection extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF0B3B2E), Color(0xFF00674F), Color(0xFF008A6A)],
+          colors: Theme.of(context).brightness == Brightness.dark
+              ? [const Color(0xFF143D32), AppColors.primaryGreenDark, AppColors.primaryGreenLightDark]
+              : const [Color(0xFF0B3B2E), Color(0xFF00674F), Color(0xFF008A6A)],
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primaryGreen.withValues(alpha: 0.35),
+            color: AppColors.primaryGreenOf(context).withValues(alpha: 0.35),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -330,26 +319,33 @@ class _NextPrayerSection extends StatelessWidget {
               const Icon(Icons.alarm_rounded, size: 18, color: _accent),
               const SizedBox(width: 8),
               Expanded(
-                child: Text(
-                  _prayerName(l10n, next.prayer.name),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontFamily: 'Tajawal',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Text(
+                    _prayerName(l10n, next.prayer.name),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: 'Tajawal',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
-              Text(
-                _localizedTime(context, next.adhan),
-                style: const TextStyle(
-                  fontFamily: 'Tajawal',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+              GlassContainer(
+                borderRadius: 12,
+                blur: 8,
+                opacity: 0.12,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                child: _LocationGlassButton(
+                  locating: locating,
+                  onPressed: onLocationTap,
                 ),
               ),
             ],
@@ -357,20 +353,23 @@ class _NextPrayerSection extends StatelessWidget {
           const SizedBox(height: 16),
 
           // Center: large countdown + progress bar directly underneath.
-          AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: Text(
-              bigLabel,
-              key: ValueKey(inIqamahWindow),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Tajawal',
-                fontSize: 30,
-                fontWeight: FontWeight.w700,
-                height: 1.1,
-                color: inIqamahWindow ? _accent : Colors.white,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: Text(
+                bigLabel,
+                key: ValueKey(inIqamahWindow),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Tajawal',
+                  fontSize: 30,
+                  fontWeight: FontWeight.w700,
+                  height: 1.1,
+                  color: inIqamahWindow ? _accent : Colors.white,
+                ),
               ),
             ),
           ),
@@ -463,10 +462,7 @@ class _PrayerScheduleBar extends StatelessWidget {
   final List<PrayerTimeModel> prayerTimes;
   final DateTime now;
 
-  const _PrayerScheduleBar({
-    required this.prayerTimes,
-    required this.now,
-  });
+  const _PrayerScheduleBar({required this.prayerTimes, required this.now});
 
   @override
   Widget build(BuildContext context) {
@@ -527,34 +523,40 @@ class _ScheduleItem extends StatelessWidget {
             width: 16,
             height: 3,
             decoration: BoxDecoration(
-              color: AppColors.primaryGreen,
+              color: AppColors.primaryGreenOf(context),
               borderRadius: BorderRadius.circular(2),
             ),
           )
         else
           const SizedBox(height: 3),
         const SizedBox(height: 6),
-        Text(
-          name,
-          style: TextStyle(
-            fontFamily: 'Tajawal',
-            fontSize: 11,
-            fontWeight: active ? FontWeight.w700 : FontWeight.w500,
-            color: active
-                ? AppColors.primaryGreen
-                : colors.onSurface.withValues(alpha: 0.6),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            name,
+            style: TextStyle(
+              fontFamily: 'Tajawal',
+              fontSize: 11,
+              fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+              color: active
+                  ? AppColors.primaryGreenOf(context)
+                  : colors.onSurface.withValues(alpha: 0.75),
+            ),
           ),
         ),
         const SizedBox(height: 2),
-        Text(
-          time,
-          style: TextStyle(
-            fontFamily: 'Tajawal',
-            fontSize: 10.5,
-            fontWeight: active ? FontWeight.w700 : FontWeight.w500,
-            color: active
-                ? AppColors.primaryGreen
-                : colors.onSurface.withValues(alpha: 0.55),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            time,
+            style: TextStyle(
+              fontFamily: 'Tajawal',
+              fontSize: 10.5,
+              fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+              color: active
+                  ? AppColors.primaryGreenOf(context)
+                  : colors.onSurface.withValues(alpha: 0.7),
+            ),
           ),
         ),
       ],

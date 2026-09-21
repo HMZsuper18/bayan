@@ -199,7 +199,7 @@ class _MushafPageViewerState extends State<MushafPageViewer> {
           centerTitle: true,
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsetsDirectional.only(end: 8),
               child: GlassContainer(
                 borderRadius: 20,
                 blur: 6,

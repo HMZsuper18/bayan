@@ -49,12 +49,12 @@ class AboutPage extends StatelessWidget {
           title: Text(l10n.aboutApp),
         ),
         body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(flex: 2),
+                const SizedBox(height: 16),
                 Container(
                   width: 140,
                   height: 140,
@@ -109,45 +109,74 @@ class AboutPage extends StatelessWidget {
                   blur: 10,
                   opacity: 0.15,
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Column(
-                    children: [
-                      _AboutRow(
-                        icon: Icons.person_rounded,
-                        color: AppColors.primaryGreen,
-                        label: l10n.aboutDeveloper,
-                        value: _developer,
-                      ),
-                      _AboutRow(
-                        icon: Icons.mail_rounded,
-                        color: AppColors.primaryGreenLight,
-                        label: l10n.aboutEmail,
-                        value: _email,
-                        onTap: () => _launchUrl(context, 'mailto:$_email'),
-                      ),
-                      _AboutRow(
-                        icon: Icons.public_rounded,
-                        color: AppColors.primaryGreen,
-                        label: l10n.aboutPortfolio,
-                        value: _portfolioLabel,
-                        onTap: () => _launchUrl(
-                          context,
-                          'https://$_portfolioLabel/',
+                  child: Material(
+                    type: MaterialType.transparency,
+                    child: Column(
+                      children: [
+                        _AboutRow(
+                          icon: Icons.person_rounded,
+                          color: AppColors.primaryGreen,
+                          label: l10n.aboutDeveloper,
+                          value: _developer,
                         ),
-                      ),
-                      _AboutRow(
-                        icon: Icons.code_rounded,
-                        color: AppColors.primaryGreenLight,
-                        label: l10n.aboutRepository,
-                        value: _repositoryLabel,
-                        onTap: () => _launchUrl(
-                          context,
-                          'https://$_repositoryLabel',
+                        _AboutRow(
+                          icon: Icons.mail_rounded,
+                          color: AppColors.primaryGreenLight,
+                          label: l10n.aboutEmail,
+                          value: _email,
+                          onTap: () => _launchUrl(context, 'mailto:$_email'),
+                        ),
+                        _AboutRow(
+                          icon: Icons.public_rounded,
+                          color: AppColors.primaryGreen,
+                          label: l10n.aboutPortfolio,
+                          value: _portfolioLabel,
+                          onTap: () => _launchUrl(
+                            context,
+                            'https://$_portfolioLabel/',
+                          ),
+                        ),
+                        _AboutRow(
+                          icon: Icons.code_rounded,
+                          color: AppColors.primaryGreenLight,
+                          label: l10n.aboutRepository,
+                          value: _repositoryLabel,
+                          onTap: () => _launchUrl(
+                            context,
+                            'https://$_repositoryLabel',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                GlassContainer(
+                  borderRadius: 16,
+                  blur: 8,
+                  opacity: 0.1,
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      Icon(Icons.info_outline,
+                          color: AppColors.primaryGreen.withValues(alpha: 0.7),
+                          size: 20),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          l10n.iqamahTimesDescription,
+                          style: AppTextStyles.englishBody.copyWith(
+                            fontSize: 12,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withValues(alpha: 0.6),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                const Spacer(flex: 2),
               ],
             ),
           ),

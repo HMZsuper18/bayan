@@ -231,7 +231,7 @@ class _RecitersStorePageState extends State<RecitersStorePage> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final appBarColor = isDark
         ? const Color(0xFFE8E8E0)
-        : AppColors.primaryGreen;
+        : AppColors.primaryGreenOf(context);
     final allReciters = HiveService.getAllReciters();
     final categories = _orderedCategories(allReciters);
 
@@ -372,7 +372,7 @@ class _CategoryHeader extends StatelessWidget {
         Text(
           title,
           style: AppTextStyles.englishSubtitle.copyWith(
-            color: AppColors.primaryGreen,
+            color: AppColors.primaryGreenOf(context),
             fontWeight: FontWeight.w700,
             fontSize: 15,
           ),
@@ -381,7 +381,7 @@ class _CategoryHeader extends StatelessWidget {
         Divider(
           height: 1,
           thickness: 1,
-          color: AppColors.primaryGreen.withValues(alpha: 0.2),
+          color: AppColors.primaryGreenOf(context).withValues(alpha: 0.2),
         ),
       ],
     );
@@ -467,7 +467,7 @@ class _ReciterStoreItem extends StatelessWidget {
                   style: AppTextStyles.englishBody.copyWith(
                     fontSize: 8,
                     height: 1.1,
-                    color: AppColors.primaryGreen.withValues(alpha: 0.7),
+                    color: AppColors.primaryGreenOf(context).withValues(alpha: 0.7),
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

@@ -141,7 +141,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
             l10n.qiraat,
             style: AppTextStyles.arabicTitle.copyWith(
               fontSize: 14,
-              color: AppColors.primaryGreen,
+              color: AppColors.primaryGreenOf(context),
             ),
           ),
           const SizedBox(height: 8),
@@ -168,7 +168,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
             l10n.translation,
             style: AppTextStyles.arabicTitle.copyWith(
               fontSize: 14,
-              color: AppColors.primaryGreen,
+              color: AppColors.primaryGreenOf(context),
             ),
           ),
           const SizedBox(height: 8),
@@ -193,7 +193,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
             l10n.tafseer,
             style: AppTextStyles.arabicTitle.copyWith(
               fontSize: 14,
-              color: AppColors.primaryGreen,
+              color: AppColors.primaryGreenOf(context),
             ),
           ),
           const SizedBox(height: 8),
@@ -252,7 +252,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
                   ? Icons.bookmark_rounded
                   : Icons.bookmark_border_rounded,
               color: _isBookmarked
-                  ? AppColors.primaryGreen
+                  ? AppColors.primaryGreenOf(context)
                   : colors.onSurface.withValues(alpha: 0.5),
             ),
             tooltip: _isBookmarked ? l10n.removeBookmark : l10n.addBookmark,
@@ -322,7 +322,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: AppColors.primaryGreen, size: 24),
+            Icon(icon, color: AppColors.primaryGreenOf(context), size: 24),
             const SizedBox(height: 4),
             Text(
               label,
@@ -332,7 +332,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
               ),
             ),
           ],
@@ -355,7 +355,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
               l10n.selectReciter,
               style: AppTextStyles.arabicTitle.copyWith(
                 fontSize: 12,
-                color: AppColors.primaryGreen,
+                color: AppColors.primaryGreenOf(context),
               ),
             ),
             if (_downloadedReciters.isNotEmpty)
@@ -425,7 +425,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
           opacity: isCentered ? 0.15 : 0.08,
           border: Border.all(
             color: isCentered
-                ? AppColors.primaryGreen.withValues(alpha: 0.6)
+                ? AppColors.primaryGreenOf(context).withValues(alpha: 0.6)
                 : (Theme.of(context).brightness == Brightness.dark
                     ? Colors.white.withValues(alpha: 0.1)
                     : Colors.white.withValues(alpha: 0.3)),
@@ -446,12 +446,12 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
                           fit: BoxFit.cover,
                         )
                       : null,
-                  color: AppColors.primaryGreen.withValues(alpha: 0.2),
+                  color: AppColors.primaryGreenOf(context).withValues(alpha: 0.2),
                 ),
                 child: reciter.imageAsset.isEmpty
                     ? Icon(
                         Icons.person_rounded,
-                        color: AppColors.primaryGreen,
+                        color: AppColors.primaryGreenOf(context),
                         size: 20,
                       )
                     : null,
@@ -468,7 +468,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
                     fontWeight:
                         isCentered ? FontWeight.w600 : FontWeight.w400,
                     color: isCentered
-                        ? AppColors.primaryGreen
+                        ? AppColors.primaryGreenOf(context)
                         : colors.onSurface.withValues(alpha: 0.7),
                   ),
                 ),

@@ -5,6 +5,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/azkar_time_logic.dart';
 import '../../../../core/utils/quran_render_config.dart';
 import '../../../../core/utils/quran_text_normalizer.dart';
+import '../../../../core/utils/responsive_spacing.dart';
 import '../../../../core/widgets/glass_container.dart';
 import '../../../../data/database/settings_service.dart';
 import '../../../../data/models/prayer_time_model.dart';
@@ -76,7 +77,10 @@ class _AzkarWidgetState extends State<AzkarWidget> {
       builder: (context, _) {
         final type = _controller.type;
         return GlassCard(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          margin: EdgeInsets.symmetric(
+            horizontal: AppSpacing.horizontalPadding(context),
+            vertical: AppSpacing.cardSpacing(context),
+          ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: AnimatedSwitcher(
@@ -130,7 +134,7 @@ class _AzkarCardBody extends StatelessWidget {
       AzkarWidgetType.kahf => (
           Icons.menu_book_rounded,
           l10n.suratAlKahf,
-          AppColors.primaryGreenLight,
+          AppColors.primaryGreenLightOf(context),
         ),
       AzkarWidgetType.general => (
           Icons.spa_rounded,
@@ -156,13 +160,17 @@ class _AzkarCardBody extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextStyles.arabicTitle.copyWith(
-                  fontSize: 16,
-                  color: onSurface,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyles.arabicTitle.copyWith(
+                    fontSize: 16,
+                    color: onSurface,
+                  ),
                 ),
               ),
             ),

@@ -146,7 +146,7 @@ class _AzkarShareSheetState extends State<AzkarShareSheet> {
                 child: FilledButton.icon(
                   onPressed: _sharing ? null : _share,
                   style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primaryGreen,
+                    backgroundColor: AppColors.primaryGreenOf(context),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -221,14 +221,14 @@ class AzkarPoster extends StatelessWidget {
 
   static const double posterWidth = 360;
 
-  static Color accent(AzkarWidgetType type) {
+  static Color accent(AzkarWidgetType type, BuildContext context) {
     switch (type) {
       case AzkarWidgetType.morning:
         return const Color(0xFFF59E0B);
       case AzkarWidgetType.evening:
         return const Color(0xFF818CF8);
       case AzkarWidgetType.kahf:
-        return AppColors.primaryGreenLight;
+        return AppColors.primaryGreenLightOf(context);
       case AzkarWidgetType.general:
         return const Color(0xFF14B8A6);
     }
@@ -250,7 +250,7 @@ class AzkarPoster extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final accent = AzkarPoster.accent(type);
+    final accent = AzkarPoster.accent(type, context);
     final deepAccent = Color.lerp(accent, Colors.black, 0.4)!;
     final brightAccent = Color.lerp(accent, Colors.white, 0.15)!;
     final text = QuranTextNormalizer.preProcessForDisplay(item.text);

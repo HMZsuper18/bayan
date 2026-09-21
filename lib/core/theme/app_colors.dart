@@ -4,7 +4,21 @@ class AppColors {
   AppColors._();
 
   static const Color primaryGreen = Color(0xFF00674F);
+  static const Color primaryGreenDark = Color(0xFF239E7F);
   static const Color primaryGreenLight = Color(0xFF008A6A);
+  static const Color primaryGreenLightDark = Color(0xFF2BA482);
+
+  static Color primaryGreenOf(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? primaryGreenDark
+        : primaryGreen;
+  }
+
+  static Color primaryGreenLightOf(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? primaryGreenLightDark
+        : primaryGreenLight;
+  }
   static const Color creamWhite = Color(0xFFFDFBF7);
   static const Color warmWhite = Color(0xFFF5F0E8);
   static const Color darkBg = Color(0xFF061210);

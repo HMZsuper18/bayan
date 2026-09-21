@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="widget_description">عرض أوقات الصلاة</string>
+    <string name="share">مشاركة</string>
+    <string name="scan_page">مسح الصفحة</string>
+    <string name="ayah_widget_description">عرض آية اليوم</string>
+    <string name="dhikr_widget_description">عرض الأذكار</string>
+    <string name="ocr_widget_description">مسح الصفحة بالكاميرا</string>
+    <string name="recitations_widget_description">عرض القراءات</string>
 </resources>

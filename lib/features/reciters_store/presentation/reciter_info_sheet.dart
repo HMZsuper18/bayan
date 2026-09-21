@@ -281,7 +281,7 @@ class _InfoPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isDownloaded ? AppColors.primaryGreen : AppColors.textSecondary;
+    final color = isDownloaded ? AppColors.primaryGreenOf(context) : AppColors.textSecondary;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(

@@ -85,7 +85,7 @@ Future<int?> showVersePicker(BuildContext context, SurahModel surah) {
                                   Navigator.of(ctx).pop(verseNum);
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primaryGreen,
+                                  backgroundColor: AppColors.primaryGreenOf(context),
                                   foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                                   padding: EdgeInsets.zero,

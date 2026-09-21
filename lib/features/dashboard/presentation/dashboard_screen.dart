@@ -7,9 +7,11 @@ import '../../../data/models/search_result_model.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/utils/responsive_spacing.dart';
 import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/mini_player.dart';
 import '../../../data/database/settings_service.dart';
+import '../../../data/database/hive_service.dart';
 import '../../../data/models/prayer_time_model.dart';
 import '../../../data/models/reciter_model.dart';
 import '../../../data/repositories/quran_repository.dart';
@@ -17,19 +19,23 @@ import '../../../data/database/quran_index.dart';
 import '../../../data/models/surah_model.dart';
 import '../../quran_index/presentation/verse_picker_sheet.dart';
 import '../bloc/dashboard_bloc.dart';
-import 'widgets/ayah_of_week_card.dart';
-import 'widgets/azkar_widget.dart';
 import 'widgets/search_bar_widget.dart';
 import 'widgets/prayer_times_widget.dart';
 import 'widgets/primary_action_card.dart';
-import 'widgets/recitations_tray.dart';
 import 'widgets/active_downloads_card.dart';
+import 'widgets/ayah_of_week_card.dart';
+import 'widgets/azkar_widget.dart';
+import 'widgets/recitations_tray.dart';
 import '../../settings/presentation/settings_screen.dart';
 import '../../mushaf/presentation/mushaf_navigation.dart';
+import '../../mushaf/presentation/mushaf_scanner_screen.dart';
 import '../../reciters_store/presentation/reciters_store_page.dart';
 import '../../mushaf/presentation/widgets/bookmarks_sheet.dart';
+import '../../qiblah/presentation/qiblah_screen.dart';
 import '../../../services/reciter_store_service.dart';
 import '../../../services/audio_playback_service.dart';
+import '../../../services/dhikr_widget_service.dart';
+import '../../../services/ayah_widget_service.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -60,6 +66,8 @@ class _DashboardViewState extends State<DashboardView>
   final Set<String> _downloadingIds = {};
   final Map<String, double> _downloadProgress = {};
   Timer? _refreshTimer;
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
 
   @override
   void dispose() {
@@ -67,6 +75,7 @@ class _DashboardViewState extends State<DashboardView>
     _searchDebounce?.cancel();
     _downloadSub?.cancel();
     _refreshTimer?.cancel();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -83,8 +92,21 @@ class _DashboardViewState extends State<DashboardView>
       } catch (_) {
         launchData = null;
       }
-      if (launchData?.toString() == 'bayan://location' && mounted) {
+      if (!mounted) return;
+      final uri = launchData?.toString() ?? '';
+      if (uri == 'bayan://location') {
         _onLocationTap();
+      } else if (uri == 'bayan://scanner') {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const MushafScannerScreen()),
+        );
+      } else if (uri == 'bayan://share/dhikr') {
+        _shareDhikr();
+      } else if (uri == 'bayan://share/ayah') {
+        _shareAyah();
+      } else if (uri.startsWith('bayan://play/')) {
+        final reciterId = uri.replaceFirst('bayan://play/', '');
+        _playReciterById(reciterId);
       } else {
         _maybeAutoUpdateLocation();
       }
@@ -101,13 +123,11 @@ class _DashboardViewState extends State<DashboardView>
             _downloadingIds.remove(progress.reciterId);
             _downloadProgress.remove(progress.reciterId);
           });
-
-          // Delay refresh to ensure Hive is updated
           Future.delayed(const Duration(milliseconds: 800), () {
             if (mounted) {
-              context.read<DashboardBloc>().add(
-                const RefreshDownloadedReciters(),
-              );
+              context
+                  .read<DashboardBloc>()
+                  .add(const RefreshDownloadedReciters());
             }
           });
         } else {
@@ -117,83 +137,34 @@ class _DashboardViewState extends State<DashboardView>
           });
         }
       },
-      onError: (e) {
-        debugPrint('Download stream error: $e');
-        // Reset state on error
-        if (mounted) {
-          setState(() {
-            _downloadingIds.clear();
-            _downloadProgress.clear();
-          });
-        }
-      },
     );
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed && mounted) {
-      // Refresh downloads when returning to foreground
-      _syncActiveDownloads();
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (mounted) {
-          context.read<DashboardBloc>().add(const RefreshDownloadedReciters());
-        }
-      });
-      _maybeAutoUpdateLocation();
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Force refresh when this widget becomes visible
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && ModalRoute.of(context)?.isCurrent == true) {
-        _syncActiveDownloads();
-        context.read<DashboardBloc>().add(const RefreshDownloadedReciters());
-        _maybeAutoUpdateLocation();
-      }
-    });
-  }
-
   void _syncActiveDownloads() {
-    try {
-      final active = ReciterStoreService.instance.activeDownloads;
-      setState(() {
-        _downloadingIds.clear();
-        _downloadProgress.clear();
-        for (final id in active) {
-          _downloadingIds.add(id);
-          _downloadProgress[id] = ReciterStoreService.instance
-              .getDownloadProgress(id);
-        }
-      });
-    } catch (e) {
-      debugPrint('Error syncing active downloads: $e');
+    final activeIds = ReciterStoreService.instance.activeDownloads;
+    for (final id in activeIds) {
+      _downloadingIds.add(id);
     }
   }
 
-  /// The location refresh window (3 days).
-  static const Duration _locationRefreshInterval = Duration(days: 3);
+  bool get _isLocationRefreshDue {
+    final last = SettingsService.lastLocationAttempt;
+    if (last == null) return true;
+    return DateTime.now().difference(last).inMinutes > 30;
+  }
 
   bool _autoUpdatingLocation = false;
 
-  /// Whether a GPS refresh is due: never updated before (fresh install or
-  /// cleared data) and never asked, or last fix older than
-  /// [_locationRefreshInterval].
-  bool get _isLocationRefreshDue {
-    final last = SettingsService.lastLocationUpdate;
-    if (last != null) {
-      return DateTime.now().difference(last) >= _locationRefreshInterval;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _refreshTimer?.cancel();
+      _refreshTimer = Timer(const Duration(seconds: 2), () {
+        if (mounted) _maybeAutoUpdateLocation();
+      });
     }
-    // Fresh install / cleared data: refresh once (the auto path may prompt),
-    // but never again if the user already declined, to avoid nagging.
-    return SettingsService.lastLocationAttempt == null;
   }
 
-  /// Auto-refreshes the location when due. The very first open prompts for
-  /// permission; regular 3-day refreshes are silent.
   Future<bool> _maybeAutoUpdateLocation() async {
     if (_autoUpdatingLocation) return false;
     if (!_isLocationRefreshDue || !mounted) return false;
@@ -212,9 +183,6 @@ class _DashboardViewState extends State<DashboardView>
     if (mounted) setState(() => _locating = false);
   }
 
-  /// Resolves a fresh GPS position, persists it, and refreshes the prayer
-  /// times. In [quiet] mode (automatic refresh) a denied permission does not
-  /// prompt the user and simply reports that no update happened.
   Future<bool> _updateLocation({bool quiet = false}) async {
     SettingsService.lastLocationAttempt = DateTime.now();
     try {
@@ -270,14 +238,8 @@ class _DashboardViewState extends State<DashboardView>
     ).push(MaterialPageRoute(builder: (_) => const RecitersStorePage()));
 
     if (!mounted) return;
-
-    // Multiple refresh attempts to ensure state syncs
     _syncActiveDownloads();
-
-    // First refresh immediately
     context.read<DashboardBloc>().add(const RefreshDownloadedReciters());
-
-    // Second refresh after delay to catch Hive updates
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
         context.read<DashboardBloc>().add(const RefreshDownloadedReciters());
@@ -296,220 +258,406 @@ class _DashboardViewState extends State<DashboardView>
     }
   }
 
+  Future<void> _shareDhikr() async {
+    await AyahWidgetService.update();
+  }
+
+  Future<void> _shareAyah() async {
+    await DhikrWidgetService.update();
+  }
+
+  void _playReciterById(String reciterId) {
+    try {
+      final allReciters = HiveService.getAllReciters();
+      for (final r in allReciters) {
+        if (r.id == reciterId) {
+          _onReciterTap(r);
+          return;
+        }
+      }
+    } catch (_) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return GlassBackground(
       child: Scaffold(
         body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GlassContainer(
-                        borderRadius: 20,
-                        blur: 6,
-                        opacity: 0.08,
-                        padding: EdgeInsets.zero,
-                        width: 40,
-                        height: 40,
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: const Icon(Icons.settings_rounded),
-                          onPressed: () {
-                            final bloc = context.read<DashboardBloc>();
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => const SettingsScreen(),
-                              ),
-                            ).then((_) {
-                              if (mounted) {
-                                bloc.add(const LoadDashboard());
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                      Text(
-                        l10n.appTitle,
-                        style: AppTextStyles.arabicTitle.copyWith(
-                          color: AppColors.primaryGreen,
-                        ),
-                      ),
-                      GlassContainer(
-                        borderRadius: 20,
-                        blur: 6,
-                        opacity: 0.08,
-                        padding: EdgeInsets.zero,
-                        width: 40,
-                        height: 40,
-                        child: IconButton(
-                          padding: EdgeInsets.zero,
-                          icon: const Icon(Icons.bookmark_border_rounded),
-                          onPressed: () => showBookmarksSheet(context),
-                        ),
-                      ),
-                    ],
-                  ),
+          child: Stack(
+            children: [
+              PageView(
+                controller: _pageController,
+                reverse: true,
+                onPageChanged: (page) => setState(() => _currentPage = page),
+                children: [
+                  _buildMainPage(l10n),
+                  _buildSecondaryPage(l10n),
+                ],
+              ),
+              // Swipe hint arrow
+              if (_currentPage == 0)
+                PositionedDirectional(
+                  start: 12,
+                  bottom: 100,
+                  child: _SwipeHintArrow(),
                 ),
-              ),
-              SliverToBoxAdapter(
-                child: BlocBuilder<DashboardBloc, DashboardState>(
-                  builder: (context, state) {
-                    return SearchBarWidget(
-                      onSearch: (query) {
-                        context.read<DashboardBloc>().add(
-                          SearchDashboard(query),
-                        );
-                      },
-                      onClear: () {
-                        context.read<DashboardBloc>().add(
-                          const LoadDashboard(),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-              BlocSelector<DashboardBloc, DashboardState, SearchResultModel>(
-                selector: (s) => s.searchResult,
-                builder: (context, searchResults) {
-                  if (searchResults.isEmpty) {
-                    return const SliverToBoxAdapter(child: SizedBox.shrink());
-                  }
-
-                  final l10n = AppLocalizations.of(context)!;
-                  final isRtl = Directionality.of(context) == TextDirection.rtl;
-                  final tiles = <Widget>[];
-
-                  // Surahs
-                  for (final s in searchResults.surahs) {
-                    final revelationLabel = s.revelationType == 'Makkah'
-                        ? l10n.makkah
-                        : l10n.madinah;
-                    final name = isRtl ? s.name : s.englishName;
-                    tiles.add(
-                      GestureDetector(
-                        onLongPress: () => _onSurahLongPress(context, s),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.book_outlined,
-                            color: AppColors.primaryGreen,
-                          ),
-                          title: Directionality(
-                            textDirection: isRtl
-                                ? TextDirection.rtl
-                                : TextDirection.ltr,
-                            child: Text(
-                              '${l10n.surah} $name (${s.id})',
-                              style: TextStyle(
-                                fontFamily: 'Tajawal',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                            ),
-                          ),
-                          subtitle: Directionality(
-                            textDirection: isRtl
-                                ? TextDirection.rtl
-                                : TextDirection.ltr,
-                            child: Text(
-                              '$name ($revelationLabel) • ${s.versesCount} ${l10n.verses} • ${l10n.page} ${QuranIndexService.instance.getSurahPage(s.id)}',
-                              style: TextStyle(
-                                fontFamily: 'Tajawal',
-                                fontSize: 12,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.6),
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            MushafNavigation.open(
-                              context,
-                              MushafNavigation.forSurah(s.id),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  }
-
-                  return SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: GlassCard(
-                        padding: EdgeInsets.zero,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: tiles,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              SliverToBoxAdapter(
-                child:
-                    BlocSelector<
-                      DashboardBloc,
-                      DashboardState,
-                      List<PrayerTimeModel>
-                    >(
-                      selector: (s) => s.prayerTimes,
-                      builder: (context, prayerTimes) => PrayerTimesWidget(
-                        prayerTimes: prayerTimes,
-                        locating: _locating,
-                        onLocationTap: _onLocationTap,
-                      ),
-                    ),
-              ),
-              const SliverToBoxAdapter(child: PrimaryActionCard()),
-              SliverToBoxAdapter(
-                child:
-                    BlocSelector<
-                      DashboardBloc,
-                      DashboardState,
-                      List<PrayerTimeModel>
-                    >(
-                      selector: (s) => s.prayerTimes,
-                      builder: (context, prayerTimes) => AyahOfWeekCard(
-                        footer: AzkarWidget(
-                          prayerTimes: prayerTimes,
-                          embedded: true,
-                        ),
-                      ),
-                    ),
-              ),
-              const SliverToBoxAdapter(child: ActiveDownloadsCard()),
-              SliverToBoxAdapter(
-                child:
-                    BlocSelector<
-                      DashboardBloc,
-                      DashboardState,
-                      List<ReciterModel>
-                    >(
-                      selector: (s) => s.reciters,
-                      builder: (context, reciters) => RecitationsTray(
-                        reciters: reciters,
-                        downloadingIds: _downloadingIds,
-                        downloadProgress: _downloadProgress,
-                        onAddReciter: _openRecitersStore,
-                        onReciterTap: _onReciterTap,
-                      ),
-                    ),
-              ),
-              const SliverToBoxAdapter(child: SizedBox(height: 24)),
             ],
           ),
         ),
+        floatingActionButton: _buildQiblahFab(),
         bottomNavigationBar: const MiniPlayer(),
       ),
+    );
+  }
+
+  Widget _buildMainPage(AppLocalizations l10n) {
+    return CustomScrollView(
+      slivers: [
+        // Header
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+              AppSpacing.horizontalPadding(context),
+              12,
+              AppSpacing.horizontalPadding(context),
+              4,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GlassContainer(
+                  borderRadius: 20,
+                  blur: 6,
+                  opacity: 0.08,
+                  padding: EdgeInsets.zero,
+                  width: 40,
+                  height: 40,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: const Icon(Icons.settings_rounded),
+                    tooltip: l10n.settings,
+                    onPressed: () {
+                      final bloc = context.read<DashboardBloc>();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const SettingsScreen(),
+                        ),
+                      ).then((_) {
+                        if (mounted) {
+                          bloc.add(const LoadDashboard());
+                        }
+                      });
+                    },
+                  ),
+                ),
+                Text(
+                  l10n.appTitle,
+                  style: AppTextStyles.arabicTitle.copyWith(
+                    color: AppColors.primaryGreenOf(context),
+                  ),
+                  maxLines: 1,
+                ),
+                GlassContainer(
+                  borderRadius: 20,
+                  blur: 6,
+                  opacity: 0.08,
+                  padding: EdgeInsets.zero,
+                  width: 40,
+                  height: 40,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: const Icon(Icons.bookmark_border_rounded),
+                    tooltip: l10n.bookmarks,
+                    onPressed: () => showBookmarksSheet(context),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        // Search bar with hijri calendar icon
+        SliverToBoxAdapter(
+          child: BlocBuilder<DashboardBloc, DashboardState>(
+            builder: (context, state) {
+              return SearchBarWidget(
+                onSearch: (query) {
+                  context.read<DashboardBloc>().add(
+                    SearchDashboard(query),
+                  );
+                },
+                onClear: () {
+                  context.read<DashboardBloc>().add(
+                    const LoadDashboard(),
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        // Search results
+        BlocSelector<DashboardBloc, DashboardState, SearchResultModel>(
+          selector: (s) => s.searchResult,
+          builder: (context, searchResults) {
+            if (searchResults.isEmpty) {
+              return const SliverToBoxAdapter(child: SizedBox.shrink());
+            }
+
+            final isRtl = Directionality.of(context) == TextDirection.rtl;
+            final tiles = <Widget>[];
+
+            for (final s in searchResults.surahs) {
+              final revelationLabel = s.revelationType == 'Makkah'
+                  ? l10n.makkah
+                  : l10n.madinah;
+              final name = isRtl ? s.name : s.englishName;
+              tiles.add(
+                GestureDetector(
+                  onLongPress: () => _onSurahLongPress(context, s),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.book_outlined,
+                      color: AppColors.primaryGreenOf(context),
+                    ),
+                    title: Directionality(
+                      textDirection: isRtl
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
+                      child: Text(
+                        '${l10n.surah} $name (${s.id})',
+                        style: TextStyle(
+                          fontFamily: 'Tajawal',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                    subtitle: Directionality(
+                      textDirection: isRtl
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
+                      child: Text(
+                        '$name ($revelationLabel) • ${s.versesCount} ${l10n.verses} • ${l10n.page} ${QuranIndexService.instance.getSurahPage(s.id)}',
+                        style: TextStyle(
+                          fontFamily: 'Tajawal',
+                          fontSize: 12,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      MushafNavigation.open(
+                        context,
+                        MushafNavigation.forSurah(s.id),
+                      );
+                    },
+                  ),
+                ),
+              );
+            }
+
+            return SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSpacing.horizontalPadding(context),
+                ),
+                child: GlassCard(
+                  padding: EdgeInsets.zero,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: tiles,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        // Prayer times
+        SliverToBoxAdapter(
+          child: BlocSelector<DashboardBloc, DashboardState, List<PrayerTimeModel>>(
+            selector: (s) => s.prayerTimes,
+            builder: (context, prayerTimes) => PrayerTimesWidget(
+              prayerTimes: prayerTimes,
+              locating: _locating,
+              onLocationTap: _onLocationTap,
+            ),
+          ),
+        ),
+        // Quick action row: Hijri calendar + Mushaf card
+        const SliverToBoxAdapter(child: PrimaryActionCard()),
+        const SliverToBoxAdapter(child: SizedBox(height: 24)),
+      ],
+    );
+  }
+
+  Widget _buildSecondaryPage(AppLocalizations l10n) {
+    return CustomScrollView(
+      slivers: [
+        const SliverToBoxAdapter(child: SizedBox(height: 8)),
+        // Ayah of the week + Azkar
+        SliverToBoxAdapter(
+          child: BlocSelector<DashboardBloc, DashboardState, List<PrayerTimeModel>>(
+            selector: (s) => s.prayerTimes,
+            builder: (context, prayerTimes) => _buildAyahAzkarCard(context, prayerTimes),
+          ),
+        ),
+        const SliverToBoxAdapter(child: ActiveDownloadsCard()),
+        // Recitations tray
+        SliverToBoxAdapter(
+          child: BlocSelector<DashboardBloc, DashboardState, List<ReciterModel>>(
+            selector: (s) => s.reciters,
+            builder: (context, reciters) => _buildRecitationsTray(context, reciters),
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 100)),
+      ],
+    );
+  }
+
+  Widget _buildAyahAzkarCard(BuildContext context, List<PrayerTimeModel> prayerTimes) {
+    // Lazy import to avoid circular deps
+    try {
+      return _AyahAzkarSection(
+        prayerTimes: prayerTimes,
+      );
+    } catch (_) {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget _buildRecitationsTray(BuildContext context, List<ReciterModel> reciters) {
+    try {
+      return _RecitationsTraySection(
+        reciters: reciters,
+        downloadingIds: _downloadingIds,
+        downloadProgress: _downloadProgress,
+        onAddReciter: _openRecitersStore,
+        onReciterTap: _onReciterTap,
+      );
+    } catch (_) {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget? _buildQiblahFab() {
+    final accent = AppColors.primaryGreenOf(context);
+    return FloatingActionButton(
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const QiblahScreen()),
+        );
+      },
+      tooltip: AppLocalizations.of(context)!.qiblah,
+      backgroundColor: accent,
+      heroTag: 'qiblah_fab',
+      child: const Icon(Icons.explore_rounded, color: Colors.white),
+    );
+  }
+}
+
+class _SwipeHintArrow extends StatefulWidget {
+  @override
+  State<_SwipeHintArrow> createState() => _SwipeHintArrowState();
+}
+
+class _SwipeHintArrowState extends State<_SwipeHintArrow>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+    _animation = Tween<double>(begin: 0, end: 12).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isDark
+        ? Colors.white.withValues(alpha: 0.3)
+        : AppColors.primaryGreenOf(context).withValues(alpha: 0.3);
+
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        final offset = isRtl ? _animation.value : -_animation.value;
+        return Transform.translate(
+          offset: Offset(offset, 0),
+          child: child,
+        );
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(isRtl ? Icons.chevron_right_rounded : Icons.chevron_left_rounded, color: color, size: 28),
+          Icon(isRtl ? Icons.chevron_right_rounded : Icons.chevron_left_rounded, color: color, size: 28),
+        ],
+      ),
+    );
+  }
+}
+
+/// Lazy-loaded ayah/azkar section for the secondary page
+class _AyahAzkarSection extends StatelessWidget {
+  final List<PrayerTimeModel> prayerTimes;
+  const _AyahAzkarSection({required this.prayerTimes});
+
+  @override
+  Widget build(BuildContext context) {
+    // Import at file level via the dashboard_screen imports
+    final ayahCard = AyahOfWeekCard(
+      footer: AzkarWidget(
+        prayerTimes: prayerTimes,
+        embedded: true,
+      ),
+    );
+    return ayahCard;
+  }
+}
+
+/// Lazy-loaded recitations tray for the secondary page
+class _RecitationsTraySection extends StatelessWidget {
+  final List<ReciterModel> reciters;
+  final Set<String> downloadingIds;
+  final Map<String, double> downloadProgress;
+  final VoidCallback onAddReciter;
+  final ValueChanged<ReciterModel> onReciterTap;
+
+  const _RecitationsTraySection({
+    required this.reciters,
+    required this.downloadingIds,
+    required this.downloadProgress,
+    required this.onAddReciter,
+    required this.onReciterTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RecitationsTray(
+      reciters: reciters,
+      downloadingIds: downloadingIds,
+      downloadProgress: downloadProgress,
+      onAddReciter: onAddReciter,
+      onReciterTap: onReciterTap,
     );
   }
 }

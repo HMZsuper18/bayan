@@ -5,6 +5,7 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/glass_container.dart';
 import '../../../mushaf/presentation/mushaf_scanner_screen.dart';
 import '../../../quran_index/presentation/quran_index_screen.dart';
+import '../hijri_calendar_screen.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final ValueChanged<String>? onSearchChanged;
@@ -29,16 +30,14 @@ class SearchBarWidget extends StatelessWidget {
         blur: 8,
         opacity: isDark ? 0.2 : 0.1,
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Row(
+        child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               IconButton(
                 padding: EdgeInsets.zero,
                 iconSize: 22,
                 constraints: const BoxConstraints.tightFor(width: 40, height: 40),
-                icon: const Icon(Icons.book, color: AppColors.primaryGreen),
+                icon: Icon(Icons.book, color: AppColors.primaryGreenOf(context)),
                 tooltip: AppLocalizations.of(context)!.indexTitle,
                 onPressed: () {
                   Navigator.of(context).push(
@@ -53,14 +52,26 @@ class SearchBarWidget extends StatelessWidget {
                 icon: Badge(
                   label: Text(AppLocalizations.of(context)!.betaLabel, style: const TextStyle(fontSize: 9, color: Colors.white)),
                   smallSize: 18,
-                  alignment: Alignment.bottomRight,
-                  backgroundColor: AppColors.primaryGreen,
+                  alignment: AlignmentDirectional.bottomEnd,
+                  backgroundColor: AppColors.primaryGreenOf(context),
                   textStyle: TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.bold),
-                  child: const Icon(Icons.document_scanner, color: AppColors.primaryGreen),
+                  child: Icon(Icons.document_scanner, color: AppColors.primaryGreenOf(context)),
                 ),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const MushafScannerScreen()),
+                  );
+                },
+              ),
+              IconButton(
+                padding: EdgeInsets.zero,
+                iconSize: 22,
+                constraints: const BoxConstraints.tightFor(width: 40, height: 40),
+                icon: Icon(Icons.calendar_month_rounded, color: AppColors.primaryGreenOf(context)),
+                tooltip: AppLocalizations.of(context)!.hijriCalendar,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const HijriCalendarScreen()),
                   );
                 },
               ),
@@ -96,13 +107,12 @@ class SearchBarWidget extends StatelessWidget {
                   child: Icon(
                     Icons.search,
                     size: 22,
-                    color: AppColors.primaryGreen,
+                    color: AppColors.primaryGreenOf(context),
                   ),
                 ),
               ),
               const SizedBox(width: 8),
             ],
-          ),
         ),
       ),
     );
