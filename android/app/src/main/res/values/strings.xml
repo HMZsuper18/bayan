@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="widget_description">عرض أوقات الصلاة</string>
-    <string name="share">مشاركة</string>
-    <string name="scan_page">مسح الصفحة</string>
-    <string name="ayah_widget_description">عرض آية اليوم</string>
-    <string name="dhikr_widget_description">عرض الأذكار</string>
-    <string name="ocr_widget_description">مسح الصفحة بالكاميرا</string>
-    <string name="recitations_widget_description">عرض القراءات</string>
+    <string name="widget_description" translatable="false">عرض أوقات الصلاة</string>
+    <string name="share" translatable="false">مشاركة</string>
+    <string name="scan_page" translatable="false">مسح الصفحة</string>
+    <string name="ayah_widget_description" translatable="false">عرض آية اليوم</string>
+    <string name="dhikr_widget_description" translatable="false">عرض الأذكار</string>
+    <string name="ocr_widget_description" translatable="false">مسح الصفحة بالكاميرا</string>
+    <string name="recitations_widget_description" translatable="false">عرض القراءات</string>
+    <string name="recitations_widget_title" translatable="false">القراء</string>
+    <string name="recitations_play" translatable="false">تشغيل</string>
+
+    <!-- Prayer times widget (default Arabic; values-en / values-ur / values-ar override) -->
+    <string name="prayer_widget_title">مواقيت الصلاة</string>
+    <string name="prayer_label_fajr">الفجر</string>
+    <string name="prayer_label_dhuhr">الظهر</string>
+    <string name="prayer_label_asr">العصر</string>
+    <string name="prayer_label_maghrib">المغرب</string>
+    <string name="prayer_label_isha">العشاء</string>
+    <string name="prayer_update_location">تحديث الموقع</string>
 </resources>

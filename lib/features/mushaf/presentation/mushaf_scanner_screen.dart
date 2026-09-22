@@ -56,7 +56,11 @@ class _MushafScannerScreenState extends State<MushafScannerScreen> {
         if (mounted) setState(() => _cameraError = AppLocalizations.of(context)!.noCamera);
         return;
       }
-      final controller = CameraController(cameras[0], ResolutionPreset.medium);
+      final controller = CameraController(
+        cameras[0],
+        ResolutionPreset.medium,
+        enableAudio: false,
+      );
       await controller.initialize();
       if (mounted) setState(() => _cameraController = controller);
     } on CameraException catch (e) {

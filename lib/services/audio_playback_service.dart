@@ -9,6 +9,7 @@ import 'package:hive/hive.dart';
 import '../data/models/reciter_model.dart';
 import '../data/database/hive_service.dart';
 import 'reciter_store_service.dart';
+import 'recitations_widget_service.dart';
 
 enum PlaybackMode { singleVerse, fromVerseToEnd, fullSurah }
 
@@ -503,6 +504,8 @@ class AudioPlaybackService {
       final box = Hive.box<String>('settings');
       box.put(_lastReciterKey, reciterId);
     } catch (_) {}
+    RecitationsWidgetService.recordListen(reciterId);
+    RecitationsWidgetService.update();
   }
 
   ReciterModel? getLastReciter() {

@@ -1,27 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ocr_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="14dp"
-    android:background="@drawable/widget_bg"
-    android:gravity="center">
+    android:padding="10dp"
+    android:background="@drawable/widget_bg">
 
     <ImageView
         android:id="@+id/ocr_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@android:drawable/ic_menu_camera"
-        android:contentDescription="@null" />
-
-    <TextView
-        android:id="@+id/widget_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/scan_page"
-        android:textSize="14sp"
-        android:textColor="@color/widget_title"
-        android:fontFamily="@font/tajawal_bold"
-        android:gravity="center"
-        android:layout_marginTop="8dp" />
-</LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_camera"
+        android:scaleType="centerInside"
+        android:tint="@color/widget_title"
+        android:contentDescription="@string/scan_page" />
+</FrameLayout>

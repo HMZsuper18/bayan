@@ -77,7 +77,7 @@ int iqamahGapMinutes(String prayerName, DateTime prayerTime) {
 /// 12-hour clock time with a localized AM/PM marker (م / ص in Arabic).
 String _localizedTime(BuildContext context, DateTime t) {
   final lang = Localizations.localeOf(context).languageCode;
-  final hour = t.hour > 12 ? t.hour - 12 : t.hour;
+  final hour = t.hour % 12 == 0 ? 12 : t.hour % 12;
   final minute = t.minute.toString().padLeft(2, '0');
   final isPm = t.hour >= 12;
   final period = lang == 'ar'
@@ -129,7 +129,7 @@ class _LocationGlassButton extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: CircularProgressIndicator(
                 strokeWidth: 2.4,
-                color: AppColors.primaryGreenOf(context),
+                color: Colors.white,
               ),
             )
           : IconButton(
@@ -137,7 +137,7 @@ class _LocationGlassButton extends StatelessWidget {
               iconSize: 20,
               icon: Icon(
                 Icons.my_location,
-                color: AppColors.primaryGreenOf(context),
+                color: Colors.white,
               ),
               onPressed: onPressed,
             ),

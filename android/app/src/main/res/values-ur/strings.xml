@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_description">نماز کے اوقات دکھائیں</string>
+    <string name="share">شیئر کریں</string>
+    <string name="scan_page">صفحہ اسکین کریں</string>
+    <string name="ayah_widget_description">آج کی آیت دکھائیں</string>
+    <string name="dhikr_widget_description">اذکار دکھائیں</string>
+    <string name="ocr_widget_description">کیمرے سے صفحہ اسکین کریں</string>
+    <string name="recitations_widget_description">تلاوتیں دکھائیں</string>
+    <string name="recitations_widget_title">قاری</string>
+    <string name="recitations_play">چلائیں</string>
+
+    <string name="prayer_widget_title">نماز کے اوقات</string>
+    <string name="prayer_label_fajr">فجر</string>
+    <string name="prayer_label_dhuhr">ظہر</string>
+    <string name="prayer_label_asr">عصر</string>
+    <string name="prayer_label_maghrib">مغرب</string>
+    <string name="prayer_label_isha">عشاء</string>
+    <string name="prayer_update_location">مقام کی تجدید</string>
+</resources>

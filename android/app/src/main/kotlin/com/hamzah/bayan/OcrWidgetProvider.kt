@@ -5,9 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
@@ -40,16 +38,6 @@ class OcrWidgetProvider : AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.ocr_widget)
 
-        val isDark = isDarkMode(context)
-        val iconColor = if (isDark) 0xFF4CAF9F.toInt() else 0xFF00674F.toInt()
-
-        if (Build.VERSION.SDK_INT >= 29) {
-            views.setColorStateList(
-                R.id.ocr_icon, "setImageTintList",
-                ColorStateList.valueOf(iconColor)
-            )
-        }
-
         val scannerIntent = Intent(context, MainActivity::class.java).apply {
             action = HomeWidgetLaunchIntent.HOME_WIDGET_LAUNCH_ACTION
             data = Uri.parse("bayan://scanner")
@@ -58,15 +46,9 @@ class OcrWidgetProvider : AppWidgetProvider() {
             context, 6, scannerIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+        views.setOnClickPendingIntent(R.id.ocr_root, scannerPendingIntent)
         views.setOnClickPendingIntent(R.id.ocr_icon, scannerPendingIntent)
-        views.setOnClickPendingIntent(R.id.widget_title, scannerPendingIntent)
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
-    }
-
-    private fun isDarkMode(context: Context): Boolean {
-        val mode = context.resources.configuration.uiMode and
-                android.content.res.Configuration.UI_MODE_NIGHT_MASK
-        return mode == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 }

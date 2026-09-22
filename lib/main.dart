@@ -6,6 +6,10 @@ import 'data/database/settings_service.dart';
 import 'services/default_reciter_service.dart';
 import 'services/adhan_notification_service.dart';
 import 'services/app_icon_service.dart';
+import 'services/ayah_widget_service.dart';
+import 'services/dhikr_widget_service.dart';
+import 'services/prayer_times_widget_service.dart';
+import 'services/recitations_widget_service.dart';
 import 'app.dart';
 
 void main() async {
@@ -27,6 +31,12 @@ void main() async {
 
   // Reschedule adhan notifications on startup (recovers after reboot)
   AdhanNotificationService.instance.rescheduleFromSettings();
+
+  // Push initial content to home screen widgets
+  AyahWidgetService.update();
+  DhikrWidgetService.update();
+  PrayerTimesWidgetService.update([]);
+  RecitationsWidgetService.update();
 
   runApp(const App());
 }

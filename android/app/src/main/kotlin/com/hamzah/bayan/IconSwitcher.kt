@@ -24,19 +24,30 @@ object IconSwitcher {
     private fun applyEnabledState(context: Context, target: String) {
         val pm = context.packageManager
         val targetAlias = aliases.find { it.first == target }?.second ?: return
+        val targetComponent = ComponentName(context, "com.hamzah.bayan.$targetAlias")
+
+        // Check if target is already enabled — skip if so to avoid launcher disruption
+        val currentState = pm.getComponentEnabledSetting(targetComponent)
+        if (currentState == PackageManager.COMPONENT_ENABLED_STATE_ENABLED) {
+            prefs(context).edit().putString(KEY_VARIANT, target).apply()
+            return
+        }
 
         // Disable ALL aliases first
         for ((_, aliasName) in aliases) {
-            pm.setComponentEnabledSetting(
-                ComponentName(context, "com.hamzah.bayan.$aliasName"),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP
-            )
+            val comp = ComponentName(context, "com.hamzah.bayan.$aliasName")
+            if (pm.getComponentEnabledSetting(comp) != PackageManager.COMPONENT_ENABLED_STATE_DISABLED) {
+                pm.setComponentEnabledSetting(
+                    comp,
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
+            }
         }
 
         // Enable only the target
         pm.setComponentEnabledSetting(
-            ComponentName(context, "com.hamzah.bayan.$targetAlias"),
+            targetComponent,
             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
             PackageManager.DONT_KILL_APP
         )

@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="الذكر"
+            android:text="الأذكار"
             android:textSize="12sp"
             android:textColor="@color/widget_title"
             android:fontFamily="@font/tajawal_bold"
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="اختر ذكراً"
+        android:text="بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"
         android:textSize="12sp"
         android:textColor="@color/chip_text"
         android:fontFamily="@font/tajawal_medium"
@@ -62,20 +62,16 @@
         android:paddingRight="8dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="العدد: "
-            android:textSize="10sp"
-            android:textColor="@color/chip_text"
-            android:fontFamily="@font/tajawal_medium" />
-
-        <TextView
             android:id="@+id/dhikr_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="33"
-            android:textSize="10sp"
+            android:text=""
+            android:textSize="9sp"
             android:textColor="@color/chip_text"
-            android:fontFamily="@font/tajawal_bold" />
+            android:fontFamily="@font/tajawal_medium"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="9sp"
+            android:autoSizeStepGranularity="0.5sp" />
     </LinearLayout>
 </LinearLayout>

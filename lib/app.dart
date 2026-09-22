@@ -8,6 +8,7 @@ import 'data/database/seed_data.dart';
 import 'data/database/settings_service.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
 import 'services/prayer_times_widget_service.dart';
+import 'services/recitations_widget_service.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -34,7 +35,10 @@ class AppState extends State<App> {
     GlassConfig.enableBlur = true;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await SeedData.seedAll();
-      if (mounted) PrayerTimesWidgetService.refresh();
+      if (mounted) {
+        PrayerTimesWidgetService.refresh();
+        RecitationsWidgetService.refresh();
+      }
     });
   }
 
@@ -44,6 +48,7 @@ class AppState extends State<App> {
       SettingsService.isDarkMode = _isDark;
     });
     PrayerTimesWidgetService.refresh();
+    RecitationsWidgetService.refresh();
   }
 
   void rebuild() {
@@ -52,6 +57,8 @@ class AppState extends State<App> {
       _isDark = SettingsService.isDarkMode;
       _locale = _localeFromCode(SettingsService.uiLanguage);
     });
+    PrayerTimesWidgetService.refresh();
+    RecitationsWidgetService.refresh();
   }
 
   Locale _localeFromCode(String code) {

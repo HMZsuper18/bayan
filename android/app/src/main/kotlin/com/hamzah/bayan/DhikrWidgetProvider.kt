@@ -50,11 +50,11 @@ class DhikrWidgetProvider : AppWidgetProvider() {
 
         val views = RemoteViews(context.packageName, layoutId)
 
-        val dhikrText = prefs.getString("dhikr_text", null) ?: "سبحان الله وبحمده"
-        val dhikrCount = prefs.getString("dhikr_count", null) ?: "33"
+        val dhikrText = prefs.getString("dhikr_text", null) ?: "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"
+        val dhikrReference = prefs.getString("dhikr_reference", null) ?: ""
 
         views.setTextViewText(R.id.dhikr_text, dhikrText)
-        views.setTextViewText(R.id.dhikr_count, dhikrCount)
+        views.setTextViewText(R.id.dhikr_count, dhikrReference)
 
         val shareIntent = Intent(context, MainActivity::class.java).apply {
             action = HomeWidgetLaunchIntent.HOME_WIDGET_LAUNCH_ACTION

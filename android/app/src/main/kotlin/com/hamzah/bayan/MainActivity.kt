@@ -1,5 +1,8 @@
 package com.hamzah.bayan
 
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -8,8 +11,42 @@ class MainActivity : FlutterActivity() {
     private val DOWNLOAD_CHANNEL = "com.hamzah.bayan/download_manager"
     private val NOTIFICATION_CHANNEL = "com.hamzah.bayan/adhan_notifications"
     private val ICON_CHANNEL = "com.hamzah.bayan/app_icon"
+    private val APP_CHANNEL = "com.hamzah.bayan/app"
     private var bridge: DownloadManagerBridge? = null
     private var notifBridge: AdhanNotificationBridge? = null
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private var pendingBackgroundPlay = false
+
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+        super.onCreate(savedInstanceState)
+        noteBackgroundPlay(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        noteBackgroundPlay(intent)
+    }
+
+    private fun noteBackgroundPlay(intent: Intent?) {
+        if (intent?.getBooleanExtra("bayan_background_play", false) == true) {
+            pendingBackgroundPlay = true
+            // Start playback first, then send the app back so the UI does not
+            // stay in front of the launcher.
+            mainHandler.removeCallbacks(moveToBackground)
+            mainHandler.postDelayed(moveToBackground, 700)
+        } else {
+            pendingBackgroundPlay = false
+            mainHandler.removeCallbacks(moveToBackground)
+        }
+    }
+
+    private val moveToBackground = Runnable {
+        if (pendingBackgroundPlay && !isFinishing) {
+            moveTaskToBack(true)
+            overridePendingTransition(0, 0)
+            pendingBackgroundPlay = false
+        }
+    }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -46,6 +83,7 @@ class MainActivity : FlutterActivity() {
         bridge?.unregister()
         bridge = null
         notifBridge = null
+        mainHandler.removeCallbacks(moveToBackground)
         super.cleanUpFlutterEngine(flutterEngine)
     }
 }

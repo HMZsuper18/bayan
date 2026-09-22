@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Narrow column (2x2 … 2x4): tighter padding, up to 3 reciter rows. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    android:background="@drawable/widget_bg">
+    android:background="@drawable/widget_bg_day">
 
     <TextView
         android:id="@+id/widget_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="القراء"
+        android:text="@string/recitations_widget_title"
         android:textSize="12sp"
+        android:maxLines="1"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="8sp"
+        android:autoSizeMaxTextSize="12sp"
+        android:autoSizeStepGranularity="0.5sp"
         android:textColor="@color/widget_title"
         android:fontFamily="@font/tajawal_bold"
         android:layout_marginStart="4dp" />
 
     <LinearLayout
-        android:id="@+id/compact_reciter_1_row"
+        android:id="@+id/reciter_1_row"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@drawable/chip_bg"
+        android:background="@drawable/chip_bg_day"
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
         android:paddingLeft="8dp"
@@ -31,37 +38,38 @@
         android:layout_marginTop="4dp">
 
         <TextView
-            android:id="@+id/compact_reciter_1_name"
+            android:id="@+id/reciter_1_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="مشاري العفاسي"
+            android:text=""
             android:textSize="11sp"
-            android:textColor="@color/chip_text"
-            android:fontFamily="@font/tajawal_medium"
+            android:maxLines="1"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="8sp"
             android:autoSizeMaxTextSize="11sp"
-            android:autoSizeStepGranularity="0.5sp" />
+            android:autoSizeStepGranularity="0.5sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
-            android:id="@+id/compact_play_reciter_1"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:id="@+id/play_reciter_1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@android:drawable/ic_media_play"
-            android:contentDescription="تشغيل"
+            android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="5dp" />
+            android:padding="4dp" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/compact_reciter_2_row"
+        android:id="@+id/reciter_2_row"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@drawable/chip_bg"
+        android:background="@drawable/chip_bg_day"
         android:paddingTop="3dp"
         android:paddingBottom="3dp"
         android:paddingLeft="8dp"
@@ -69,26 +77,266 @@
         android:layout_marginTop="2dp">
 
         <TextView
-            android:id="@+id/compact_reciter_2_name"
+            android:id="@+id/reciter_2_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="عبدالرحمن السديس"
+            android:text=""
             android:textSize="11sp"
-            android:textColor="@color/chip_text"
-            android:fontFamily="@font/tajawal_medium"
+            android:maxLines="1"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="8sp"
             android:autoSizeMaxTextSize="11sp"
-            android:autoSizeStepGranularity="0.5sp" />
+            android:autoSizeStepGranularity="0.5sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
-            android:id="@+id/compact_play_reciter_2"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:id="@+id/play_reciter_2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:src="@android:drawable/ic_media_play"
-            android:contentDescription="تشغيل"
+            android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="5dp" />
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reciter_3_row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/chip_bg_day"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="2dp">
+
+        <TextView
+            android:id="@+id/reciter_3_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeMaxTextSize="11sp"
+            android:autoSizeStepGranularity="0.5sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium" />
+
+        <ImageView
+            android:id="@+id/play_reciter_3"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="@string/recitations_play"
+            android:scaleType="centerInside"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reciter_4_row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/chip_bg_day"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/reciter_4_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeMaxTextSize="11sp"
+            android:autoSizeStepGranularity="0.5sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium" />
+
+        <ImageView
+            android:id="@+id/play_reciter_4"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="@string/recitations_play"
+            android:scaleType="centerInside"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reciter_5_row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/chip_bg_day"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/reciter_5_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeMaxTextSize="11sp"
+            android:autoSizeStepGranularity="0.5sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium" />
+
+        <ImageView
+            android:id="@+id/play_reciter_5"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="@string/recitations_play"
+            android:scaleType="centerInside"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reciter_6_row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/chip_bg_day"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/reciter_6_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeMaxTextSize="11sp"
+            android:autoSizeStepGranularity="0.5sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium" />
+
+        <ImageView
+            android:id="@+id/play_reciter_6"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="@string/recitations_play"
+            android:scaleType="centerInside"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reciter_7_row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/chip_bg_day"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/reciter_7_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeMaxTextSize="11sp"
+            android:autoSizeStepGranularity="0.5sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium" />
+
+        <ImageView
+            android:id="@+id/play_reciter_7"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="@string/recitations_play"
+            android:scaleType="centerInside"
+            android:padding="4dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reciter_8_row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/chip_bg_day"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/reciter_8_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="11sp"
+            android:maxLines="1"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="8sp"
+            android:autoSizeMaxTextSize="11sp"
+            android:autoSizeStepGranularity="0.5sp"
+            android:textColor="@color/chip_text"
+            android:fontFamily="@font/tajawal_medium" />
+
+        <ImageView
+            android:id="@+id/play_reciter_8"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_media_play"
+            android:contentDescription="@string/recitations_play"
+            android:scaleType="centerInside"
+            android:padding="4dp" />
     </LinearLayout>
 </LinearLayout>

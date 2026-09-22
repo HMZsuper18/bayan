@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Default layout: header + up to 4 reciter rows filling remaining height. -->
+<!-- Short banner for 1-cell-tall widgets (2x1, 4x1): tight header + up to 2 reciter rows. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp"
+    android:padding="6dp"
     android:background="@drawable/widget_bg_day">
 
     <TextView
@@ -13,15 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/recitations_widget_title"
-        android:textSize="15sp"
+        android:textSize="11sp"
         android:maxLines="1"
         android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="10sp"
-        android:autoSizeMaxTextSize="15sp"
+        android:autoSizeMinTextSize="8sp"
+        android:autoSizeMaxTextSize="11sp"
         android:autoSizeStepGranularity="0.5sp"
         android:textColor="@color/widget_title"
         android:fontFamily="@font/tajawal_bold"
-        android:layout_marginStart="8dp" />
+        android:layout_marginStart="4dp" />
 
     <LinearLayout
         android:id="@+id/reciter_1_row"
@@ -31,11 +31,11 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/chip_bg_day"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="8dp">
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:layout_marginTop="3dp">
 
         <TextView
             android:id="@+id/reciter_1_name"
@@ -43,23 +43,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:maxLines="1"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="10sp"
             android:autoSizeStepGranularity="0.5sp"
             android:textColor="@color/chip_text"
             android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
             android:id="@+id/play_reciter_1"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@android:drawable/ic_media_play"
             android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="6dp" />
+            android:padding="3dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,11 +70,11 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/chip_bg_day"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="4dp">
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:layout_marginTop="2dp">
 
         <TextView
             android:id="@+id/reciter_2_name"
@@ -82,23 +82,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:maxLines="1"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="10sp"
             android:autoSizeStepGranularity="0.5sp"
             android:textColor="@color/chip_text"
             android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
             android:id="@+id/play_reciter_2"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@android:drawable/ic_media_play"
             android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="6dp" />
+            android:padding="3dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -109,11 +109,12 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/chip_bg_day"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="4dp">
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/reciter_3_name"
@@ -121,23 +122,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:maxLines="1"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="10sp"
             android:autoSizeStepGranularity="0.5sp"
             android:textColor="@color/chip_text"
             android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
             android:id="@+id/play_reciter_3"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@android:drawable/ic_media_play"
             android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="6dp" />
+            android:padding="3dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -148,11 +149,12 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/chip_bg_day"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="4dp">
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/reciter_4_name"
@@ -160,23 +162,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:maxLines="1"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="10sp"
             android:autoSizeStepGranularity="0.5sp"
             android:textColor="@color/chip_text"
             android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
             android:id="@+id/play_reciter_4"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@android:drawable/ic_media_play"
             android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="6dp" />
+            android:padding="3dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -187,11 +189,11 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/chip_bg_day"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="4dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:layout_marginTop="2dp"
         android:visibility="gone">
 
         <TextView
@@ -200,23 +202,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:maxLines="1"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="10sp"
             android:autoSizeStepGranularity="0.5sp"
             android:textColor="@color/chip_text"
             android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
             android:id="@+id/play_reciter_5"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@android:drawable/ic_media_play"
             android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="6dp" />
+            android:padding="3dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -227,11 +229,11 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/chip_bg_day"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="4dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:layout_marginTop="2dp"
         android:visibility="gone">
 
         <TextView
@@ -240,23 +242,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:maxLines="1"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="10sp"
             android:autoSizeStepGranularity="0.5sp"
             android:textColor="@color/chip_text"
             android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
             android:id="@+id/play_reciter_6"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@android:drawable/ic_media_play"
             android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="6dp" />
+            android:padding="3dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -267,11 +269,11 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/chip_bg_day"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="4dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:layout_marginTop="2dp"
         android:visibility="gone">
 
         <TextView
@@ -280,23 +282,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:maxLines="1"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="10sp"
             android:autoSizeStepGranularity="0.5sp"
             android:textColor="@color/chip_text"
             android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
             android:id="@+id/play_reciter_7"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@android:drawable/ic_media_play"
             android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="6dp" />
+            android:padding="3dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -307,11 +309,11 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@drawable/chip_bg_day"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:layout_marginTop="4dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:layout_marginTop="2dp"
         android:visibility="gone">
 
         <TextView
@@ -320,22 +322,22 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text=""
-            android:textSize="13sp"
+            android:textSize="10sp"
             android:maxLines="1"
             android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="9sp"
-            android:autoSizeMaxTextSize="13sp"
+            android:autoSizeMinTextSize="7sp"
+            android:autoSizeMaxTextSize="10sp"
             android:autoSizeStepGranularity="0.5sp"
             android:textColor="@color/chip_text"
             android:fontFamily="@font/tajawal_medium" />
 
         <ImageView
             android:id="@+id/play_reciter_8"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@android:drawable/ic_media_play"
             android:contentDescription="@string/recitations_play"
             android:scaleType="centerInside"
-            android:padding="6dp" />
+            android:padding="3dp" />
     </LinearLayout>
 </LinearLayout>

@@ -36,6 +36,7 @@ import '../../../services/reciter_store_service.dart';
 import '../../../services/audio_playback_service.dart';
 import '../../../services/dhikr_widget_service.dart';
 import '../../../services/ayah_widget_service.dart';
+import '../../../services/recitations_widget_service.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -107,6 +108,8 @@ class _DashboardViewState extends State<DashboardView>
       } else if (uri.startsWith('bayan://play/')) {
         final reciterId = uri.replaceFirst('bayan://play/', '');
         _playReciterById(reciterId);
+        // Widget play taps should not keep the app UI in front.
+        // MainActivity moves the task to back shortly after handling.
       } else {
         _maybeAutoUpdateLocation();
       }
@@ -245,6 +248,7 @@ class _DashboardViewState extends State<DashboardView>
         context.read<DashboardBloc>().add(const RefreshDownloadedReciters());
       }
     });
+    RecitationsWidgetService.refresh();
   }
 
   void _onReciterTap(ReciterModel reciter) {
@@ -255,15 +259,19 @@ class _DashboardViewState extends State<DashboardView>
       audioService.togglePlayPause();
     } else {
       audioService.playAllSurahs(reciter: reciter, startSurahId: 1);
+      RecitationsWidgetService.update(
+        lastPlayedReciterId: reciter.id,
+        lastPlayedReciterName: reciter.arabicName,
+      );
     }
   }
 
   Future<void> _shareDhikr() async {
-    await AyahWidgetService.update();
+    await DhikrWidgetService.update();
   }
 
   Future<void> _shareAyah() async {
-    await DhikrWidgetService.update();
+    await AyahWidgetService.update();
   }
 
   void _playReciterById(String reciterId) {

@@ -22,12 +22,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:excludeFromRecents="false">
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
@@ -35,6 +36,7 @@
         </activity>
         <receiver
             android:name=".PrayerTimesWidgetProvider"
+            android:label="@string/prayer_widget_title"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -45,6 +47,7 @@
         </receiver>
         <receiver
             android:name=".AyahWidgetProvider"
+            android:label="@string/ayah_widget_description"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -55,6 +58,7 @@
         </receiver>
         <receiver
             android:name=".DhikrWidgetProvider"
+            android:label="@string/dhikr_widget_description"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -65,6 +69,7 @@
         </receiver>
         <receiver
             android:name=".RecitationsWidgetProvider"
+            android:label="@string/recitations_widget_title"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -75,6 +80,7 @@
         </receiver>
         <receiver
             android:name=".OcrWidgetProvider"
+            android:label="@string/ocr_widget_description"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

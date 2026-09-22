@@ -1,6 +1,8 @@
 package com.hamzah.bayan
 
+import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 
@@ -13,6 +15,21 @@ class PackageReplacedReceiver : BroadcastReceiver() {
             // must be enabled. The actual variant is enforced by
             // ensureEnabled() in MainActivity.onCreate on the next cold start.
             IconSwitcher.reEnableDefault(context)
+
+            // Push fresh RemoteViews (fonts, layout, theme) to every placed widget.
+            refreshWidgets<PrayerTimesWidgetProvider>(context)
+            refreshWidgets<RecitationsWidgetProvider>(context)
+            refreshWidgets<DhikrWidgetProvider>(context)
+            refreshWidgets<AyahWidgetProvider>(context)
+            refreshWidgets<OcrWidgetProvider>(context)
         }
+    }
+
+    private inline fun <reified T : android.appwidget.AppWidgetProvider> refreshWidgets(context: Context) {
+        val mgr = AppWidgetManager.getInstance(context)
+        val ids = mgr.getAppWidgetIds(ComponentName(context, T::class.java))
+        if (ids.isEmpty()) return
+        val provider = T::class.java.getDeclaredConstructor().newInstance()
+        provider.onUpdate(context, mgr, ids)
     }
 }
