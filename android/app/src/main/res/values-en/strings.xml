@@ -9,6 +9,11 @@
     <string name="recitations_widget_description">Show recitations</string>
     <string name="recitations_widget_title">Reciters</string>
     <string name="recitations_play">Play</string>
+    <string name="recitations_pause">Pause</string>
+    <string name="recitations_resume">Continue</string>
+    <string name="recitations_stop">Stop</string>
+    <string name="recitations_cancel">Cancel</string>
+    <string name="recitations_download_reciter">Download reciter</string>
 
     <string name="prayer_widget_title">Prayer Times</string>
     <string name="prayer_label_fajr">Fajr</string>

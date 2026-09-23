@@ -629,12 +629,96 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ? Icon(Icons.check, color: AppColors.primaryGreenOf(context))
           : null,
       onTap: () async {
-        await AppIconService.instance.switchIcon(variant);
-        if (mounted) {
-          setState(() {});
-          Navigator.pop(ctx);
+        final needsDockHelp = await AppIconService.instance.switchIcon(variant);
+        if (!ctx.mounted || !mounted) return;
+        setState(() {});
+        Navigator.pop(ctx);
+        // Show the glass dialog before finalize so the activity stays alive
+        // (finalize may relaunch through the new alias). Only MIUI/HyperOS
+        // returns true, and only when the alias state actually changed.
+        if (needsDockHelp && mounted) {
+          await _showDockIconHelp();
         }
+        await AppIconService.instance.finalizeSwitch();
       },
+    );
+  }
+
+  Future<void> _showDockIconHelp() async {
+    final l10n = AppLocalizations.of(context)!;
+    await showDialog<void>(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: GlassContainer(
+            borderRadius: 20,
+            blur: 12,
+            opacity: 1.8,
+            child: Material(
+              type: MaterialType.transparency,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      l10n.dockIconHelpTitle,
+                      style: AppTextStyles.arabicTitle.copyWith(
+                        fontSize: 18,
+                        color: AppColors.primaryGreenOf(context),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      l10n.dockIconHelpBody,
+                      style: TextStyle(
+                        fontFamily: 'Tajawal',
+                        fontSize: 14,
+                        height: 1.5,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withValues(alpha: 0.85),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          child: Text(
+                            MaterialLocalizations.of(ctx).cancelButtonLabel,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                            AppIconService.instance.openLauncherSettings();
+                          },
+                          child: Text(
+                            l10n.openSettings,
+                            style: TextStyle(
+                              color: AppColors.primaryGreenOf(context),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 

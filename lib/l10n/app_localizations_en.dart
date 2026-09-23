@@ -423,6 +423,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pause => 'Pause';
 
   @override
+  String get resume => 'Continue';
+
+  @override
   String get stop => 'Stop';
 
   @override
@@ -430,6 +433,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noReciterDownloaded => 'Download a reciter first';
+
+  @override
+  String get downloadReciter => 'Download reciter';
 
   @override
   String get surahLabel => 'Surah';
@@ -697,6 +703,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get iconRoyal => 'Royal';
+
+  @override
+  String get dockIconHelpTitle => 'Refresh dock icon';
+
+  @override
+  String get dockIconHelpBody =>
+      'If the icon in your dock has not updated yet, open the Home screen app settings, tap Force stop, then reopen Bayan.';
 
   @override
   String get iqamahTimes => 'Iqamah Times';

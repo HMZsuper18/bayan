@@ -421,6 +421,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pause => 'إيقاف مؤقت';
 
   @override
+  String get resume => 'متابعة';
+
+  @override
   String get stop => 'إيقاف';
 
   @override
@@ -428,6 +431,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noReciterDownloaded => 'قم بتنزيل قارئ أولاً';
+
+  @override
+  String get downloadReciter => 'تحميل قارئ';
 
   @override
   String get surahLabel => 'سورة';
@@ -693,6 +699,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get iconRoyal => 'ملكي';
+
+  @override
+  String get dockIconHelpTitle => 'تحديث أيقونة الشريط السفلي';
+
+  @override
+  String get dockIconHelpBody =>
+      'إذا لم تتحدث الأيقونة في الشريط السفلي بعد، افتح إعدادات تطبيق الشاشة الرئيسية واضغط إيقاف إجباري ثم أعد فتح بيان.';
 
   @override
   String get iqamahTimes => 'أوقات الإقامة';

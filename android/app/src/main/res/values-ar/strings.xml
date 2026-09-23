@@ -9,6 +9,11 @@
     <string name="recitations_widget_description">عرض القراءات</string>
     <string name="recitations_widget_title">القراء</string>
     <string name="recitations_play">تشغيل</string>
+    <string name="recitations_pause">إيقاف مؤقت</string>
+    <string name="recitations_resume">متابعة</string>
+    <string name="recitations_stop">إيقاف</string>
+    <string name="recitations_cancel">إلغاء</string>
+    <string name="recitations_download_reciter">تحميل قارئ</string>
 
     <string name="prayer_widget_title">مواقيت الصلاة</string>
     <string name="prayer_label_fajr">الفجر</string>

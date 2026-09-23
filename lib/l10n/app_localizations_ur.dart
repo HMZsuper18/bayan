@@ -421,6 +421,9 @@ class AppLocalizationsUr extends AppLocalizations {
   String get pause => 'روکیں';
 
   @override
+  String get resume => 'جاری رکھیں';
+
+  @override
   String get stop => 'بند کریں';
 
   @override
@@ -428,6 +431,9 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get noReciterDownloaded => 'پہلے ایک قاری ڈاؤن لوڈ کریں';
+
+  @override
+  String get downloadReciter => 'قاری ڈاؤن لوڈ کریں';
 
   @override
   String get surahLabel => 'سورت';
@@ -694,6 +700,13 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get iconRoyal => 'شاہانہ';
+
+  @override
+  String get dockIconHelpTitle => 'ڈاک آئیکن تازہ کریں';
+
+  @override
+  String get dockIconHelpBody =>
+      'اگر ڈاک میں آئیکن ابھی اپ ڈیٹ نہیں ہوئی، تو ہوم اسکرین ایپ کی ترتیبات کھولیں، فورس اسٹاپ دبائیں، پھر بیان دوبارہ کھولیں۔';
 
   @override
   String get iqamahTimes => 'اقامت کے اوقات';

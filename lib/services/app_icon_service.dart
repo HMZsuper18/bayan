@@ -16,14 +16,39 @@ class AppIconService {
     }
   }
 
-  Future<void> switchIcon(String variant) async {
+  /// Returns true only when the icon actually changed on a device with a
+  /// MIUI/HyperOS dock (whose icon cache may need a guided refresh).
+  Future<bool> switchIcon(String variant) async {
     try {
-      await _channel.invokeMethod('switchIcon', {'variant': variant});
+      final needsDockHelp =
+          await _channel.invokeMethod<bool>('switchIcon', {'variant': variant}) ??
+              false;
       SettingsService.appIconVariant = variant;
+      return needsDockHelp;
     } on MissingPluginException {
       SettingsService.appIconVariant = variant;
+      return false;
     } on PlatformException catch (e) {
       if (e.code != 'MissingPluginException') rethrow;
+      return false;
+    }
+  }
+
+  /// Disables the previous alias after the UI is ready and relaunches if
+  /// the running component was the one switched away from.
+  Future<void> finalizeSwitch() async {
+    try {
+      await _channel.invokeMethod('finalizeIconSwitch');
+    } on MissingPluginException {
+    } on PlatformException {
+    }
+  }
+
+  Future<void> openLauncherSettings() async {
+    try {
+      await _channel.invokeMethod('openLauncherSettings');
+    } on MissingPluginException {
+    } on PlatformException {
     }
   }
 

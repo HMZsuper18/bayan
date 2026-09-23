@@ -25,13 +25,14 @@ class ReciterModelAdapter extends TypeAdapter<ReciterModel> {
       isClassical: fields[5] as bool,
       audioBaseUrl: fields[6] as String? ?? '',
       category: fields[7] as String? ?? '',
+      popularity: fields[8] as int? ?? 0,
     );
   }
 
   @override
   void write(BinaryWriter writer, ReciterModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class ReciterModelAdapter extends TypeAdapter<ReciterModel> {
       ..writeByte(6)
       ..write(obj.audioBaseUrl)
       ..writeByte(7)
-      ..write(obj.category);
+      ..write(obj.category)
+      ..writeByte(8)
+      ..write(obj.popularity);
   }
 
   @override

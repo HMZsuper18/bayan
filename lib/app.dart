@@ -7,6 +7,11 @@ import 'core/theme/app_text_styles.dart';
 import 'data/database/seed_data.dart';
 import 'data/database/settings_service.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
+import 'services/adhan_notification_service.dart';
+import 'services/app_icon_service.dart';
+import 'services/ayah_widget_service.dart';
+import 'services/dhikr_widget_service.dart';
+import 'services/ocr_widget_service.dart';
 import 'services/prayer_times_widget_service.dart';
 import 'services/recitations_widget_service.dart';
 
@@ -34,6 +39,16 @@ class AppState extends State<App> {
     _locale = _localeFromCode(SettingsService.uiLanguage);
     GlassConfig.enableBlur = true;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Non-critical startup work — kept off the cold-start critical path so
+      // widget taps (play/store) reach their action faster.
+      AppIconService.instance.init();
+      AdhanNotificationService.instance.rescheduleFromSettings();
+      AyahWidgetService.update();
+      DhikrWidgetService.update();
+      PrayerTimesWidgetService.update([]);
+      RecitationsWidgetService.syncPlayback(active: false);
+      RecitationsWidgetService.update();
+      OcrWidgetService.update();
       await SeedData.seedAll();
       if (mounted) {
         PrayerTimesWidgetService.refresh();
@@ -49,6 +64,7 @@ class AppState extends State<App> {
     });
     PrayerTimesWidgetService.refresh();
     RecitationsWidgetService.refresh();
+    OcrWidgetService.refresh();
   }
 
   void rebuild() {
@@ -59,6 +75,7 @@ class AppState extends State<App> {
     });
     PrayerTimesWidgetService.refresh();
     RecitationsWidgetService.refresh();
+    OcrWidgetService.refresh();
   }
 
   Locale _localeFromCode(String code) {

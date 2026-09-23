@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="@drawable/widget_bg">
+    android:background="@drawable/widget_bg_day">
 
     <ImageView
         android:id="@+id/ocr_icon"
@@ -12,6 +12,5 @@
         android:layout_height="match_parent"
         android:src="@drawable/ic_camera"
         android:scaleType="centerInside"
-        android:tint="@color/widget_title"
         android:contentDescription="@string/scan_page" />
 </FrameLayout>

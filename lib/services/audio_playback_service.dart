@@ -87,6 +87,8 @@ class AudioPlaybackService {
   int _currentSurahId = 0;
   ReciterModel? _currentReciter;
   bool _listenersSetup = false;
+  DateTime? _lastWidgetSync;
+  String _widgetSignature = '';
 
   AudioPlayer get player => _player;
 
@@ -144,6 +146,42 @@ class AudioPlaybackService {
     if (!_stateController.isClosed) {
       _stateController.add(_state);
     }
+    _syncWidgetPlayback();
+  }
+
+  /// Mirrors the playback state onto the home screen widget playbar.
+  /// Pushes immediately whenever reciter/surah/playing-state changes and
+  /// otherwise at most every 3 seconds (for the progress bar).
+  void _syncWidgetPlayback({bool force = false}) {
+    final s = _state;
+    final active = s.reciter != null;
+    final signature =
+        '${s.reciter?.id}|${s.surahId}|${s.isPlaying}|${s.isLoading}';
+    final now = DateTime.now();
+    final last = _lastWidgetSync;
+    if (!force &&
+        signature == _widgetSignature &&
+        last != null &&
+        now.difference(last) < const Duration(seconds: 3)) {
+      return;
+    }
+    _widgetSignature = signature;
+    _lastWidgetSync = now;
+
+    final progress = s.duration.inMilliseconds > 0
+        ? ((s.position.inMilliseconds * 100) / s.duration.inMilliseconds)
+            .round()
+            .clamp(0, 100)
+            .toInt()
+        : 0;
+
+    RecitationsWidgetService.syncPlayback(
+      active: active,
+      reciter: s.reciter,
+      surahId: s.surahId,
+      paused: active && !s.isPlaying && !s.isLoading,
+      progress: progress,
+    );
   }
 
   Future<String> _recitersDir() async {
@@ -312,6 +350,8 @@ class AudioPlaybackService {
     if (nextSurahId > 114) {
       _state = _state.copyWith(isPlaying: false);
       _emitState();
+      // Whole mushaf finished — hide the widget playbar.
+      RecitationsWidgetService.syncPlayback(active: false);
       return;
     }
     await _playSurahInternal(nextSurahId, mode: PlaybackMode.fullSurah);
@@ -489,6 +529,7 @@ class AudioPlaybackService {
     _currentTimestamps = [];
     _state = const PlaybackState();
     _emitState();
+    RecitationsWidgetService.syncPlayback(active: false);
   }
 
   Future<void> seek(Duration position) async {

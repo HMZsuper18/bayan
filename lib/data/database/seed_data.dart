@@ -26,6 +26,7 @@ class SeedData {
   }
 
   static Future<void> seedAll() async {
+    await HiveService.ensureTafseerBox();
     await Future.wait([
       _seedSurahs(),
       _seedVersesAndTafseer(),
@@ -155,6 +156,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Alafasy_128kbps',
         isClassical: false,
+        popularity: 100,
       ),
       ReciterModel(
         id: 'sudais',
@@ -165,6 +167,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Abdurrahmaan_As-Sudais_192kbps',
         isClassical: false,
+        popularity: 95,
       ),
       ReciterModel(
         id: 'shuraim',
@@ -175,6 +178,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Saood_ash-Shuraym_128kbps',
         isClassical: false,
+        popularity: 85,
       ),
       ReciterModel(
         id: 'muaiqly',
@@ -185,6 +189,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/MaherAlMuaiqly128kbps',
         isClassical: false,
+        popularity: 80,
       ),
       ReciterModel(
         id: 'dosari',
@@ -195,6 +200,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Yasser_Ad-Dussary_128kbps',
         isClassical: false,
+        popularity: 70,
       ),
       ReciterModel(
         id: 'ajmi',
@@ -205,6 +211,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Ahmed_ibn_Ali_al-Ajamy_128kbps_ketaballah.net',
         isClassical: false,
+        popularity: 60,
       ),
       ReciterModel(
         id: 'ghamdi',
@@ -215,6 +222,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Ghamadi_40kbps',
         isClassical: false,
+        popularity: 75,
       ),
       ReciterModel(
         id: 'huthaify',
@@ -225,6 +233,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Hudhaify_128kbps',
         isClassical: false,
+        popularity: 65,
       ),
       // Classic Egyptian Reciters
       ReciterModel(
@@ -236,6 +245,7 @@ class SeedData {
         category: 'Classic Egyptian Reciters',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Abdul_Basit_Murattal_64kbps',
         isClassical: true,
+        popularity: 90,
       ),
       ReciterModel(
         id: 'husary',
@@ -246,6 +256,7 @@ class SeedData {
         category: 'Classic Egyptian Reciters',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Husary_128kbps',
         isClassical: true,
+        popularity: 88,
       ),
       ReciterModel(
         id: 'minshawi',
@@ -256,6 +267,7 @@ class SeedData {
         category: 'Classic Egyptian Reciters',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/Minshawy_Murattal_128kbps',
         isClassical: true,
+        popularity: 82,
       ),
       ReciterModel(
         id: 'banna',
@@ -266,6 +278,7 @@ class SeedData {
         category: 'Classic Egyptian Reciters',
         audioBaseUrl: 'https://mirrors.quranicaudio.com/everyayah/data/mahmoud_ali_al_banna_32kbps',
         isClassical: true,
+        popularity: 50,
       ),
       ReciterModel(
         id: 'shatri',
@@ -276,6 +289,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: '',
         isClassical: false,
+        popularity: 55,
       ),
       ReciterModel(
         id: 'qasim',
@@ -286,6 +300,7 @@ class SeedData {
         category: 'Makkah & Madinah Imams',
         audioBaseUrl: '',
         isClassical: false,
+        popularity: 45,
       ),
       ReciterModel(
         id: 'rifai',
@@ -296,6 +311,7 @@ class SeedData {
         category: 'Classic Egyptian Reciters',
         audioBaseUrl: '',
         isClassical: false,
+        popularity: 58,
       ),
       ReciterModel(
         id: 'tunaiji',
@@ -306,6 +322,7 @@ class SeedData {
         category: 'International Reciters',
         audioBaseUrl: '',
         isClassical: false,
+        popularity: 40,
       ),
       ReciterModel(
         id: 'fares',
@@ -316,6 +333,7 @@ class SeedData {
         category: 'Hadr / Fast Recitation',
         audioBaseUrl: '',
         isClassical: false,
+        popularity: 42,
       ),
     ];
 

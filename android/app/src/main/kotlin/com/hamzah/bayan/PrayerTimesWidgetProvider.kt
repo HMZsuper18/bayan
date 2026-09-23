@@ -306,6 +306,11 @@ class PrayerTimesWidgetProvider : AppWidgetProvider() {
             context, 2, openIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+        views.setOnClickPendingIntent(R.id.widget_root, openPendingIntent)
         views.setOnClickPendingIntent(R.id.widget_title, openPendingIntent)
+        views.setOnClickPendingIntent(R.id.title_row, openPendingIntent)
+        for (prayer in PRAYERS) {
+            views.setOnClickPendingIntent(idsFor(prayer).chip, openPendingIntent)
+        }
     }
 }

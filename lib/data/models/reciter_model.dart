@@ -21,6 +21,11 @@ class ReciterModel extends HiveObject {
   @HiveField(7)
   final String category;
 
+  /// Relative popularity (0–100) used to order the most famous reciters when
+  /// the user has no listening history yet.
+  @HiveField(8)
+  final int popularity;
+
   ReciterModel({
     required this.id,
     required this.name,
@@ -30,6 +35,7 @@ class ReciterModel extends HiveObject {
     this.isClassical = false,
     this.audioBaseUrl = '',
     this.category = '',
+    this.popularity = 0,
   });
 
   factory ReciterModel.fromJson(Map<String, dynamic> json) {
@@ -42,6 +48,7 @@ class ReciterModel extends HiveObject {
       isClassical: json['isClassical'] as bool? ?? false,
       audioBaseUrl: json['audioBaseUrl'] as String? ?? '',
       category: json['category'] as String? ?? '',
+      popularity: json['popularity'] as int? ?? 0,
     );
   }
 
@@ -54,5 +61,6 @@ class ReciterModel extends HiveObject {
         'isClassical': isClassical,
         'audioBaseUrl': audioBaseUrl,
         'category': category,
+        'popularity': popularity,
       };
 }

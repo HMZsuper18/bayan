@@ -886,6 +886,12 @@ abstract class AppLocalizations {
   /// **'Pause'**
   String get pause;
 
+  /// No description provided for @resume.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get resume;
+
   /// No description provided for @stop.
   ///
   /// In en, this message translates to:
@@ -903,6 +909,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download a reciter first'**
   String get noReciterDownloaded;
+
+  /// No description provided for @downloadReciter.
+  ///
+  /// In en, this message translates to:
+  /// **'Download reciter'**
+  String get downloadReciter;
 
   /// No description provided for @surahLabel.
   ///
@@ -1401,6 +1413,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Royal'**
   String get iconRoyal;
+
+  /// No description provided for @dockIconHelpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh dock icon'**
+  String get dockIconHelpTitle;
+
+  /// No description provided for @dockIconHelpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If the icon in your dock has not updated yet, open the Home screen app settings, tap Force stop, then reopen Bayan.'**
+  String get dockIconHelpBody;
 
   /// No description provided for @iqamahTimes.
   ///
