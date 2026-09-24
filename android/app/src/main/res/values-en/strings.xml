@@ -4,6 +4,7 @@
     <string name="share">Share</string>
     <string name="scan_page">Scan page</string>
     <string name="ayah_widget_description">Show verse of the day</string>
+    <string name="ayah_widget_title">Ayah of the Week</string>
     <string name="dhikr_widget_description">Show remembrances</string>
     <string name="ocr_widget_description">Scan page with camera</string>
     <string name="recitations_widget_description">Show recitations</string>
@@ -22,4 +23,13 @@
     <string name="prayer_label_maghrib">Maghrib</string>
     <string name="prayer_label_isha">Isha</string>
     <string name="prayer_update_location">Update location</string>
+
+    <string name="dhikr_widget_title">Azkar</string>
+    <string name="dhikr_title_morning">Morning Adhkar</string>
+    <string name="dhikr_title_evening">Evening Adhkar</string>
+    <string name="dhikr_title_kahf">Surat Al-Kahf</string>
+    <string name="dhikr_title_general">Azkar &amp; Duas</string>
+    <string name="dhikr_period_friday">Friday</string>
+    <string name="dhikr_period_always">Always</string>
+    <string name="dhikr_read_kahf">Read Surat Al-Kahf</string>
 </resources>

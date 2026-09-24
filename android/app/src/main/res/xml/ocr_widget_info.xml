@@ -9,5 +9,7 @@
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"
     android:initialLayout="@layout/ocr_widget"
+    android:previewLayout="@layout/ocr_widget_preview"
+    android:previewImage="@drawable/widget_preview_ocr"
     android:resizeMode="horizontal|vertical"
     android:description="@string/ocr_widget_description" />

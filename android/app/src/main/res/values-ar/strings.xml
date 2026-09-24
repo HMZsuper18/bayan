@@ -4,6 +4,7 @@
     <string name="share">مشاركة</string>
     <string name="scan_page">مسح الصفحة</string>
     <string name="ayah_widget_description">عرض آية اليوم</string>
+    <string name="ayah_widget_title">آية الأسبوع</string>
     <string name="dhikr_widget_description">عرض الأذكار</string>
     <string name="ocr_widget_description">مسح الصفحة بالكاميرا</string>
     <string name="recitations_widget_description">عرض القراءات</string>
@@ -22,4 +23,13 @@
     <string name="prayer_label_maghrib">المغرب</string>
     <string name="prayer_label_isha">العشاء</string>
     <string name="prayer_update_location">تحديث الموقع</string>
+
+    <string name="dhikr_widget_title">الأذكار</string>
+    <string name="dhikr_title_morning">أذكار الصباح</string>
+    <string name="dhikr_title_evening">أذكار المساء</string>
+    <string name="dhikr_title_kahf">سورة الكهف</string>
+    <string name="dhikr_title_general">أذكار وأدعية</string>
+    <string name="dhikr_period_friday">الجمعة</string>
+    <string name="dhikr_period_always">دائمًا</string>
+    <string name="dhikr_read_kahf">اقرأ سورة الكهف</string>
 </resources>

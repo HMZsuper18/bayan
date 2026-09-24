@@ -11,5 +11,7 @@
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"
     android:initialLayout="@layout/recitations_widget"
+    android:previewLayout="@layout/recitations_widget_preview"
+    android:previewImage="@drawable/widget_preview_recitations"
     android:resizeMode="horizontal|vertical"
     android:description="@string/recitations_widget_description" />

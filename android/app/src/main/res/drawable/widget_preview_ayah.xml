@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Static picker preview (API ≤ 11 / fallback): Ayah-of-the-Week card. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="320dp"
+    android:viewportWidth="320"
+    android:viewportHeight="320">
+
+    <!-- Card background -->
+    <path
+        android:fillColor="#FDFBF7"
+        android:pathData="M12,0 H308 A12,12 0 0 1 320,12 V308 A12,12 0 0 1 308,320 H12 A12,12 0 0 1 0,308 V12 A12,12 0 0 1 12,0 Z" />
+
+    <!-- Title -->
+    <path
+        android:fillColor="#00674F"
+        android:pathData="M16,22 H96 V34 H16 Z" />
+
+    <!-- Week pill -->
+    <path
+        android:fillColor="#00674F"
+        android:fillAlpha="0.14"
+        android:pathData="M236,18 H300 A12,12 0 0 1 312,30 V40 A12,12 0 0 1 300,52 H236 A12,12 0 0 1 224,40 V30 A12,12 0 0 1 236,18 Z" />
+    <path
+        android:fillColor="#00674F"
+        android:pathData="M240,30 H296 V38 H240 Z" />
+
+    <!-- Centered ayah lines (RTL block) -->
+    <path android:fillColor="#1A1A1A" android:pathData="M48,120 H272 V136 H48 Z" />
+    <path android:fillColor="#1A1A1A" android:pathData="M64,148 H256 V164 H64 Z" />
+    <path android:fillColor="#1A1A1A" android:fillAlpha="0.7" android:pathData="M88,176 H232 V192 H88 Z" />
+
+    <!-- Translation line -->
+    <path android:fillColor="#1A1A1A" android:fillAlpha="0.35" android:pathData="M70,214 H250 V226 H70 Z" />
+
+    <!-- Reference pill -->
+    <path
+        android:fillColor="#00674F"
+        android:fillAlpha="0.14"
+        android:pathData="M100,270 H220 A14,14 0 0 1 234,284 V290 A14,14 0 0 1 220,304 H100 A14,14 0 0 1 86,290 V284 A14,14 0 0 1 100,270 Z" />
+    <path
+        android:fillColor="#00674F"
+        android:pathData="M108,282 H212 V292 H108 Z" />
+</vector>

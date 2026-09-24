@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gradient chip matching the dashboard's "Read Surat Al-Kahf" button. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="315"
+        android:startColor="#008A6A"
+        android:endColor="#005F4A" />
+    <corners android:radius="14dp" />
+</shape>

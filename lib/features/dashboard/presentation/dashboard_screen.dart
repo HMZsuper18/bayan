@@ -12,6 +12,7 @@ import '../../../core/widget_launch.dart';
 import '../../../core/utils/responsive_spacing.dart';
 import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/mini_player.dart';
+import '../../../data/database/hive_service.dart';
 import '../../../data/database/settings_service.dart';
 import '../../../data/models/prayer_time_model.dart';
 import '../../../data/models/reciter_model.dart';
@@ -25,7 +26,10 @@ import 'widgets/prayer_times_widget.dart';
 import 'widgets/primary_action_card.dart';
 import 'widgets/active_downloads_card.dart';
 import 'widgets/ayah_of_week_card.dart';
+import 'widgets/ayah_of_week_share.dart';
 import 'widgets/azkar_widget.dart';
+import 'widgets/azkar_share_sheet.dart';
+import '../../../core/utils/azkar_time_logic.dart';
 import 'widgets/recitations_tray.dart';
 import '../../settings/presentation/settings_screen.dart';
 import '../../mushaf/presentation/mushaf_navigation.dart';
@@ -36,6 +40,7 @@ import '../../qiblah/presentation/qiblah_screen.dart';
 import '../../../services/reciter_store_service.dart';
 import '../../../services/audio_playback_service.dart';
 import '../../../services/dhikr_widget_service.dart';
+import '../../../services/ayah_of_week_service.dart';
 import '../../../services/ayah_widget_service.dart';
 import '../../../services/recitations_widget_service.dart';
 import '../../../services/widget_control_handler.dart';
@@ -324,12 +329,42 @@ class _DashboardViewState extends State<DashboardView>
     }
   }
 
+  /// Whole-widget tap on the home-screen dhikr widget. On Friday (Kahf
+  /// window) it opens Surat Al-Kahf in the mushaf; otherwise it opens the
+  /// azkar share sheet — recomputing the current item so a slightly stale
+  /// widget still shows the right content.
   Future<void> _shareDhikr() async {
-    await DhikrWidgetService.update();
+    final now = DateTime.now();
+    final prayerTimes = context.read<DashboardBloc>().state.prayerTimes;
+    final type = getAzkarType(now, prayerTimes: prayerTimes);
+    if (!mounted) return;
+    if (type == AzkarWidgetType.kahf) {
+      unawaited(MushafNavigation.open(context, MushafNavigation.forSurah(18)));
+      return;
+    }
+    final item = getAzkarItem(type, now);
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => AzkarShareSheet(item: item, type: type),
+    );
+    if (mounted) DhikrWidgetService.update(type: type, item: item);
   }
 
   Future<void> _shareAyah() async {
-    await AyahWidgetService.update();
+    final verse = AyahOfWeekService.verse;
+    final surah = verse == null
+        ? null
+        : HiveService.surahsBox.get(verse.surahId);
+    if (verse == null || surah == null || !mounted) return;
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => AyahOfWeekShareSheet(verse: verse, surah: surah),
+    );
+    if (mounted) AyahWidgetService.update();
   }
 
   void _playReciterById(String reciterId) {

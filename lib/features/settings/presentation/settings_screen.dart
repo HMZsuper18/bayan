@@ -7,6 +7,8 @@ import '../../../core/widgets/glass_container.dart';
 import '../../../data/database/settings_service.dart';
 import '../../../services/adhan_notification_service.dart';
 import '../../../services/app_icon_service.dart';
+import '../../../services/ayah_widget_service.dart';
+import '../../../services/dhikr_widget_service.dart';
 import '../../../core/utils/prayer_time_calculator.dart';
 import '../../../app.dart';
 import 'about_page.dart';
@@ -925,6 +927,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _translationLanguage = code;
           SettingsService.translationLanguage = code;
         });
+        // Home-screen adhkar + ayah widgets show the same translation as the card.
+        DhikrWidgetService.refresh();
+        AyahWidgetService.refresh();
         Navigator.pop(ctx);
       },
     );

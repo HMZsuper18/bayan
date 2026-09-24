@@ -53,6 +53,7 @@ class AppState extends State<App> {
       if (mounted) {
         PrayerTimesWidgetService.refresh();
         RecitationsWidgetService.refresh();
+        AyahWidgetService.refresh();
       }
     });
   }
@@ -65,6 +66,8 @@ class AppState extends State<App> {
     PrayerTimesWidgetService.refresh();
     RecitationsWidgetService.refresh();
     OcrWidgetService.refresh();
+    DhikrWidgetService.refresh();
+    AyahWidgetService.refresh();
   }
 
   void rebuild() {
@@ -76,6 +79,8 @@ class AppState extends State<App> {
     PrayerTimesWidgetService.refresh();
     RecitationsWidgetService.refresh();
     OcrWidgetService.refresh();
+    DhikrWidgetService.refresh();
+    AyahWidgetService.refresh();
   }
 
   Locale _localeFromCode(String code) {
