@@ -717,4 +717,61 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get iqamahTimesDescription =>
       'Default iqamah gap after adhan for each prayer';
+
+  @override
+  String get wallpaperGallery => 'Wallpaper Gallery';
+
+  @override
+  String get wallpaperGallerySubtitle =>
+      'Browse Islamic wallpapers and set as background';
+
+  @override
+  String get allWallpapers => 'All';
+
+  @override
+  String get wallpapers => 'wallpapers';
+
+  @override
+  String get wallpaperLoadError => 'Could not load wallpapers';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get setAsWallpaper => 'Set Wallpaper';
+
+  @override
+  String get downloadWallpaper => 'Download';
+
+  @override
+  String get liveWallpaper => 'Live';
+
+  @override
+  String get liveWallpaperTitle => 'Islamic Live Wallpaper';
+
+  @override
+  String get liveWallpaperSubtitle =>
+      'Animated day/night sky with real prayer times';
+
+  @override
+  String get downloadingWallpaper => 'Downloading wallpaper...';
+
+  @override
+  String get wallpaperSetSuccess => 'Wallpaper set successfully';
+
+  @override
+  String get wallpaperSetFailed => 'Failed to set wallpaper';
+
+  @override
+  String get wallpaperDownloaded => 'Wallpaper downloaded';
+
+  @override
+  String get cropWallpaper => 'Adjust for your screen';
+
+  @override
+  String get cropHint =>
+      'Pan and zoom — this is exactly what will appear on your home and lock screen';
+
+  @override
+  String get onYourScreen => 'On your screen';
 }

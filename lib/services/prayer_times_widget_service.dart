@@ -4,6 +4,7 @@ import 'package:home_widget/home_widget.dart';
 import '../data/database/settings_service.dart';
 import '../data/models/prayer_time_model.dart';
 import '../l10n/app_localizations.dart';
+import 'wallpaper_service.dart';
 
 class PrayerTimesWidgetService {
   PrayerTimesWidgetService._();
@@ -21,8 +22,16 @@ class PrayerTimesWidgetService {
           await HomeWidget.saveWidgetData('${base}_minute', t.time.minute);
         }
       } on MissingPluginException {
-        return;
+        // home_widget missing; still sync below for the live wallpaper.
       }
+      await WallpaperService.instance.syncPrayerTimes([
+        for (final t in times)
+          {
+            'name': t.name.toLowerCase(),
+            'hour': t.time.hour,
+            'minute': t.time.minute,
+          },
+      ]);
     }
     await _saveMeta();
     try {

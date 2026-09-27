@@ -32,4 +32,5 @@
     <string name="dhikr_period_friday">Friday</string>
     <string name="dhikr_period_always">Always</string>
     <string name="dhikr_read_kahf">Read Surat Al-Kahf</string>
+    <string name="islamic_wallpaper_description">Islamic day/night live wallpaper with prayer times</string>
 </resources>

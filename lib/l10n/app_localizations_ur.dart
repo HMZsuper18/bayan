@@ -714,4 +714,61 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get iqamahTimesDescription =>
       'اذان کے بعد ہر نماز کے لیے اقت کم اوقات';
+
+  @override
+  String get wallpaperGallery => 'وال پیپر گیلری';
+
+  @override
+  String get wallpaperGallerySubtitle =>
+      'اسلامی وال پیپرز دیکھیں اور پسندیدہ بنائیں';
+
+  @override
+  String get allWallpapers => 'سب';
+
+  @override
+  String get wallpapers => 'وال پیپرز';
+
+  @override
+  String get wallpaperLoadError => 'وال پیپرز لوڈ نہیں ہو سکے';
+
+  @override
+  String get retry => 'دوبارہ کوشش کریں';
+
+  @override
+  String get setAsWallpaper => 'وال پیپر بنائیں';
+
+  @override
+  String get downloadWallpaper => 'ڈاؤن لوڈ';
+
+  @override
+  String get liveWallpaper => 'متحرک';
+
+  @override
+  String get liveWallpaperTitle => 'اسلامی لائیو وال پیپر';
+
+  @override
+  String get liveWallpaperSubtitle =>
+      'دن رات چلتی ہوئی آسمانی تصویر نماز کے اوقات کے ساتھ';
+
+  @override
+  String get downloadingWallpaper => 'وال پیپر ڈاؤن لوڈ ہو رہا ہے...';
+
+  @override
+  String get wallpaperSetSuccess => 'وال پیپر کامیابی سے لگ گیا';
+
+  @override
+  String get wallpaperSetFailed => 'وال پیپر لگانے میں ناکامی';
+
+  @override
+  String get wallpaperDownloaded => 'وال پیپر ڈاؤن لوڈ ہو گیا';
+
+  @override
+  String get cropWallpaper => 'اپنی اسکرین کے مطابق ڈھالیں';
+
+  @override
+  String get cropHint =>
+      'ٹھیک کریں اور زوم کریں — یہی آپ کی ہوم اور لاک اسکرین پر نظر آئے گا';
+
+  @override
+  String get onYourScreen => 'آپ کی اسکرین پر';
 }

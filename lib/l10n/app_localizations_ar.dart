@@ -713,4 +713,60 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get iqamahTimesDescription =>
       'فترة الإقامة الافتراضية بعد الأذان لكل صلاة';
+
+  @override
+  String get wallpaperGallery => 'معرض الخلفيات';
+
+  @override
+  String get wallpaperGallerySubtitle => 'تصفح خلفيات إسلامية وتعيينها كخلفية';
+
+  @override
+  String get allWallpapers => 'الكل';
+
+  @override
+  String get wallpapers => 'خلفية';
+
+  @override
+  String get wallpaperLoadError => 'تعذّر تحميل الخلفيات';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get setAsWallpaper => 'تعيين كخلفية';
+
+  @override
+  String get downloadWallpaper => 'تنزيل';
+
+  @override
+  String get liveWallpaper => 'متحركة';
+
+  @override
+  String get liveWallpaperTitle => 'خلفية إسلامية متحركة';
+
+  @override
+  String get liveWallpaperSubtitle =>
+      'سماء متحركة ليلاً ونهاراً مع مواقيت الصلاة';
+
+  @override
+  String get downloadingWallpaper => 'جارٍ تنزيل الخلفية...';
+
+  @override
+  String get wallpaperSetSuccess => 'تم تعيين الخلفية بنجاح';
+
+  @override
+  String get wallpaperSetFailed => 'فشل تعيين الخلفية';
+
+  @override
+  String get wallpaperDownloaded => 'تم تنزيل الخلفية';
+
+  @override
+  String get cropWallpaper => 'اضبط حسب شاشتك';
+
+  @override
+  String get cropHint =>
+      'حرّك وقرّب — هذا بالضبط ما سيظهر على شاشتك الرئيسية والقفل';
+
+  @override
+  String get onYourScreen => 'على شاشتك';
 }

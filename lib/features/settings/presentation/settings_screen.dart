@@ -7,6 +7,7 @@ import '../../../core/widgets/glass_container.dart';
 import '../../../data/database/settings_service.dart';
 import '../../../services/adhan_notification_service.dart';
 import '../../../services/app_icon_service.dart';
+import '../../wallpaper/presentation/wallpaper_gallery_screen.dart';
 import '../../../services/ayah_widget_service.dart';
 import '../../../services/dhikr_widget_service.dart';
 import '../../../core/utils/prayer_time_calculator.dart';
@@ -474,6 +475,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   subtitle: Text(AppIconService.instance.currentVariant),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => _showIconPicker(l10n),
+                ),
+                ListTile(
+                  leading: Icon(Icons.wallpaper, color: AppColors.primaryGreenOf(context)),
+                  title: Text(l10n.wallpaperGallery),
+                  subtitle: Text(l10n.wallpaperGallerySubtitle),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const WallpaperGalleryScreen()),
+                  ),
                 ),
               ],
             ),

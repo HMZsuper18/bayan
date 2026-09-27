@@ -13,8 +13,10 @@ class MainActivity : FlutterActivity() {
     private val NOTIFICATION_CHANNEL = "com.hamzah.bayan/adhan_notifications"
     private val ICON_CHANNEL = "com.hamzah.bayan/app_icon"
     private val APP_CHANNEL = "com.hamzah.bayan/app"
+    private val WALLPAPER_CHANNEL = "com.hamzah.bayan/wallpaper"
     private var bridge: DownloadManagerBridge? = null
     private var notifBridge: AdhanNotificationBridge? = null
+    private var wallpaperBridge: WallpaperBridge? = null
     private val mainHandler = Handler(Looper.getMainLooper())
     private var pendingBackgroundPlay = false
     private var pendingIconPrevious: String? = null
@@ -95,6 +97,10 @@ class MainActivity : FlutterActivity() {
         notifBridge = AdhanNotificationBridge(this, notifChannel)
         notifChannel.setMethodCallHandler { call, result -> notifBridge?.handle(call, result) }
 
+        val wallpaperChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, WALLPAPER_CHANNEL)
+        wallpaperBridge = WallpaperBridge(this, wallpaperChannel)
+        wallpaperChannel.setMethodCallHandler { call, result -> wallpaperBridge?.handle(call, result) }
+
         val iconChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, ICON_CHANNEL)
         iconChannel.setMethodCallHandler { call, result ->
             when (call.method) {
@@ -173,6 +179,7 @@ class MainActivity : FlutterActivity() {
         bridge?.unregister()
         bridge = null
         notifBridge = null
+        wallpaperBridge = null
         mainHandler.removeCallbacks(moveToBackground)
         super.cleanUpFlutterEngine(flutterEngine)
     }

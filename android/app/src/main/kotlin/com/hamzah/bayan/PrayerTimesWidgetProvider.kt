@@ -224,6 +224,13 @@ class PrayerTimesWidgetProvider : AppWidgetProvider() {
             if (isRtl) android.view.Gravity.END or android.view.Gravity.CENTER_VERTICAL
             else android.view.Gravity.START or android.view.Gravity.CENTER_VERTICAL
         views.setInt(R.id.title_row, "setGravity", titleGravity)
+        // Reverse chip order for RTL: fajr on the right … isha on the left.
+        views.setInt(
+            R.id.chips_row,
+            "setLayoutDirection",
+            if (isRtl) android.view.View.LAYOUT_DIRECTION_RTL
+            else android.view.View.LAYOUT_DIRECTION_LTR
+        )
 
         val titleColor = if (isDark) DARK_TITLE else LIGHT_TITLE
         val title = prefs.getString("prayer_widget_title", null)
