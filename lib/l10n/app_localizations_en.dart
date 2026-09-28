@@ -423,6 +423,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pause => 'Pause';
 
   @override
+  String get resume => 'Continue';
+
+  @override
   String get stop => 'Stop';
 
   @override
@@ -430,6 +433,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noReciterDownloaded => 'Download a reciter first';
+
+  @override
+  String get downloadReciter => 'Download reciter';
 
   @override
   String get surahLabel => 'Surah';
@@ -699,9 +705,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get iconRoyal => 'Royal';
 
   @override
+  String get dockIconHelpTitle => 'Refresh dock icon';
+
+  @override
+  String get dockIconHelpBody =>
+      'If the icon in your dock has not updated yet, open the Home screen app settings, tap Force stop, then reopen Bayan.';
+
+  @override
   String get iqamahTimes => 'Iqamah Times';
 
   @override
   String get iqamahTimesDescription =>
       'Default iqamah gap after adhan for each prayer';
+
+  @override
+  String get wallpaperGallery => 'Wallpaper Gallery';
+
+  @override
+  String get wallpaperGallerySubtitle =>
+      'Browse Islamic wallpapers and set as background';
+
+  @override
+  String get allWallpapers => 'All';
+
+  @override
+  String get wallpapers => 'wallpapers';
+
+  @override
+  String get wallpaperLoadError => 'Could not load wallpapers';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get setAsWallpaper => 'Set Wallpaper';
+
+  @override
+  String get downloadWallpaper => 'Download';
+
+  @override
+  String get downloadingWallpaper => 'Downloading wallpaper...';
+
+  @override
+  String get wallpaperSetSuccess => 'Wallpaper set successfully';
+
+  @override
+  String get wallpaperSetFailed => 'Failed to set wallpaper';
+
+  @override
+  String get wallpaperDownloaded => 'Wallpaper downloaded';
+
+  @override
+  String get cropWallpaper => 'Adjust for your screen';
+
+  @override
+  String get cropHint =>
+      'Pan and zoom — this is exactly what will appear on your home and lock screen';
+
+  @override
+  String get onYourScreen => 'On your screen';
 }

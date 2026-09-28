@@ -8,6 +8,7 @@ class MainActivity : FlutterActivity() {
     private val DOWNLOAD_CHANNEL = "com.hamzah.bayan/download_manager"
     private val NOTIFICATION_CHANNEL = "com.hamzah.bayan/adhan_notifications"
     private val ICON_CHANNEL = "com.hamzah.bayan/app_icon"
+    private val WALLPAPER_CHANNEL = "com.hamzah.bayan/wallpaper"
     private var bridge: DownloadManagerBridge? = null
     private var notifBridge: AdhanNotificationBridge? = null
 
@@ -22,6 +23,10 @@ class MainActivity : FlutterActivity() {
         val notifChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, NOTIFICATION_CHANNEL)
         notifBridge = AdhanNotificationBridge(this, notifChannel)
         notifChannel.setMethodCallHandler { call, result -> notifBridge?.handle(call, result) }
+
+        val wallpaperChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, WALLPAPER_CHANNEL)
+        val wallpaperBridge = WallpaperBridge(this, wallpaperChannel)
+        wallpaperChannel.setMethodCallHandler { call, result -> wallpaperBridge.handle(call, result) }
 
         val iconChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, ICON_CHANNEL)
         iconChannel.setMethodCallHandler { call, result ->

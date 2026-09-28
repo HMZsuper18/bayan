@@ -886,6 +886,12 @@ abstract class AppLocalizations {
   /// **'Pause'**
   String get pause;
 
+  /// No description provided for @resume.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get resume;
+
   /// No description provided for @stop.
   ///
   /// In en, this message translates to:
@@ -903,6 +909,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download a reciter first'**
   String get noReciterDownloaded;
+
+  /// No description provided for @downloadReciter.
+  ///
+  /// In en, this message translates to:
+  /// **'Download reciter'**
+  String get downloadReciter;
 
   /// No description provided for @surahLabel.
   ///
@@ -1402,6 +1414,18 @@ abstract class AppLocalizations {
   /// **'Royal'**
   String get iconRoyal;
 
+  /// No description provided for @dockIconHelpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh dock icon'**
+  String get dockIconHelpTitle;
+
+  /// No description provided for @dockIconHelpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If the icon in your dock has not updated yet, open the Home screen app settings, tap Force stop, then reopen Bayan.'**
+  String get dockIconHelpBody;
+
   /// No description provided for @iqamahTimes.
   ///
   /// In en, this message translates to:
@@ -1413,6 +1437,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Default iqamah gap after adhan for each prayer'**
   String get iqamahTimesDescription;
+
+  /// No description provided for @wallpaperGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper Gallery'**
+  String get wallpaperGallery;
+
+  /// No description provided for @wallpaperGallerySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Islamic wallpapers and set as background'**
+  String get wallpaperGallerySubtitle;
+
+  /// No description provided for @allWallpapers.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allWallpapers;
+
+  /// No description provided for @wallpapers.
+  ///
+  /// In en, this message translates to:
+  /// **'wallpapers'**
+  String get wallpapers;
+
+  /// No description provided for @wallpaperLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load wallpapers'**
+  String get wallpaperLoadError;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @setAsWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Wallpaper'**
+  String get setAsWallpaper;
+
+  /// No description provided for @downloadWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get downloadWallpaper;
+
+  /// No description provided for @downloadingWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading wallpaper...'**
+  String get downloadingWallpaper;
+
+  /// No description provided for @wallpaperSetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper set successfully'**
+  String get wallpaperSetSuccess;
+
+  /// No description provided for @wallpaperSetFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to set wallpaper'**
+  String get wallpaperSetFailed;
+
+  /// No description provided for @wallpaperDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallpaper downloaded'**
+  String get wallpaperDownloaded;
+
+  /// No description provided for @cropWallpaper.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust for your screen'**
+  String get cropWallpaper;
+
+  /// No description provided for @cropHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pan and zoom — this is exactly what will appear on your home and lock screen'**
+  String get cropHint;
+
+  /// No description provided for @onYourScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'On your screen'**
+  String get onYourScreen;
 }
 
 class _AppLocalizationsDelegate

@@ -421,6 +421,9 @@ class AppLocalizationsUr extends AppLocalizations {
   String get pause => 'روکیں';
 
   @override
+  String get resume => 'جاری رکھیں';
+
+  @override
   String get stop => 'بند کریں';
 
   @override
@@ -428,6 +431,9 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get noReciterDownloaded => 'پہلے ایک قاری ڈاؤن لوڈ کریں';
+
+  @override
+  String get downloadReciter => 'قاری ڈاؤن لوڈ کریں';
 
   @override
   String get surahLabel => 'سورت';
@@ -696,9 +702,63 @@ class AppLocalizationsUr extends AppLocalizations {
   String get iconRoyal => 'شاہانہ';
 
   @override
+  String get dockIconHelpTitle => 'ڈاک آئیکن تازہ کریں';
+
+  @override
+  String get dockIconHelpBody =>
+      'اگر ڈاک میں آئیکن ابھی اپ ڈیٹ نہیں ہوئی، تو ہوم اسکرین ایپ کی ترتیبات کھولیں، فورس اسٹاپ دبائیں، پھر بیان دوبارہ کھولیں۔';
+
+  @override
   String get iqamahTimes => 'اقامت کے اوقات';
 
   @override
   String get iqamahTimesDescription =>
       'اذان کے بعد ہر نماز کے لیے اقت کم اوقات';
+
+  @override
+  String get wallpaperGallery => 'وال پیپر گیلری';
+
+  @override
+  String get wallpaperGallerySubtitle =>
+      'اسلامی وال پیپرز دیکھیں اور پسندیدہ بنائیں';
+
+  @override
+  String get allWallpapers => 'سب';
+
+  @override
+  String get wallpapers => 'وال پیپرز';
+
+  @override
+  String get wallpaperLoadError => 'وال پیپرز لوڈ نہیں ہو سکے';
+
+  @override
+  String get retry => 'دوبارہ کوشش کریں';
+
+  @override
+  String get setAsWallpaper => 'وال پیپر بنائیں';
+
+  @override
+  String get downloadWallpaper => 'ڈاؤن لوڈ';
+
+  @override
+  String get downloadingWallpaper => 'وال پیپر ڈاؤن لوڈ ہو رہا ہے...';
+
+  @override
+  String get wallpaperSetSuccess => 'وال پیپر کامیابی سے لگ گیا';
+
+  @override
+  String get wallpaperSetFailed => 'وال پیپر لگانے میں ناکامی';
+
+  @override
+  String get wallpaperDownloaded => 'وال پیپر ڈاؤن لوڈ ہو گیا';
+
+  @override
+  String get cropWallpaper => 'اپنی اسکرین کے مطابق ڈھالیں';
+
+  @override
+  String get cropHint =>
+      'ٹھیک کریں اور زوم کریں — یہی آپ کی ہوم اور لاک اسکرین پر نظر آئے گا';
+
+  @override
+  String get onYourScreen => 'آپ کی اسکرین پر';
 }
