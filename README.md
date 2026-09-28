@@ -1,251 +1,192 @@
-# بيان — Bayan
-
 <p align="center">
-  <img src="assets/images/logo.svg" alt="Bayan icon" width="160" />
+  <img src="assets/images/logo.svg" alt="Bayan" width="160" />
 </p>
 
-> هَٰذَا بَيَانٌ لِّلنَّاسِ وَهُدًى وَمَوْعِظَةٌ لِّلْمُتَّقِينَ
->
-> *"This is a clear statement to mankind, a guidance and instruction for those conscious of Allah."* — Surah Aal-e-Imran, 3:138
+<h1 align="center">Bayan</h1>
 
-**Bayan** is a Quranic study app for Android that works fully offline. It pairs the printed Mushaf with a built-in page scanner (OCR), so you can read, listen, and study directly from the page you're on.
+<p align="center">
+  A Quranic study app with offline OCR, Tafseer and recitations.
+</p>
 
-- **Platform:** Android 7.0+ (minSdk 24, targetSdk 36), arm64-v8a + armeabi-v7a
-- **Language:** Flutter (Dart), Material 3
-- **Version:** 1.0.0
-- **License:** [GPLv3](#license)
+Bayan (بيان) is a Flutter application for reading, listening to and studying the
+Quran. It renders mushaf pages from a bundled text corpus, recognises printed
+pages with on-device OCR, streams and downloads recitations, and keeps prayer
+times, adhan alerts and a Hijri calendar close at hand. It runs fully offline
+once content is downloaded.
 
----
-
-## Contents
-
-- [Features](#features)
-- [Getting the app](#getting-the-app)
-- [For developers](#for-developers)
-- [Tech stack](#tech-stack)
-- [Project structure](#project-structure)
-- [License](#license)
-
----
+- **Version:** 1.8.0
+- **License:** see [LICENSE](LICENSE)
 
 ## Features
 
-### 📖 Complete offline Mushaf
-- All 114 surahs and 6,236 verses are bundled with the app and stored locally in Hive — no internet needed to read the Quran.
-- Two reading modes:
-  - **Text mode** — clean Arabic text with full diacritics, rendered with a custom RTL text pipeline and the AmiriQuran / Uthmanic fonts.
-  - **Page mode** — the same text reflowed per printed-Mushaf page boundaries (604 pages), navigable by page like the physical book.
-- Navigate by **surah**, **juz'**, or **hizb** from the index.
-- Search surahs by number, page, Arabic name, or English name.
+### Reading and study
+- **Mushaf reader** with page viewer, surah navigation, adaptive Quran text
+  rendering (Uthmanic and AmiriQuran fonts, PUA glyph substitution and text
+  normalisation) and bookmarks.
+- **OCR page scanner** using an on-device Tesseract engine with the bundled
+  Arabic model — point the camera at a printed mushaf page and jump to it.
+- **Quran index** with surah and verse pickers.
+- **Tafseer and translation** with a selectable language.
+- **Azkar and dhikr** controller with a share sheet.
 
-### 🔍 Page scanner (OCR)
-- Point your camera at any page of a printed Mushaf — offline OCR (Tesseract, `ara.traineddata`) reads the page number from Arabic-Indic digits and jumps you to that exact page.
-- No network calls, no scanning service — everything runs on your device.
+### Audio
+- **Reciters store** for browsing and downloading reciters.
+- **Hybrid download manager** with a persistent queue, progress reporting and
+  background playback through a shared Dart engine.
+- **Mini player** and a recitations tray on the dashboard.
 
-### 🔊 Recitations & Tafseer
-- Listen to recitations from famous reciters (Makkah & Madinah Imams, classic Egyptian reciters, and *hadr*/*fast* styles).
-- Download recitations for offline playback with live download progress and a reciters store.
-- Tap any verse to open a detail panel with:
-  - **Tafseer** (commentary), fully offline
-  - **Translations** in your language
-  - **Qira'at** (variant readings)
-  - **Recitation** controls — single verse, verse-to-end, or the whole surah.
+### Prayer and time
+- **Prayer times** calculated on device (location or manual), with Hanafi and
+  standard Asr methods, plus sunrise.
+- **Adhan notifications** with a configurable reminder offset, scheduled on
+  boot and after app updates.
+- **Qiblah compass** using the device magnetometer.
+- **Hijri calendar**.
 
-### 🕌 Daily companions
-- **Prayer times** with iqamah gaps, auto-detected from your location (defaults to Makkah; silently refreshes every few days).
-- **Azkar** — morning, evening, and general supplications, time-aware and offline.
-- **Ayah of the Week** — a deterministic verse that changes every Monday, works offline, and can be shared.
-- **Home-screen widget** on Android showing today's prayer times.
+### Home screen (Android)
+Five app widgets — Prayer Times, Ayah of the Week, Dhikr, OCR and
+Recitations — with compact and banner size tiers, day/night backgrounds and
+broadcast playback controls that work without opening the app.
 
-### ⚙️ Personalization
-- Three fully independent languages: **UI** (Arabic, English, Urdu), **tafseer**, and **translation**.
-- Adjust Quran font size and UI font size.
-- Light/dark theme with a distinctive glass-morphism design.
-- Choose the Mushaf layout (pages vs surahs).
+### Personalisation
+- **Five launcher icon variants:** Classic, Emerald, Midnight, Gold, Royal,
+  switched through activity aliases without restarting the app.
+- **Wallpapers gallery:** browse the published catalogue, preview an image,
+  crop it to the screen aspect and apply it to the home or lock screen.
+- Light and dark theme, adjustable UI font size, and English, Arabic or Urdu
+  interface language.
 
----
+## Platforms
 
-## Getting the app
+| Target | Status |
+|---|---|
+| Android | Primary target, release APK builds |
+| iOS | Project present |
+| Linux desktop | CMake runner with a desktop sidebar shell for widths over 900 px |
+| GNOME Shell extension | Separate extension in `gnome/bayan@bayan/` showing prayer times in the top panel |
 
-Bayan is an **Android** app:
+The GNOME extension is independent of the Flutter app. It targets Shell
+versions 45 to 50 and ships its own prayer engine, Hijri conversion,
+notification handling and local cache under `gnome/bayan@bayan/`.
 
-- **GitHub Releases** — download the latest APK from the [Releases](https://github.com/HMZsuper18/bayan/releases) page, then enable "Install unknown apps" for your file manager and install it.
-- **Google Play** — Bayan is being prepared for the Play Store; once published, install it directly from Play.
-
----
-
-# For developers
-
-This section is for people who want to build, run, and contribute to Bayan.
-
-## Requirements
-
-- **Flutter** stable channel (project metadata tracks a recent stable revision)
-- **Dart** SDK `^3.11.5`
-- **Android SDK** with Android Studio or a command-line toolchain
-- **Java 17** for the Android Gradle build (newer JDKs, e.g. 25, are unsupported by Gradle 8.14 / AGP 8.11)
-- An Android device or emulator
-
-## Build from source
-
-```bash
-# Fetch dependencies
-flutter pub get
-
-# Generate localization and codegen files
-flutter gen-l10n
-dart run build_runner build --delete-conflicting-outputs
-
-# Run on a connected device
-flutter run
-
-# Build a release APK (arm64-v8a + armeabi-v7a, obfuscated)
-export JAVA_HOME=~/.local/share/java/jdk-17.0.20+8
-flutter build apk --release --target-platform android-arm,android-arm64 \
-  --obfuscate --split-debug-info=build/debug-info
-
-# Build a Play Store App Bundle (~56 MB)
-flutter build appbundle --target-platform android-arm,android-arm64 \
-  --obfuscate --split-debug-info=build/debug-info
-```
-
-Build artifacts land in `build/app/outputs/`. The AAB splits per-ABI on Play, so a device downloads only ~11–19 MB and installs ~40–45 MB.
-
-> Release builds are signed with the release key (`android/key.properties` → `android/app/bayan-release.keystore`, both gitignored). Keep the keystore and password safe — Play Store updates must be signed with the same key. A backup lives in `important/` (gitignored).
-
-## Architecture
-
-The app follows a **feature-first architecture** with a **BLoC** state-management pattern:
+## Project structure
 
 ```
 lib/
-├── core/          # Constants, theme, utilities, shared widgets
-├── data/          # Hive boxes, models, repositories, seed data
-├── features/      # One folder per feature (dashboard, mushaf, ...)
-│   ├── bloc/      #   events / states / bloc
-│   └── presentation/  #   screens and widgets
-├── services/      # Cross-cutting singleton services
-├── l10n/          # Localization (arb files + generated Dart)
-├── app.dart       # Root widget (AppState)
-└── main.dart      # Bootstrap
+  main.dart              entry point: Hive, settings, icon sync, adhan reschedule
+  app.dart               MaterialApp, theme, locale and text scaling
+  core/
+    constants/           app-wide constants
+    theme/               colours, text styles, light and dark themes
+    utils/               prayer time calculator, Hijri date, Qiblah, Quran
+                         text pipeline, responsive spacing, reciter helpers
+    widgets/             desktop shell and dashboard, glass container,
+                         mini player, reciter avatar
+  data/
+    database/            Hive boxes, Quran index, seed data, settings service
+    models/              Hive-persisted models (generated `.g.dart` parts)
+    repositories/        Quran and wallpaper data sources
+  features/
+    dashboard/           home screen, prayer times, azkar, ayah of the week
+    mushaf/              reader, page viewer, scanner, render widgets
+    qiblah/              compass screen
+    quran_index/         surah and verse navigation
+    reciters_store/      reciter browsing and downloads
+    settings/            settings, about and feedback
+    splash/              launch screen
+    wallpaper/           gallery, crop screen, bloc and crop math domain
+  services/              static service classes (notifications, downloads,
+                         playback, OCR, widget refresh, app icon, wallpaper)
+  l10n/                  ARB sources and generated localizations
+android/                 manifest, Kotlin bridges, receivers, widgets, icons
+tool/                    wallpaper_dashboard.py, a local catalogue editor
+test/                    unit tests
 ```
 
-Key conventions:
+## Architecture
 
-- **Feature-first**: everything for a feature lives under `lib/features/<name>/`.
-- **BLoC**: each feature uses the `flutter_bloc` package with `equatable` events/states.
-- **Repository pattern**: `lib/data/repositories/quran_repository.dart` is a thin facade over `HiveService` + `QuranIndexService`; widgets talk to repositories, not to Hive directly.
-- **Singleton services** in `lib/services/` handle audio playback, downloads, OCR, prayer times, etc., and expose `Stream`s for live UI updates.
+- **State management** — `flutter_bloc`. Each feature that needs it owns a
+  `bloc/` directory with `*_bloc.dart`, `*_event.dart` and `*_state.dart`
+  joined by `part of`. Events are `Equatable` subclasses.
+- **Persistence** — Hive. `HiveService` opens the boxes, `SettingsService`
+  stores user preferences as key/value strings, and models carry generated
+  adapters.
+- **Native boundary** — Kotlin method channels registered in
+  `MainActivity.configureFlutterEngine`: download manager, adhan notifications,
+  app icon switching and wallpapers. Widgets, boot handling and package
+  replacement are served by dedicated receivers and `AppWidgetProvider`
+  implementations.
+- **Rendering** — the Quran text pipeline lives in `lib/core/utils`:
+  normalisation, PUA substitution and page layout are pure functions, kept
+  independent of widgets so they can be tested directly.
 
-### Startup flow (`lib/main.dart`)
+## Getting started
 
-1. `HiveService.init()` — opens the Hive boxes
-2. `SettingsService.init()` — loads user settings
-3. `DefaultReciterService.init()` — resolves the default reciter
-4. `runApp(App())` — the app seeds its data post-frame (`SeedData.seedAll()`) and refreshes the home-screen widget
+```bash
+flutter pub get
+flutter run
+```
 
-## Data & storage
+Release build:
 
-- **Hive** is the local database. Boxes: `surahs`, `verses`, `reciters`, `tafseer`, `qiraat`, `translations`, plus a `settings` box.
-- **Seed data** is loaded from `assets/data/quran.json` (~10 MB) and `assets/data/surahs.json` via `compute()` (off the UI thread) in `lib/data/database/seed_data.dart`.
-- **Index maps** (`lib/data/database/quran_index.dart`) power surah / juz' / hizb navigation and page lookups.
-- **Models** in `lib/data/models/` use Hive's codegen (`*.g.dart` is generated with `build_runner`).
+```bash
+flutter build apk --release
+```
 
-## Services at a glance
-
-| Service | File | What it does |
-|---|---|---|
-| Audio playback | `lib/services/audio_playback_service.dart` | `just_audio` singleton; verse / verse-to-end / full-surah modes |
-| Reciter downloads | `lib/services/reciter_store_service.dart` | Dio-based downloads with concurrency cap; progress streams |
-| Ayah of the week | `lib/services/ayah_of_week_service.dart` | Deterministic weekly verse (ISO week + FNV-1a hash), changes Mondays, offline |
-| Default reciter | `lib/services/default_reciter_service.dart` | Validates and remembers the default reciter |
-| Page-number OCR | `lib/services/page_number_ocr_service.dart` | Tesseract OCR of Arabic-Indic page digits |
-| Prayer times widget | `lib/services/prayer_times_widget_service.dart` | Home-screen widget data provider |
-
-## Quran rendering pipeline
-
-The text renderer in `lib/core/utils/` is custom-built for Quranic orthography:
-
-- `quran_render_config.dart` — font selection (AmiriQuran primary, Uthmanic fallback) and OpenType features
-- `quran_text_normalizer.dart` — NFC normalization, diacritic reordering, orphaned-mark fixes, display caching
-- `quran_ayah_renderer.dart` — custom `ui.Paragraph` / `ui.Picture` caching for fast RTL rendering
-- `quran_pua_substitution.dart` — Private Use Area glyph mapping for the text renderer
-
-> `assets/qcf4/` (page fonts + per-page layout JSON, ~113 MB) exists in the repo but is **not used by any code** — the page view renders text reflowed per printed-page boundaries with the standard fonts. It is deliberately **not registered** in `pubspec.yaml` to keep installs small. If an exact printed-page layout mode is ever added, ship it as an optional on-demand download instead.
-
-## Localization
-
-Localization uses Flutter's gen-l10n with a custom `l10n.yaml`:
-
-- `lib/l10n/app_en.arb` (template), `app_ar.arb`, `app_ur.arb`
-- Regenerate with `flutter gen-l10n`
-- UI language, tafseer language, and translation language are configured **independently** in settings
-
-## Linting & testing
+Verification:
 
 ```bash
 flutter analyze
 flutter test
 ```
 
-The project uses `flutter_lints`. `test/` currently has a minimal smoke test; more tests are welcome contributions.
+Localization and generated code:
 
-## Contributing
-
-1. Fork the repository and create a feature branch.
-2. Follow the [architecture](#architecture) and code conventions above.
-3. Run `flutter analyze` and the test suite before opening a pull request.
-4. Keep GPLv3 license headers on new files where appropriate.
-
----
-
-## Tech stack
-
-- **Flutter / Dart** — UI framework
-- **flutter_bloc + equatable** — state management
-- **Hive + hive_flutter** — local database
-- **just_audio** — recitation playback
-- **flutter_tesseract_ocr + image** — offline page-number OCR
-- **dio** — recitation downloads
-- **geolocator + geocoding** — prayer-time location
-- **home_widget** — Android home-screen prayer-times widget
-- **carousel_slider, share_plus, flutter_svg, url_launcher** — misc UI/UX
-- **intl + gen-l10n** — localization (en, ar, ur)
-
----
-
-## Project structure
-
-```
-bayan/
-├── android/            # Android app + home-screen widget provider (Kotlin)
-├── assets/
-│   ├── data/           # quran.json, surahs.json (seed data)
-│   ├── fonts/          # Uthmanic, AmiriQuran, Tajawal
-│   ├── images/         # logo (reciter avatars are initials, not photos)
-│   ├── tessdata/       # Tesseract ara.traineddata
-│   └── qcf4/           # unused page fonts + layout JSON (not shipped; see above)
-├── important/          # gitignored release-key backup (never commit)
-├── lib/
-│   ├── core/           # constants, theme, utils, widgets
-│   ├── data/           # database, models, repositories
-│   ├── features/       # dashboard, mushaf, quran_index, reciters_store, settings, splash
-│   ├── services/       # audio, downloads, OCR, prayer times, ...
-│   ├── l10n/           # en / ar / ur
-│   ├── app.dart
-│   └── main.dart
-├── l10n.yaml
-└── pubspec.yaml
+```bash
+flutter gen-l10n
+dart run build_runner build --delete-conflicting-outputs
 ```
 
----
+`flutter gen-l10n` regenerates `lib/l10n/app_localizations*.dart` from the
+`.arb` files; run it after editing any string. `build_runner` is only needed
+when a Hive model in `lib/data/models/` changes.
 
-## License
+## Localization
 
-Copyright © 2026 Hamzah
+Three locales, defined in `l10n.yaml` with `app_en.arb` as the template:
 
-This project is licensed under the **GNU General Public License v3.0**. You may use, study, modify, and redistribute it, provided any derivative works are also licensed under GPLv3 and made available with their source code.
+| Locale | File |
+|---|---|
+| English | `lib/l10n/app_en.arb` |
+| Arabic | `lib/l10n/app_ar.arb` |
+| Urdu | `lib/l10n/app_ur.arb` |
 
-See [LICENSE](LICENSE) for the full text.
+The selected language is stored in `SettingsService` and applied at runtime
+without a restart.
 
-**Disclaimer:** This is an unofficial, independent study tool. It is not affiliated with, endorsed by, or connected to any official Quran publication or organization. Quranic text and recitations are provided for personal study; please respect the copyrights of the underlying sources.
+## Assets
+
+| Asset | Purpose |
+|---|---|
+| `assets/images/logo.svg` | Application logo |
+| `assets/data/quran.json` | Quran text corpus |
+| `assets/data/surahs.json` | Surah metadata |
+| `assets/fonts/` | Uthmanic, AmiriQuran and Tajawal |
+| `assets/tessdata/` | Arabic Tesseract model for OCR |
+
+## Testing
+
+```bash
+flutter test
+```
+
+Tests cover the pure logic that is easy to get wrong: the wallpaper crop
+mathematics (`test/wallpaper_crop_math_test.dart`) verifies cover scaling,
+pan clamping and that a crop rectangle never leaves the viewport.
+
+## Tooling
+
+`tool/wallpaper_dashboard.py` is a local web dashboard for editing the
+published wallpaper catalogue — titles, categories, ordering, uploads —
+writing directly into the catalogue repository. It is a developer tool and is
+not part of the application bundle.
