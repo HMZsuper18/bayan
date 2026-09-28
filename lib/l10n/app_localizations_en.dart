@@ -69,9 +69,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unavailable => 'Currently Unavailable';
 
   @override
-  String get splashSubtitle => 'Your Qur\\u0027anic study companion';
-
-  @override
   String get recitations => 'Recitations';
 
   @override
@@ -82,12 +79,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get navigation => 'Navigation';
-
-  @override
-  String get scanning => 'Scanning';
-
-  @override
-  String get ocrProcessing => 'Processing OCR...';
 
   @override
   String get verses => 'Verses';
@@ -155,10 +146,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get startReading => 'Mushaf: Start Reading';
-
-  @override
-  String get primaryActionSubtitle =>
-      'Browse the Holy Quran with tafseer and recitations';
 
   @override
   String get hijriCalendar => 'Hijri Calendar';
@@ -242,12 +229,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hizb => 'Hizb';
-
-  @override
-  String get startsAtPage => 'Starts at Page';
-
-  @override
-  String get chapter => 'Chapter';
 
   @override
   String get indexTitle => 'Table of Contents';
@@ -411,12 +392,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Qatari imam and qari, renowned for his melodious recitation of the Quran in Taraweeh prayers.';
 
   @override
-  String get playVerse => 'Play Verse';
-
-  @override
-  String get playFromHere => 'Play from here to end';
-
-  @override
   String get playFullSurah => 'To the Surah End';
 
   @override
@@ -438,22 +413,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get downloadReciter => 'Download reciter';
 
   @override
-  String get surahLabel => 'Surah';
-
-  @override
   String get warning => 'Warning';
 
   @override
-  String get defaultReciter => 'Default Reciter';
-
-  @override
   String get playSingleVerse => 'Play Verse';
-
-  @override
-  String get playFromVerseToEndOfSurah => 'Play to End of Surah';
-
-  @override
-  String get defaultReciterSet => 'Default reciter set';
 
   @override
   String get selectReciter => 'Select Reciter';
@@ -465,18 +428,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mushaf => 'Mushaf';
 
   @override
-  String get surahOptions => 'Surah Options';
-
-  @override
   String get playFullSurahFromStart => 'Play Full Surah';
 
   @override
   String get unknownError => 'Unknown error';
-
-  @override
-  String downloadFailed(Object name) {
-    return 'Failed to download $name';
-  }
 
   @override
   String downloadIncomplete(Object name) {
@@ -534,16 +489,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shareAyah => 'Share';
 
   @override
-  String get openInMushaf => 'Open in Mushaf';
-
-  @override
   String get shareAzkar => 'Share';
 
   @override
   String get azkarShareAd => 'This adhkar is from the Bayan app — try it!';
-
-  @override
-  String get nextPrayer => 'Next Prayer';
 
   @override
   String get adhan => 'Adhan';
@@ -553,9 +502,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get prayer => 'Prayer';
-
-  @override
-  String get dailyDhikr => 'Adhkar & Supplications';
 
   @override
   String adhanCountdown(Object time) {
@@ -608,10 +554,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get karachi => 'Karachi';
 
   @override
-  String get iqamahDisclaimer =>
-      'Default iqamah times — actual times may vary by mosque';
-
-  @override
   String get adhanNotifications => 'Adhan notifications';
 
   @override
@@ -626,10 +568,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openSettings => 'Open Settings';
-
-  @override
-  String get notificationDisabled =>
-      'Notifications are disabled in system settings.';
 
   @override
   String get home => 'Home';
@@ -705,16 +643,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get iconRoyal => 'Royal';
 
   @override
-  String get dockIconHelpTitle => 'Refresh dock icon';
-
-  @override
-  String get dockIconHelpBody =>
-      'If the icon in your dock has not updated yet, open the Home screen app settings, tap Force stop, then reopen Bayan.';
-
-  @override
-  String get iqamahTimes => 'Iqamah Times';
-
-  @override
   String get iqamahTimesDescription =>
       'Default iqamah gap after adhan for each prayer';
 
@@ -724,9 +652,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get wallpaperGallerySubtitle =>
       'Browse Islamic wallpapers and set as background';
-
-  @override
-  String get allWallpapers => 'All';
 
   @override
   String get wallpapers => 'wallpapers';

@@ -69,9 +69,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get unavailable => 'فی الحال دستیاب نہیں';
 
   @override
-  String get splashSubtitle => 'آپ کا قرآن مطالعہ کا ساتھی';
-
-  @override
   String get recitations => 'تلاوتیں';
 
   @override
@@ -82,12 +79,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get navigation => 'نیویگیشن';
-
-  @override
-  String get scanning => 'اسکیننگ';
-
-  @override
-  String get ocrProcessing => 'OCR پروسیسنگ جاری ہے...';
 
   @override
   String get verses => 'آیات';
@@ -154,9 +145,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get startReading => 'مصحف: پڑھنا شروع کریں';
-
-  @override
-  String get primaryActionSubtitle => 'تفسیر اور تلاوت کے ساتھ قرآن پاک دیکھیں';
 
   @override
   String get hijriCalendar => 'ہجری کیلنڈر';
@@ -240,12 +228,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get hizb => 'حزب';
-
-  @override
-  String get startsAtPage => 'صفحہ سے شروع';
-
-  @override
-  String get chapter => 'باب';
 
   @override
   String get indexTitle => 'فہرست قرآن';
@@ -409,12 +391,6 @@ class AppLocalizationsUr extends AppLocalizations {
       'قطری امام اور قاری، تراویح میں اپنی خوش الحان تلاوت کے لیے مشہور۔';
 
   @override
-  String get playVerse => 'آیت چلائیں';
-
-  @override
-  String get playFromHere => 'یہاں سے آخر تک چلائیں';
-
-  @override
   String get playFullSurah => 'سورة کے آخر تک';
 
   @override
@@ -436,22 +412,10 @@ class AppLocalizationsUr extends AppLocalizations {
   String get downloadReciter => 'قاری ڈاؤن لوڈ کریں';
 
   @override
-  String get surahLabel => 'سورت';
-
-  @override
   String get warning => 'انتباہ';
 
   @override
-  String get defaultReciter => 'طے شدہ قاری';
-
-  @override
   String get playSingleVerse => 'آیت چلائیں';
-
-  @override
-  String get playFromVerseToEndOfSurah => 'سورت کے آخر تک چلائیں';
-
-  @override
-  String get defaultReciterSet => 'طے شدہ قاری مقرر ہو گیا';
 
   @override
   String get selectReciter => 'قاری منتخب کریں';
@@ -463,18 +427,10 @@ class AppLocalizationsUr extends AppLocalizations {
   String get mushaf => 'مصحف';
 
   @override
-  String get surahOptions => 'سورہ کے اختیارات';
-
-  @override
   String get playFullSurahFromStart => 'مکمل سورہ چلائیں';
 
   @override
   String get unknownError => 'نامعلوم خرابی';
-
-  @override
-  String downloadFailed(Object name) {
-    return '$name ڈاؤن لوڈ ناکام';
-  }
 
   @override
   String downloadIncomplete(Object name) {
@@ -531,16 +487,10 @@ class AppLocalizationsUr extends AppLocalizations {
   String get shareAyah => 'شیئر کریں';
 
   @override
-  String get openInMushaf => 'مصحف میں کھولیں';
-
-  @override
   String get shareAzkar => 'شیئر کریں';
 
   @override
   String get azkarShareAd => 'یہ ذکر بیان ایپ سے ہے — اسے آزمائیں!';
-
-  @override
-  String get nextPrayer => 'اگلی نماز';
 
   @override
   String get adhan => 'اذان';
@@ -550,9 +500,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get prayer => 'نماز';
-
-  @override
-  String get dailyDhikr => 'اذکار و ادعیہ';
 
   @override
   String adhanCountdown(Object time) {
@@ -605,10 +552,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get karachi => 'کراچی';
 
   @override
-  String get iqamahDisclaimer =>
-      'طے شدہ اقامت کے اوقات — اصل اوقات مسجد کے مطابق مختلف ہو سکتے ہیں';
-
-  @override
   String get adhanNotifications => 'اذان اطلاعات';
 
   @override
@@ -623,9 +566,6 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get openSettings => 'ترتیبات کھولیں';
-
-  @override
-  String get notificationDisabled => 'سسٹم کی ترتیبات میں اطلاعات بند ہیں۔';
 
   @override
   String get home => 'ہوم';
@@ -702,16 +642,6 @@ class AppLocalizationsUr extends AppLocalizations {
   String get iconRoyal => 'شاہانہ';
 
   @override
-  String get dockIconHelpTitle => 'ڈاک آئیکن تازہ کریں';
-
-  @override
-  String get dockIconHelpBody =>
-      'اگر ڈاک میں آئیکن ابھی اپ ڈیٹ نہیں ہوئی، تو ہوم اسکرین ایپ کی ترتیبات کھولیں، فورس اسٹاپ دبائیں، پھر بیان دوبارہ کھولیں۔';
-
-  @override
-  String get iqamahTimes => 'اقامت کے اوقات';
-
-  @override
   String get iqamahTimesDescription =>
       'اذان کے بعد ہر نماز کے لیے اقت کم اوقات';
 
@@ -721,9 +651,6 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get wallpaperGallerySubtitle =>
       'اسلامی وال پیپرز دیکھیں اور پسندیدہ بنائیں';
-
-  @override
-  String get allWallpapers => 'سب';
 
   @override
   String get wallpapers => 'وال پیپرز';

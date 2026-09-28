@@ -3,10 +3,8 @@ package com.hamzah.bayan
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.provider.Settings
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import java.io.File
 
 class WallpaperBridge(
     private val context: Context,

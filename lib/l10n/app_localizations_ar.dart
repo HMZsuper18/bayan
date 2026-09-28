@@ -69,9 +69,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unavailable => 'غير متوفر حاليا';
 
   @override
-  String get splashSubtitle => 'رفيقك في دراسة القرآن';
-
-  @override
   String get recitations => 'التلاوات';
 
   @override
@@ -82,12 +79,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get navigation => 'التنقل';
-
-  @override
-  String get scanning => 'المسح';
-
-  @override
-  String get ocrProcessing => 'جارٍ معالجة التعرف على النص...';
 
   @override
   String get verses => 'آيات';
@@ -154,9 +145,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get startReading => 'المصحف: ابدأ القراءة';
-
-  @override
-  String get primaryActionSubtitle => 'تصفح القرآن الكريم مع التفسير والقراءات';
 
   @override
   String get hijriCalendar => 'التقويم الهجري';
@@ -240,12 +228,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get hizb => 'الحزب';
-
-  @override
-  String get startsAtPage => 'يبدأ من صفحة';
-
-  @override
-  String get chapter => 'الفصل';
 
   @override
   String get indexTitle => 'فهرس القرآن';
@@ -409,12 +391,6 @@ class AppLocalizationsAr extends AppLocalizations {
       'إمام وقارئ قطري، اشتهر بتلاوته العذبة للقرآن الكريم في صلاة التراويح.';
 
   @override
-  String get playVerse => 'تشغيل الآية';
-
-  @override
-  String get playFromHere => 'تشغيل من هنا للنهاية';
-
-  @override
   String get playFullSurah => 'إلى نهاية السورة';
 
   @override
@@ -436,22 +412,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get downloadReciter => 'تحميل قارئ';
 
   @override
-  String get surahLabel => 'سورة';
-
-  @override
   String get warning => 'تنبيه';
 
   @override
-  String get defaultReciter => 'القارئ الافتراضي';
-
-  @override
   String get playSingleVerse => 'تشغيل الآية';
-
-  @override
-  String get playFromVerseToEndOfSurah => 'تشغيل حتى نهاية السورة';
-
-  @override
-  String get defaultReciterSet => 'تم تعيين القارئ الافتراضي';
 
   @override
   String get selectReciter => 'اختر القارئ';
@@ -463,18 +427,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get mushaf => 'المصحف';
 
   @override
-  String get surahOptions => 'خيارات السورة';
-
-  @override
   String get playFullSurahFromStart => 'تشغيل السورة كاملة';
 
   @override
   String get unknownError => 'خطأ غير معروف';
-
-  @override
-  String downloadFailed(Object name) {
-    return 'فشل تحميل $name';
-  }
 
   @override
   String downloadIncomplete(Object name) {
@@ -531,16 +487,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get shareAyah => 'مشاركة';
 
   @override
-  String get openInMushaf => 'افتح في المصحف';
-
-  @override
   String get shareAzkar => 'مشاركة';
 
   @override
   String get azkarShareAd => 'أذكار من تطبيق بيان — جرّبه!';
-
-  @override
-  String get nextPrayer => 'الصلاة القادمة';
 
   @override
   String get adhan => 'الأذان';
@@ -550,9 +500,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get prayer => 'صلاة';
-
-  @override
-  String get dailyDhikr => 'اذكار وادعية';
 
   @override
   String adhanCountdown(Object time) {
@@ -605,10 +552,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get karachi => 'كراتشي';
 
   @override
-  String get iqamahDisclaimer =>
-      'أوقات الإقامة الافتراضية — الأوقات الفعلية قد تختلف حسب المسجد';
-
-  @override
   String get adhanNotifications => 'إشعارات الأذان';
 
   @override
@@ -623,9 +566,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get openSettings => 'فتح الإعدادات';
-
-  @override
-  String get notificationDisabled => 'الإشعارات معطلة في إعدادات النظام.';
 
   @override
   String get home => 'الرئيسية';
@@ -701,16 +641,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get iconRoyal => 'ملكي';
 
   @override
-  String get dockIconHelpTitle => 'تحديث أيقونة الشريط السفلي';
-
-  @override
-  String get dockIconHelpBody =>
-      'إذا لم تتحدث الأيقونة في الشريط السفلي بعد، افتح إعدادات تطبيق الشاشة الرئيسية واضغط إيقاف إجباري ثم أعد فتح بيان.';
-
-  @override
-  String get iqamahTimes => 'أوقات الإقامة';
-
-  @override
   String get iqamahTimesDescription =>
       'فترة الإقامة الافتراضية بعد الأذان لكل صلاة';
 
@@ -719,9 +649,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get wallpaperGallerySubtitle => 'تصفح خلفيات إسلامية وتعيينها كخلفية';
-
-  @override
-  String get allWallpapers => 'الكل';
 
   @override
   String get wallpapers => 'خلفية';

@@ -220,12 +220,6 @@ abstract class AppLocalizations {
   /// **'Currently Unavailable'**
   String get unavailable;
 
-  /// No description provided for @splashSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your Qur\\u0027anic study companion'**
-  String get splashSubtitle;
-
   /// No description provided for @recitations.
   ///
   /// In en, this message translates to:
@@ -249,18 +243,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Navigation'**
   String get navigation;
-
-  /// No description provided for @scanning.
-  ///
-  /// In en, this message translates to:
-  /// **'Scanning'**
-  String get scanning;
-
-  /// No description provided for @ocrProcessing.
-  ///
-  /// In en, this message translates to:
-  /// **'Processing OCR...'**
-  String get ocrProcessing;
 
   /// No description provided for @verses.
   ///
@@ -393,12 +375,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mushaf: Start Reading'**
   String get startReading;
-
-  /// No description provided for @primaryActionSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Browse the Holy Quran with tafseer and recitations'**
-  String get primaryActionSubtitle;
 
   /// No description provided for @hijriCalendar.
   ///
@@ -561,18 +537,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hizb'**
   String get hizb;
-
-  /// No description provided for @startsAtPage.
-  ///
-  /// In en, this message translates to:
-  /// **'Starts at Page'**
-  String get startsAtPage;
-
-  /// No description provided for @chapter.
-  ///
-  /// In en, this message translates to:
-  /// **'Chapter'**
-  String get chapter;
 
   /// No description provided for @indexTitle.
   ///
@@ -862,18 +826,6 @@ abstract class AppLocalizations {
   /// **'Qatari imam and qari, renowned for his melodious recitation of the Quran in Taraweeh prayers.'**
   String get reciterBio_tunaiji;
 
-  /// No description provided for @playVerse.
-  ///
-  /// In en, this message translates to:
-  /// **'Play Verse'**
-  String get playVerse;
-
-  /// No description provided for @playFromHere.
-  ///
-  /// In en, this message translates to:
-  /// **'Play from here to end'**
-  String get playFromHere;
-
   /// No description provided for @playFullSurah.
   ///
   /// In en, this message translates to:
@@ -916,41 +868,17 @@ abstract class AppLocalizations {
   /// **'Download reciter'**
   String get downloadReciter;
 
-  /// No description provided for @surahLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Surah'**
-  String get surahLabel;
-
   /// No description provided for @warning.
   ///
   /// In en, this message translates to:
   /// **'Warning'**
   String get warning;
 
-  /// No description provided for @defaultReciter.
-  ///
-  /// In en, this message translates to:
-  /// **'Default Reciter'**
-  String get defaultReciter;
-
   /// No description provided for @playSingleVerse.
   ///
   /// In en, this message translates to:
   /// **'Play Verse'**
   String get playSingleVerse;
-
-  /// No description provided for @playFromVerseToEndOfSurah.
-  ///
-  /// In en, this message translates to:
-  /// **'Play to End of Surah'**
-  String get playFromVerseToEndOfSurah;
-
-  /// No description provided for @defaultReciterSet.
-  ///
-  /// In en, this message translates to:
-  /// **'Default reciter set'**
-  String get defaultReciterSet;
 
   /// No description provided for @selectReciter.
   ///
@@ -970,12 +898,6 @@ abstract class AppLocalizations {
   /// **'Mushaf'**
   String get mushaf;
 
-  /// No description provided for @surahOptions.
-  ///
-  /// In en, this message translates to:
-  /// **'Surah Options'**
-  String get surahOptions;
-
   /// No description provided for @playFullSurahFromStart.
   ///
   /// In en, this message translates to:
@@ -987,12 +909,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown error'**
   String get unknownError;
-
-  /// No description provided for @downloadFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to download {name}'**
-  String downloadFailed(Object name);
 
   /// No description provided for @downloadIncomplete.
   ///
@@ -1090,12 +1006,6 @@ abstract class AppLocalizations {
   /// **'Share'**
   String get shareAyah;
 
-  /// No description provided for @openInMushaf.
-  ///
-  /// In en, this message translates to:
-  /// **'Open in Mushaf'**
-  String get openInMushaf;
-
   /// No description provided for @shareAzkar.
   ///
   /// In en, this message translates to:
@@ -1107,12 +1017,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This adhkar is from the Bayan app — try it!'**
   String get azkarShareAd;
-
-  /// No description provided for @nextPrayer.
-  ///
-  /// In en, this message translates to:
-  /// **'Next Prayer'**
-  String get nextPrayer;
 
   /// No description provided for @adhan.
   ///
@@ -1131,12 +1035,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Prayer'**
   String get prayer;
-
-  /// No description provided for @dailyDhikr.
-  ///
-  /// In en, this message translates to:
-  /// **'Adhkar & Supplications'**
-  String get dailyDhikr;
 
   /// No description provided for @adhanCountdown.
   ///
@@ -1228,12 +1126,6 @@ abstract class AppLocalizations {
   /// **'Karachi'**
   String get karachi;
 
-  /// No description provided for @iqamahDisclaimer.
-  ///
-  /// In en, this message translates to:
-  /// **'Default iqamah times — actual times may vary by mosque'**
-  String get iqamahDisclaimer;
-
   /// No description provided for @adhanNotifications.
   ///
   /// In en, this message translates to:
@@ -1263,12 +1155,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open Settings'**
   String get openSettings;
-
-  /// No description provided for @notificationDisabled.
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications are disabled in system settings.'**
-  String get notificationDisabled;
 
   /// No description provided for @home.
   ///
@@ -1414,24 +1300,6 @@ abstract class AppLocalizations {
   /// **'Royal'**
   String get iconRoyal;
 
-  /// No description provided for @dockIconHelpTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Refresh dock icon'**
-  String get dockIconHelpTitle;
-
-  /// No description provided for @dockIconHelpBody.
-  ///
-  /// In en, this message translates to:
-  /// **'If the icon in your dock has not updated yet, open the Home screen app settings, tap Force stop, then reopen Bayan.'**
-  String get dockIconHelpBody;
-
-  /// No description provided for @iqamahTimes.
-  ///
-  /// In en, this message translates to:
-  /// **'Iqamah Times'**
-  String get iqamahTimes;
-
   /// No description provided for @iqamahTimesDescription.
   ///
   /// In en, this message translates to:
@@ -1449,12 +1317,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Browse Islamic wallpapers and set as background'**
   String get wallpaperGallerySubtitle;
-
-  /// No description provided for @allWallpapers.
-  ///
-  /// In en, this message translates to:
-  /// **'All'**
-  String get allWallpapers;
 
   /// No description provided for @wallpapers.
   ///
