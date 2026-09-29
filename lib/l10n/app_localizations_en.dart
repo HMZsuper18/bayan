@@ -264,6 +264,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get downloading => 'Downloading...';
 
   @override
+  String downloadNotificationProgress(String percent) {
+    return 'Downloading $percent%';
+  }
+
+  @override
+  String downloadNotificationMultiple(int count) {
+    return 'Downloading $count reciters';
+  }
+
+  @override
+  String get downloadNotificationChannelName => 'Reciter Downloads';
+
+  @override
+  String get downloadNotificationChannelDescription =>
+      'Shows download progress for reciters';
+
+  @override
   String get reciterCategoryMakkahMadinah => 'Makkah & Madinah Imams';
 
   @override

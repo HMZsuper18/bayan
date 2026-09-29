@@ -6,6 +6,7 @@ import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : AudioServiceActivity() {
     private val DOWNLOAD_CHANNEL = "com.hamzah.bayan/download_manager"
+    private val DOWNLOAD_NOTIFICATION_CHANNEL = "com.hamzah.bayan/download_progress"
     private val NOTIFICATION_CHANNEL = "com.hamzah.bayan/adhan_notifications"
     private val ICON_CHANNEL = "com.hamzah.bayan/app_icon"
     private val WALLPAPER_CHANNEL = "com.hamzah.bayan/wallpaper"
@@ -23,6 +24,19 @@ class MainActivity : AudioServiceActivity() {
         val notifChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, NOTIFICATION_CHANNEL)
         notifBridge = AdhanNotificationBridge(this, notifChannel)
         notifChannel.setMethodCallHandler { call, result -> notifBridge?.handle(call, result) }
+
+        val downloadNotifChannel = MethodChannel(
+            flutterEngine.dartExecutor.binaryMessenger,
+            DOWNLOAD_NOTIFICATION_CHANNEL,
+        )
+        // Deliberately a local captured by the handler: the Flutter engine
+        // outlives this Activity, and `cleanUpFlutterEngine` runs as soon as the
+        // Activity is destroyed. A field that gets nulled there would silently
+        // drop every later progress update while the download keeps running.
+        val downloadNotifBridge = DownloadNotificationBridge(applicationContext)
+        downloadNotifChannel.setMethodCallHandler { call, result ->
+            downloadNotifBridge.handle(call, result)
+        }
 
         val wallpaperChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, WALLPAPER_CHANNEL)
         val wallpaperBridge = WallpaperBridge(this, wallpaperChannel)

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'l10n/app_localizations.dart';
 import 'core/widgets/glass_container.dart';
@@ -6,6 +8,7 @@ import 'data/database/seed_data.dart';
 import 'data/database/settings_service.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
 import 'services/prayer_times_widget_service.dart';
+import 'services/reciter_store_service.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -32,6 +35,10 @@ class AppState extends State<App> {
     GlassConfig.enableBlur = true;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await SeedData.seedAll();
+      // Pick up any reciter a previous run left half-downloaded. Deferred to
+      // the first frame so the download foreground service may start while
+      // the activity is fully resumed.
+      unawaited(ReciterStoreService.instance.resumePartialDownloads());
       if (mounted) PrayerTimesWidgetService.refresh();
     });
   }

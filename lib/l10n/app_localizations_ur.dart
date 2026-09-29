@@ -263,6 +263,23 @@ class AppLocalizationsUr extends AppLocalizations {
   String get downloading => 'ڈاؤن لوڈ ہو رہا ہے...';
 
   @override
+  String downloadNotificationProgress(String percent) {
+    return 'ڈاؤن لوڈ ہو رہا ہے $percent%';
+  }
+
+  @override
+  String downloadNotificationMultiple(int count) {
+    return '$count قاری ڈاؤن لوڈ ہو رہے ہیں';
+  }
+
+  @override
+  String get downloadNotificationChannelName => 'قاری ڈاؤن لوڈز';
+
+  @override
+  String get downloadNotificationChannelDescription =>
+      'قاریوں کے ڈاؤن لوڈ کی پیش رفت دکھاتا ہے';
+
+  @override
   String get reciterCategoryMakkahMadinah => 'حرمین کے ائمہ';
 
   @override

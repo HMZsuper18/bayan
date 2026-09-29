@@ -604,6 +604,30 @@ abstract class AppLocalizations {
   /// **'Downloading...'**
   String get downloading;
 
+  /// No description provided for @downloadNotificationProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading {percent}%'**
+  String downloadNotificationProgress(String percent);
+
+  /// No description provided for @downloadNotificationMultiple.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading {count} reciters'**
+  String downloadNotificationMultiple(int count);
+
+  /// No description provided for @downloadNotificationChannelName.
+  ///
+  /// In en, this message translates to:
+  /// **'Reciter Downloads'**
+  String get downloadNotificationChannelName;
+
+  /// No description provided for @downloadNotificationChannelDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows download progress for reciters'**
+  String get downloadNotificationChannelDescription;
+
   /// No description provided for @reciterCategoryMakkahMadinah.
   ///
   /// In en, this message translates to:

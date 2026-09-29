@@ -8,9 +8,8 @@ Bayan (بيان) — a Flutter Quranic study app: mushaf reader, on-device OCR,
 recitations, prayer times, adhan notifications, Qiblah, home-screen widgets
 and a wallpapers gallery. Version `1.8.0+8`, Dart SDK `^3.11.5`.
 
-Platforms present: `android/`, `ios/`, `linux/`, plus an independent GNOME
-Shell extension under `gnome/bayan@bayan/`. There is no `web/`, `windows/` or
-`macos/` directory.
+Platforms present: `android/` and `ios/`. There is no `web/`, `windows/`,
+`macos/` or `linux/` directory.
 
 ## Commands
 
@@ -20,6 +19,7 @@ flutter run                                       # dev run
 flutter analyze                                   # lints (see baseline below)
 flutter test                                      # unit tests
 flutter build apk --release                       # release APK
+flutter build appbundle --release                 # release AAB for Play/direct upload
 flutter gen-l10n                                  # regenerate lib/l10n/app_localizations*.dart
 dart run build_runner build --delete-conflicting-outputs   # regenerate *.g.dart
 ```
@@ -33,8 +33,7 @@ after a clean build. The four are `deprecated_member_use` on `scale` in
 in `lib/features/settings/presentation/settings_screen.dart`. All four are
 pre-existing; do not "fix" them as a side effect of unrelated work.
 
-`flutter test` runs **23 tests in 3 files** (`test/wallpaper_crop_math_test.dart`,
-`test/media_session_mapper_test.dart` and `test/theme_inverse_colors_test.dart`).
+`flutter test` runs **3 tests in 1 file** (`test/notification_locale_test.dart`).
 
 ## Conventions
 
@@ -64,6 +63,7 @@ await DefaultReciterService.init();
 AppIconService.instance.init();
 AdhanNotificationService.instance.rescheduleFromSettings();
 await MediaSessionService.instance.init();
+await DownloadNotificationService.instance.init();
 ```
 
 Adding a service that needs start-up work means adding a line here. Anything
@@ -102,6 +102,7 @@ Channels are registered in `MainActivity.configureFlutterEngine`, which
 | `com.hamzah.bayan/adhan_notifications` | `AdhanNotificationBridge` | `handle` |
 | `com.hamzah.bayan/wallpaper` | `WallpaperBridge` | `setWallpaper`, `syncPrayerTimes` |
 | `com.hamzah.bayan/app_icon` | inline `when` | `switchIcon` |
+| `com.hamzah.bayan/download_progress` | `DownloadNotificationBridge` | `update`, `stop` |
 
 New methods on `WallpaperBridge` go inside its `when (call.method)` block;
 keep it free of unused imports.
@@ -115,6 +116,10 @@ Manifest wiring in `android/app/src/main/AndroidManifest.xml`:
   entry in that map **and** a `mipmap-anydpi-v26/ic_launcher_<name>.xml`
 - `android:permission="android.permission.SET_WALLPAPER"` is required by the
   wallpapers gallery; do not remove it.
+- `DownloadForegroundService` needs both the service declaration
+  (`foregroundServiceType="dataSync"`) and the
+  `FOREGROUND_SERVICE_DATA_SYNC` permission, plus `POST_NOTIFICATIONS` already
+  declared for the adhan notifications.
 
 ## Assets
 
@@ -126,9 +131,11 @@ enough — no pubspec edit needed for siblings.
 `assets/images/` contains exactly one file, `logo.svg`.
 
 Launcher icons: the default adaptive icon is
-`res/mipmap-anydpi-v26/ic_launcher.xml` referencing `@mipmap/ic_launcher_*`.
-Before deleting any drawable, grep the whole `android/` tree — orphans are not
-tolerated but neither is a broken icon.
+`res/mipmap-anydpi-v26/ic_launcher.xml` referencing `@drawable/ic_launcher_*`
+backgrounds and foregrounds; density PNGs under `res/mipmap-mdpi` …
+`res/mipmap-xxxhdpi` are the fallback for API 24/25. Before deleting any
+drawable, grep the whole `android/` tree — orphans are not tolerated but
+neither is a broken icon.
 
 ## Things that bite
 
@@ -143,11 +150,6 @@ tolerated but neither is a broken icon.
   belong in the Flutter `assets/` tree so `rootBundle` can read them.
 - **`important/` is gitignored** and holds the release keystore. It must
   never be committed; `.gitignore` line 52 enforces this.
-- **`tool/wallpaper_dashboard.py` is a dev tool**, not part of the app
-  bundle. It edits the wallpaper catalogue in a separate repository and
-  expects to be run from that working tree.
-- The GNOME extension is a separate JavaScript codebase with its own schema
-  and lifecycle. Flutter changes never affect it.
 
 ## Scope discipline
 
@@ -160,7 +162,7 @@ ARB sources, and do not commit unless explicitly asked.
 ```bash
 flutter gen-l10n && flutter pub get
 flutter analyze        # expect 4 infos, 0 errors
-flutter test           # expect 23 tests passing
+flutter test           # expect 3 tests passing
 flutter build apk --release
 ```
 

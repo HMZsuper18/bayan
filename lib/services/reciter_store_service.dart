@@ -251,6 +251,28 @@ class ReciterStoreService {
     }
   }
 
+  /// Restart any reciter left partially downloaded — for example when the
+  /// app was killed mid-download — and return the ids that were restarted.
+  ///
+  /// Already running and explicitly paused downloads are left alone, so this
+  /// is safe to call on every app start.
+  Future<List<String>> resumePartialDownloads() async {
+    final partialIds = await getPartialReciterIds();
+    if (partialIds.isEmpty) return const [];
+
+    final allReciters = HiveService.getAllReciters();
+    final restarted = <String>[];
+    for (final reciterId in partialIds) {
+      if (isDownloading(reciterId) || isPaused(reciterId)) continue;
+      final reciter =
+          allReciters.where((r) => r.id == reciterId).firstOrNull;
+      if (reciter == null) continue;
+      restarted.add(reciter.id);
+      unawaited(downloadReciter(reciter));
+    }
+    return restarted;
+  }
+
   Future<void> cancelDownload(String reciterId) async {
     _downloading.remove(reciterId);
     _emitActive();

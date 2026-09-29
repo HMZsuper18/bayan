@@ -263,6 +263,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get downloading => 'جارٍ التنزيل...';
 
   @override
+  String downloadNotificationProgress(String percent) {
+    return 'جارٍ التنزيل $percent%';
+  }
+
+  @override
+  String downloadNotificationMultiple(int count) {
+    return 'جارٍ تنزيل $count قارئين';
+  }
+
+  @override
+  String get downloadNotificationChannelName => 'تنزيلات القراء';
+
+  @override
+  String get downloadNotificationChannelDescription => 'يعرض تقدم تنزيل القراء';
+
+  @override
   String get reciterCategoryMakkahMadinah => 'أئمة الحرمين';
 
   @override

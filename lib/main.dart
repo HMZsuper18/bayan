@@ -6,6 +6,7 @@ import 'data/database/settings_service.dart';
 import 'services/default_reciter_service.dart';
 import 'services/adhan_notification_service.dart';
 import 'services/app_icon_service.dart';
+import 'services/download_notification_service.dart';
 import 'services/media_session_service.dart';
 import 'app.dart';
 
@@ -31,6 +32,10 @@ void main() async {
 
   // Publish playback to the system media session (control centre / lock screen)
   await MediaSessionService.instance.init();
+
+  // Mirror in-flight downloads into a system notification (and keep the
+  // foreground service ready for them)
+  await DownloadNotificationService.instance.init();
 
   runApp(const App());
 }

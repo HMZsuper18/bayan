@@ -91,21 +91,14 @@ class _RecitersStorePageState extends State<RecitersStorePage> {
 
   Future<void> _autoResumePartialDownloads() async {
     try {
-      final partialIds = await _service.getPartialReciterIds();
-      if (partialIds.isEmpty || !mounted) return;
-      final allReciters = HiveService.getAllReciters();
-      for (final reciterId in partialIds) {
-        if (!mounted) return;
-        if (_downloadingIds.contains(reciterId)) continue;
-        final reciter = allReciters.where((r) => r.id == reciterId).firstOrNull;
-        if (reciter == null) continue;
-        if (_service.isDownloading(reciterId)) continue;
-        setState(() {
-          _downloadingIds.add(reciter.id);
-          _progress[reciter.id] = 0;
-        });
-        _download(reciter);
-      }
+      final resumed = await _service.resumePartialDownloads();
+      if (resumed.isEmpty || !mounted) return;
+      setState(() {
+        for (final reciterId in resumed) {
+          _downloadingIds.add(reciterId);
+          _progress[reciterId] = _service.getDownloadProgress(reciterId);
+        }
+      });
     } catch (e) {
       debugPrint('Error auto-resuming partial downloads: $e');
     }

@@ -84,6 +84,20 @@
   "addReciter": "Add Reciter",
   "downloaded": "Downloaded",
   "downloading": "Downloading...",
+  "downloadNotificationProgress": "Downloading {percent}%",
+  "@downloadNotificationProgress": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "downloadNotificationMultiple": "Downloading {count} reciters",
+  "@downloadNotificationMultiple": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "downloadNotificationChannelName": "Reciter Downloads",
+  "downloadNotificationChannelDescription": "Shows download progress for reciters",
   "reciterCategoryMakkahMadinah": "Makkah & Madinah Imams",
   "reciterCategoryClassicEgyptian": "Classic Egyptian Reciters",
   "reciterCategoryHadrFast": "Hadr / Fast Recitation",

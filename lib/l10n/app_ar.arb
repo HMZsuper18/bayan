@@ -84,6 +84,20 @@
   "addReciter": "إضافة قارئ",
   "downloaded": "تم التنزيل",
   "downloading": "جارٍ التنزيل...",
+  "downloadNotificationProgress": "جارٍ التنزيل {percent}%",
+  "@downloadNotificationProgress": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "downloadNotificationMultiple": "جارٍ تنزيل {count} قارئين",
+  "@downloadNotificationMultiple": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "downloadNotificationChannelName": "تنزيلات القراء",
+  "downloadNotificationChannelDescription": "يعرض تقدم تنزيل القراء",
   "reciterCategoryMakkahMadinah": "أئمة الحرمين",
   "reciterCategoryClassicEgyptian": "قراء مصر الكلاسيكيون",
   "reciterCategoryHadrFast": "تلاوة حدر / سريعة",

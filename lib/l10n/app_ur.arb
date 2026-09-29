@@ -84,6 +84,20 @@
   "addReciter": "قاری شامل کریں",
   "downloaded": "ڈاؤن لوڈ ہو گیا",
   "downloading": "ڈاؤن لوڈ ہو رہا ہے...",
+  "downloadNotificationProgress": "ڈاؤن لوڈ ہو رہا ہے {percent}%",
+  "@downloadNotificationProgress": {
+    "placeholders": {
+      "percent": {"type": "String"}
+    }
+  },
+  "downloadNotificationMultiple": "{count} قاری ڈاؤن لوڈ ہو رہے ہیں",
+  "@downloadNotificationMultiple": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "downloadNotificationChannelName": "قاری ڈاؤن لوڈز",
+  "downloadNotificationChannelDescription": "قاریوں کے ڈاؤن لوڈ کی پیش رفت دکھاتا ہے",
   "reciterCategoryMakkahMadinah": "حرمین کے ائمہ",
   "reciterCategoryClassicEgyptian": "کلاسیکی مصری قاری",
   "reciterCategoryHadrFast": "حدر / تیز تلاوت",

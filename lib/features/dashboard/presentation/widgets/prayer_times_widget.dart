@@ -137,7 +137,7 @@ class _LocationGlassButton extends StatelessWidget {
               iconSize: 20,
               icon: Icon(
                 Icons.my_location,
-                color: AppColors.primaryGreenOf(context),
+                color: AppColors.creamWhite,
               ),
               onPressed: onPressed,
             ),
