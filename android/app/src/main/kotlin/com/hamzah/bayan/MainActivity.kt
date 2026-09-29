@@ -1,10 +1,10 @@
 package com.hamzah.bayan
 
-import io.flutter.embedding.android.FlutterActivity
+import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
-class MainActivity : FlutterActivity() {
+class MainActivity : AudioServiceActivity() {
     private val DOWNLOAD_CHANNEL = "com.hamzah.bayan/download_manager"
     private val NOTIFICATION_CHANNEL = "com.hamzah.bayan/adhan_notifications"
     private val ICON_CHANNEL = "com.hamzah.bayan/app_icon"

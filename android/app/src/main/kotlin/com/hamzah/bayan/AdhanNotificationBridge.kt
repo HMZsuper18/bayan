@@ -1,6 +1,7 @@
 package com.hamzah.bayan
 
 import android.app.AlarmManager
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -23,6 +24,7 @@ class AdhanNotificationBridge(
         const val EXTRA_PRAYER_NAME = "prayer_name"
         const val EXTRA_PRAYER_HOUR = "prayer_hour"
         const val EXTRA_PRAYER_MINUTE = "prayer_minute"
+        private const val REQUEST_NOTIFICATION_PERMISSION = 4711
 
         private val PRAYER_NAMES = listOf("fajr", "dhuhr", "asr", "maghrib", "isha")
 
@@ -62,9 +64,6 @@ class AdhanNotificationBridge(
                 cancelAll(context)
                 result.success(true)
             }
-            "isNotificationsEnabled" -> {
-                result.success(isNotificationsEnabled())
-            }
             "requestExactAlarmPermission" -> {
                 result.success(requestExactAlarmPermission())
             }
@@ -75,19 +74,11 @@ class AdhanNotificationBridge(
                 openNotificationSettings()
                 result.success(true)
             }
+            "requestNotificationPermission" -> {
+                requestNotificationPermission()
+                result.success(true)
+            }
             else -> result.notImplemented()
-        }
-    }
-
-    private fun isNotificationsEnabled(): Boolean {
-        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            manager.areNotificationsEnabled() &&
-                ActivityCompat.checkSelfPermission(
-                    context, android.Manifest.permission.POST_NOTIFICATIONS
-                ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-        } else {
-            manager.areNotificationsEnabled()
         }
     }
 
@@ -119,6 +110,23 @@ class AdhanNotificationBridge(
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         context.startActivity(intent)
+    }
+
+    /// Asks for POST_NOTIFICATIONS (Android 13+). Fire and forget: the media
+    /// notification is what powers the control-centre media card.
+    private fun requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        val activity = context as? Activity ?: return
+        val granted = ActivityCompat.checkSelfPermission(
+            activity,
+            android.Manifest.permission.POST_NOTIFICATIONS
+        ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+        if (granted) return
+        ActivityCompat.requestPermissions(
+            activity,
+            arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+            REQUEST_NOTIFICATION_PERMISSION
+        )
     }
 
     fun createNotificationChannels() {

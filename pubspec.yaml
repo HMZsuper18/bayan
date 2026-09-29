@@ -23,6 +23,7 @@ dependencies:
   geolocator: ^13.0.2
   geocoding: ^3.0.0
   just_audio: ^0.9.43
+  audio_service: ^0.18.19
   flutter_svg: ^2.0.17
   flutter_tesseract_ocr: ^0.4.24
   home_widget: ^0.9.3

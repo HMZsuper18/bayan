@@ -423,7 +423,7 @@ class _WallpaperGalleryViewState extends State<WallpaperGalleryView> {
                               color: AppColors.primaryGreenOf(context),
                               onTap: () async {
                                 Navigator.pop(ctx);
-                                await _downloadOnly(context, url);
+                                await _downloadOnly(url);
                               },
                             ),
                           ),
@@ -480,63 +480,31 @@ class _WallpaperGalleryViewState extends State<WallpaperGalleryView> {
     );
   }
 
-  /// Downloads the image, then opens the screen-ratio crop step.
-  /// Returns after the crop screen decides: set (true), failed (false),
-  /// or cancelled (null — no snackbar).
+  /// Downloads the image, then opens the screen-ratio crop step so the user
+  /// can set it as the wallpaper.
   Future<void> _downloadAndSet(
     BuildContext context,
     String url,
     String title,
   ) async {
-    final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
-    messenger.showSnackBar(SnackBar(content: Text(l10n.downloadingWallpaper)));
     try {
       final path = await WallpaperService.instance.downloadImage(url);
       if (!context.mounted) return;
-      messenger.hideCurrentSnackBar();
-      final result = await Navigator.of(context).push<bool>(
+      await Navigator.of(context).push<bool>(
         MaterialPageRoute(
           builder: (_) => WallpaperCropScreen(imagePath: path, title: title),
         ),
       );
-      if (result == null || !context.mounted) return;
-      messenger.showSnackBar(
-        SnackBar(
-          content: Text(
-            result ? l10n.wallpaperSetSuccess : l10n.wallpaperSetFailed,
-          ),
-        ),
-      );
-    } catch (e) {
-      if (context.mounted) {
-        messenger.hideCurrentSnackBar();
-        messenger.showSnackBar(
-          SnackBar(content: Text(l10n.wallpaperSetFailed)),
-        );
-      }
+    } catch (_) {
+      return;
     }
   }
 
-  Future<void> _downloadOnly(BuildContext context, String url) async {
-    final l10n = AppLocalizations.of(context)!;
-    final messenger = ScaffoldMessenger.of(context);
-    messenger.showSnackBar(SnackBar(content: Text(l10n.downloadingWallpaper)));
+  Future<void> _downloadOnly(String url) async {
     try {
       await WallpaperService.instance.downloadImage(url);
-      if (context.mounted) {
-        messenger.hideCurrentSnackBar();
-        messenger.showSnackBar(
-          SnackBar(content: Text(l10n.wallpaperDownloaded)),
-        );
-      }
-    } catch (e) {
-      if (context.mounted) {
-        messenger.hideCurrentSnackBar();
-        messenger.showSnackBar(
-          SnackBar(content: Text(l10n.wallpaperSetFailed)),
-        );
-      }
+    } catch (_) {
+      return;
     }
   }
 

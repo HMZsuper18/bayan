@@ -6,6 +6,7 @@ import 'data/database/settings_service.dart';
 import 'services/default_reciter_service.dart';
 import 'services/adhan_notification_service.dart';
 import 'services/app_icon_service.dart';
+import 'services/media_session_service.dart';
 import 'app.dart';
 
 void main() async {
@@ -27,6 +28,9 @@ void main() async {
 
   // Reschedule adhan notifications on startup (recovers after reboot)
   AdhanNotificationService.instance.rescheduleFromSettings();
+
+  // Publish playback to the system media session (control centre / lock screen)
+  await MediaSessionService.instance.init();
 
   runApp(const App());
 }

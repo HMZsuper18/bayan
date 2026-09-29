@@ -33,7 +33,8 @@ after a clean build. The four are `deprecated_member_use` on `scale` in
 in `lib/features/settings/presentation/settings_screen.dart`. All four are
 pre-existing; do not "fix" them as a side effect of unrelated work.
 
-`flutter test` runs **7 tests in 1 file** (`test/wallpaper_crop_math_test.dart`).
+`flutter test` runs **23 tests in 3 files** (`test/wallpaper_crop_math_test.dart`,
+`test/media_session_mapper_test.dart` and `test/theme_inverse_colors_test.dart`).
 
 ## Conventions
 
@@ -62,6 +63,7 @@ await SettingsService.init();
 await DefaultReciterService.init();
 AppIconService.instance.init();
 AdhanNotificationService.instance.rescheduleFromSettings();
+await MediaSessionService.instance.init();
 ```
 
 Adding a service that needs start-up work means adding a line here. Anything
@@ -158,7 +160,7 @@ ARB sources, and do not commit unless explicitly asked.
 ```bash
 flutter gen-l10n && flutter pub get
 flutter analyze        # expect 4 infos, 0 errors
-flutter test           # expect 7 tests passing
+flutter test           # expect 23 tests passing
 flutter build apk --release
 ```
 

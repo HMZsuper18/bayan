@@ -99,6 +99,19 @@ class AdhanNotificationService {
     }
   }
 
+  /// Asks the user for POST_NOTIFICATIONS (Android 13+). Fire and forget:
+  /// the media notification is what powers the control-centre controls for
+  /// recitations. No-op on platforms without the channel.
+  Future<void> requestNotificationPermission() async {
+    try {
+      await _channel.invokeMethod('requestNotificationPermission');
+    } on MissingPluginException {
+      // Channel not available on this platform
+    } on PlatformException {
+      // Ignore — notifications can still be enabled from Settings
+    }
+  }
+
   /// Handles calls from native side (e.g., notification tapped).
   Future<dynamic> _handleMethodCall(MethodCall call) async {
     // Native may notify us when a notification fires — no action needed

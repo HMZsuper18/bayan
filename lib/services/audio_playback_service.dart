@@ -90,6 +90,7 @@ class AudioPlaybackService {
   AudioPlayer get player => _player;
 
   static const String _lastReciterKey = 'last_reciter_id';
+  static const String _lastSurahKey = 'last_surah_id';
 
   Stream<PlaybackState> get stateStream => _stateController.stream;
   PlaybackState get currentState => _state;
@@ -330,6 +331,7 @@ class AudioPlaybackService {
     _emitState();
 
     _currentSurahId = surahId;
+    _saveLastSurah(surahId);
     _currentTimestamps = await _loadTimestamps(reciter.id, surahId);
 
     // Detect Isti'adhah / Basmalah offset: some audio files have a
@@ -473,13 +475,96 @@ class AudioPlaybackService {
   Future<void> togglePlayPause() async {
     if (_state.isEmpty) return;
     if (_player.playing) {
-      await _player.pause();
-      _state = _state.copyWith(isPlaying: false);
+      await pause();
     } else {
-      await _player.play();
-      _state = _state.copyWith(isPlaying: true);
+      await play();
     }
+  }
+
+  /// Resumes playback, or restarts the last recitation when nothing is loaded
+  /// (e.g. a play command coming from the system media notification).
+  Future<void> play() async {
+    if (_state.isEmpty) {
+      await _resumeLast();
+      return;
+    }
+    await _player.play();
+    _state = _state.copyWith(isPlaying: true);
     _emitState();
+  }
+
+  Future<void> pause() async {
+    if (_state.isEmpty) return;
+    await _player.pause();
+    _state = _state.copyWith(isPlaying: false);
+    _emitState();
+  }
+
+  /// Skips forward: next verse in single-verse mode, otherwise next surah.
+  Future<void> playNext() async {
+    if (_state.isEmpty) return;
+    final surahId = _state.surahId;
+    if (_state.mode == PlaybackMode.singleVerse &&
+        surahId != null &&
+        _currentReciter != null) {
+      final nextVerse = (_state.currentVerseNumber ?? 1) + 1;
+      if (nextVerse <= _verseCount(surahId)) {
+        await playSingleVerse(
+          surahId: surahId,
+          verseNumber: nextVerse,
+          reciter: _currentReciter!,
+        );
+        return;
+      }
+    }
+    await _playNextSurah();
+  }
+
+  /// Seeks back to the start when more than 3 s in, otherwise jumps to the
+  /// previous verse/surah — the behaviour users expect from a media player.
+  Future<void> playPrevious() async {
+    if (_state.isEmpty) return;
+    final surahId = _state.surahId;
+    if (surahId == null || _currentReciter == null) return;
+
+    if (_player.position > const Duration(seconds: 3)) {
+      await _player.seek(Duration.zero);
+      return;
+    }
+
+    if (_state.mode == PlaybackMode.singleVerse) {
+      final prevVerse = (_state.currentVerseNumber ?? 1) - 1;
+      if (prevVerse >= 1) {
+        await playSingleVerse(
+          surahId: surahId,
+          verseNumber: prevVerse,
+          reciter: _currentReciter!,
+        );
+        return;
+      }
+    }
+
+    final prevSurahId = surahId - 1;
+    if (prevSurahId < 1) {
+      await _playSurahInternal(surahId, mode: _state.mode);
+      return;
+    }
+    await _playSurahInternal(prevSurahId, mode: PlaybackMode.fullSurah);
+  }
+
+  Future<void> _resumeLast() async {
+    final reciter = getLastReciter();
+    final surahId = _lastSurahId;
+    if (reciter == null || surahId <= 0) return;
+    await playFullSurah(surahId, reciter: reciter);
+  }
+
+  int _verseCount(int surahId) {
+    try {
+      return HiveService.surahsBox.get(surahId)?.versesCount ?? 0;
+    } catch (_) {
+      return 0;
+    }
   }
 
   Future<void> stop() async {
@@ -505,6 +590,13 @@ class AudioPlaybackService {
     } catch (_) {}
   }
 
+  void _saveLastSurah(int surahId) {
+    try {
+      final box = Hive.box<String>('settings');
+      box.put(_lastSurahKey, surahId.toString());
+    } catch (_) {}
+  }
+
   ReciterModel? getLastReciter() {
     final id = _lastReciterId;
     if (id.isEmpty) return null;
@@ -523,6 +615,15 @@ class AudioPlaybackService {
       return box.get(_lastReciterKey) ?? '';
     } catch (_) {
       return '';
+    }
+  }
+
+  int get _lastSurahId {
+    try {
+      final box = Hive.box<String>('settings');
+      return int.tryParse(box.get(_lastSurahKey) ?? '') ?? 0;
+    } catch (_) {
+      return 0;
     }
   }
 
