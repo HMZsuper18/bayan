@@ -7,8 +7,14 @@ import 'core/theme/app_theme.dart';
 import 'data/database/seed_data.dart';
 import 'data/database/settings_service.dart';
 import 'features/dashboard/presentation/dashboard_screen.dart';
+import 'services/adhan_notification_service.dart';
+import 'services/app_icon_service.dart';
+import 'services/ayah_widget_service.dart';
+import 'services/dhikr_widget_service.dart';
+import 'services/ocr_widget_service.dart';
 import 'services/prayer_times_widget_service.dart';
 import 'services/reciter_store_service.dart';
+import 'services/recitations_widget_service.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -34,12 +40,26 @@ class AppState extends State<App> {
     _locale = _localeFromCode(SettingsService.uiLanguage);
     GlassConfig.enableBlur = true;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Non-critical startup work — kept off the cold-start critical path so
+      // widget taps (play/store) reach their action faster.
+      AppIconService.instance.init();
+      AdhanNotificationService.instance.rescheduleFromSettings();
+      AyahWidgetService.update();
+      DhikrWidgetService.update();
+      PrayerTimesWidgetService.update([]);
+      RecitationsWidgetService.syncPlayback(active: false);
+      RecitationsWidgetService.update();
+      OcrWidgetService.update();
       await SeedData.seedAll();
       // Pick up any reciter a previous run left half-downloaded. Deferred to
       // the first frame so the download foreground service may start while
       // the activity is fully resumed.
       unawaited(ReciterStoreService.instance.resumePartialDownloads());
-      if (mounted) PrayerTimesWidgetService.refresh();
+      if (mounted) {
+        PrayerTimesWidgetService.refresh();
+        RecitationsWidgetService.refresh();
+        AyahWidgetService.refresh();
+      }
     });
   }
 
@@ -49,6 +69,10 @@ class AppState extends State<App> {
       SettingsService.isDarkMode = _isDark;
     });
     PrayerTimesWidgetService.refresh();
+    RecitationsWidgetService.refresh();
+    OcrWidgetService.refresh();
+    DhikrWidgetService.refresh();
+    AyahWidgetService.refresh();
   }
 
   void rebuild() {
@@ -57,6 +81,11 @@ class AppState extends State<App> {
       _isDark = SettingsService.isDarkMode;
       _locale = _localeFromCode(SettingsService.uiLanguage);
     });
+    PrayerTimesWidgetService.refresh();
+    RecitationsWidgetService.refresh();
+    OcrWidgetService.refresh();
+    DhikrWidgetService.refresh();
+    AyahWidgetService.refresh();
   }
 
   Locale _localeFromCode(String code) {

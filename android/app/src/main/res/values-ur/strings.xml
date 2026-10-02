@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_description">نماز کے اوقات دکھائیں</string>
+    <string name="share">شیئر کریں</string>
+    <string name="scan_page">صفحہ اسکین کریں</string>
+    <string name="ayah_widget_description">آج کی آیت دکھائیں</string>
+    <string name="ayah_widget_title">ہفتے کی آیت</string>
+    <string name="dhikr_widget_description">اذکار دکھائیں</string>
+    <string name="ocr_widget_description">کیمرے سے صفحہ اسکین کریں</string>
+    <string name="recitations_widget_description">تلاوتیں دکھائیں</string>
+    <string name="recitations_widget_title">قاری</string>
+    <string name="recitations_play">چلائیں</string>
+    <string name="recitations_pause">روکیں</string>
+    <string name="recitations_resume">جاری رکھیں</string>
+    <string name="recitations_stop">بند کریں</string>
+    <string name="recitations_cancel">منسوخ کریں</string>
+    <string name="recitations_download_reciter">قاری ڈاؤن لوڈ کریں</string>
+
+    <string name="prayer_widget_title">نماز کے اوقات</string>
+    <string name="prayer_label_fajr">فجر</string>
+    <string name="prayer_label_dhuhr">ظہر</string>
+    <string name="prayer_label_asr">عصر</string>
+    <string name="prayer_label_maghrib">مغرب</string>
+    <string name="prayer_label_isha">عشاء</string>
+    <string name="prayer_update_location">مقام کی تجدید</string>
+
+    <string name="dhikr_widget_title">اذکار</string>
+    <string name="dhikr_title_morning">صبح کے اذکار</string>
+    <string name="dhikr_title_evening">شام کے اذکار</string>
+    <string name="dhikr_title_kahf">سورہ کہف</string>
+    <string name="dhikr_title_general">اذکار اور دعائیں</string>
+    <string name="dhikr_period_friday">جمعہ</string>
+    <string name="dhikr_period_always">ہمیشہ</string>
+    <string name="dhikr_read_kahf">سورہ کہف پڑھیں</string>
+</resources>

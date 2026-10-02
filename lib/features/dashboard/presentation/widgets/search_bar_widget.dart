@@ -50,11 +50,20 @@ class SearchBarWidget extends StatelessWidget {
                 iconSize: 22,
                 constraints: const BoxConstraints.tightFor(width: 40, height: 40),
                 icon: Badge(
-                  label: Text(AppLocalizations.of(context)!.betaLabel, style: const TextStyle(fontSize: 9, color: Colors.white)),
+                  label: Text(
+                    AppLocalizations.of(context)!.betaLabel,
+                    maxLines: 1,
+                    textScaler: TextScaler.noScaling,
+                    style: const TextStyle(
+                      fontSize: 8,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   smallSize: 18,
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
                   alignment: AlignmentDirectional.bottomEnd,
                   backgroundColor: AppColors.primaryGreenOf(context),
-                  textStyle: TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.bold),
                   child: Icon(Icons.document_scanner, color: AppColors.primaryGreenOf(context)),
                 ),
                 onPressed: () {

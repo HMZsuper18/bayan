@@ -26,4 +26,7 @@ class AppConstants {
 
   static const double defaultLatitude = 21.4225;
   static const double defaultLongitude = 39.8262;
+
+  static const String playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.hamzah.bayan';
 }

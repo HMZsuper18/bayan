@@ -175,7 +175,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
           Directionality(
             textDirection: TextDirection.ltr,
             child: Text(
-              widget.translation!,
+              QuranTextNormalizer.preProcessForDisplay(widget.translation!),
               style: TextStyle(
                 fontSize: 13,
                 height: 1.8,
@@ -200,7 +200,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
           Directionality(
             textDirection: TextDirection.rtl,
             child: Text(
-              widget.tafseer!,
+              QuranTextNormalizer.preProcessForDisplay(widget.tafseer!),
               style: TextStyle(
                 fontSize: 13,
                 height: 1.8,
@@ -373,7 +373,7 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
           carouselController: _carouselController,
           itemCount: _downloadedReciters.length,
           options: CarouselOptions(
-            height: 90,
+            height: 100,
             viewportFraction: 0.35,
             enableInfiniteScroll: false,
             enlargeCenterPage: true,
@@ -419,61 +419,67 @@ class _VerseDetailPanelState extends State<VerseDetailPanel> {
                 curve: Curves.easeInOut);
           }
         },
-        child: GlassContainer(
-          borderRadius: 14,
-          blur: isCentered ? 8 : 4,
-          opacity: isCentered ? 0.15 : 0.08,
-          border: Border.all(
-            color: isCentered
-                ? AppColors.primaryGreenOf(context).withValues(alpha: 0.6)
-                : (Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white.withValues(alpha: 0.1)
-                    : Colors.white.withValues(alpha: 0.3)),
-            width: isCentered ? 1.5 : 0.8,
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: reciter.imageAsset.isNotEmpty
-                      ? DecorationImage(
-                          image: AssetImage(reciter.imageAsset),
-                          fit: BoxFit.cover,
-                        )
-                      : null,
-                  color: AppColors.primaryGreenOf(context).withValues(alpha: 0.2),
-                ),
-                child: reciter.imageAsset.isEmpty
-                    ? Icon(
-                        Icons.person_rounded,
-                        color: AppColors.primaryGreenOf(context),
-                        size: 20,
-                      )
-                    : null,
-              ),
-              const SizedBox(height: 4),
-              Flexible(
-                child: Text(
-                  displayName,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontWeight:
-                        isCentered ? FontWeight.w600 : FontWeight.w400,
-                    color: isCentered
-                        ? AppColors.primaryGreenOf(context)
-                        : colors.onSurface.withValues(alpha: 0.7),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GlassContainer(
+            borderRadius: 14,
+            blur: isCentered ? 8 : 4,
+            opacity: isCentered ? 0.15 : 0.08,
+            border: Border.all(
+              color: isCentered
+                  ? AppColors.primaryGreenOf(context).withValues(alpha: 0.6)
+                  : (Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white.withValues(alpha: 0.1)
+                      : Colors.white.withValues(alpha: 0.3)),
+              width: isCentered ? 1.5 : 0.8,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: reciter.imageAsset.isNotEmpty
+                          ? DecorationImage(
+                              image: AssetImage(reciter.imageAsset),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                      color: AppColors.primaryGreenOf(context)
+                          .withValues(alpha: 0.2),
+                    ),
+                    child: reciter.imageAsset.isEmpty
+                        ? Icon(
+                            Icons.person_rounded,
+                            color: AppColors.primaryGreenOf(context),
+                            size: 20,
+                          )
+                        : null,
                   ),
-                ),
+                  const SizedBox(height: 4),
+                  Flexible(
+                    child: Text(
+                      displayName,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 9,
+                        fontWeight:
+                            isCentered ? FontWeight.w600 : FontWeight.w400,
+                        color: isCentered
+                            ? AppColors.primaryGreenOf(context)
+                            : colors.onSurface.withValues(alpha: 0.7),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

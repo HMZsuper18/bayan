@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Static picker preview (API ≤ 11 / fallback): Azkar / dhikr card. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+
+    <!-- Card background -->
+    <path
+        android:fillColor="#FDFBF7"
+        android:pathData="M12,0 H308 A12,12 0 0 1 320,12 V168 A12,12 0 0 1 308,180 H12 A12,12 0 0 1 0,168 V12 A12,12 0 0 1 12,0 Z" />
+
+    <!-- Title -->
+    <path
+        android:fillColor="#00674F"
+        android:pathData="M16,20 H72 V32 H16 Z" />
+
+    <!-- Period pill -->
+    <path
+        android:fillColor="#14B8A6"
+        android:fillAlpha="0.14"
+        android:pathData="M220,14 H300 A12,12 0 0 1 312,26 V36 A12,12 0 0 1 300,48 H220 A12,12 0 0 1 208,36 V26 A12,12 0 0 1 220,14 Z" />
+    <path
+        android:fillColor="#14B8A6"
+        android:pathData="M226,26 H294 V34 H226 Z" />
+
+    <!-- Dhikr lines -->
+    <path android:fillColor="#1A1A1A" android:pathData="M40,70 H280 V86 H40 Z" />
+    <path android:fillColor="#1A1A1A" android:pathData="M56,98 H264 V114 H56 Z" />
+
+    <!-- Translation -->
+    <path android:fillColor="#1A1A1A" android:fillAlpha="0.35" android:pathData="M70,130 H250 V142 H70 Z" />
+
+    <!-- Reference pill -->
+    <path
+        android:fillColor="#14B8A6"
+        android:fillAlpha="0.14"
+        android:pathData="M110,154 H210 A13,13 0 0 1 223,167 V170 A13,13 0 0 1 210,176 H110 A13,13 0 0 1 97,170 V167 A13,13 0 0 1 110,154 Z" />
+    <path
+        android:fillColor="#14B8A6"
+        android:pathData="M116,164 H194 V172 H116 Z" />
+</vector>

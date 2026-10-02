@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../../../core/utils/azkar_time_logic.dart';
 import '../../../../data/models/prayer_time_model.dart';
+import '../../../../services/dhikr_widget_service.dart';
 
 /// Drives the [AzkarWidget]: re-evaluates the time rules on an interval and
 /// notifies listeners whenever the displayed type or the hourly-seeded content
@@ -47,6 +48,8 @@ class AzkarController extends ChangeNotifier {
     _hourSeed = seed;
     _type = newType;
     _item = getAzkarItem(newType, now);
+    // Keep the home-screen dhikr widget in lockstep with this card.
+    DhikrWidgetService.update(type: newType, item: _item);
     notifyListeners();
   }
 

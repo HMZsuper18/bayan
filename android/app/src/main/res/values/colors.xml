@@ -5,4 +5,8 @@
     <color name="chip_bg">#E8F5F0</color>
     <color name="chip_text">#1A1A1A</color>
     <color name="bayan_splash_bg">#00674F</color>
+    <color name="widget_bg_dark">#061210</color>
+    <color name="widget_title_dark">#4CAF9F</color>
+    <color name="chip_bg_dark">#0D2E26</color>
+    <color name="chip_text_dark">#E8E8E0</color>
 </resources>

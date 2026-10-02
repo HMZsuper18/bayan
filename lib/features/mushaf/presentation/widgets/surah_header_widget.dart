@@ -45,6 +45,23 @@ class SurahHeaderWidget extends StatelessWidget {
     final revelationType = surah.revelationType == 'Makkah' ? l10n.makkah : l10n.madinah;
     final colors = Theme.of(context).colorScheme;
 
+    final isArabicLabel = revelationType.runes
+        .any((r) => r >= 0x0600 && r <= 0x06FF);
+    final labelFontSize = fontSize - 4;
+    final labelStyle = isArabicLabel
+        ? AppTextStyles.arabicDisplay.copyWith(
+            fontSize: labelFontSize,
+            color: colors.onSurface,
+            fontWeight: FontWeight.bold,
+            fontFamilyFallback: const <String>[],
+          )
+        : TextStyle(
+            fontSize: labelFontSize,
+            fontWeight: FontWeight.bold,
+            color: colors.onSurface,
+          );
+    final labelShift = isArabicLabel ? -0.36 : 0.176;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: GestureDetector(
@@ -83,14 +100,13 @@ class SurahHeaderWidget extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
+                        child: Transform.translate(
+                          offset: Offset(0, labelShift * labelFontSize),
                           child: Text(
                             revelationType,
-                            style: AppTextStyles.arabicDisplay.copyWith(
-                              fontSize: fontSize - 4,
-                              color: colors.onSurface,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: labelStyle,
                           ),
+                        ),
                         ),
                       ),
                     ),

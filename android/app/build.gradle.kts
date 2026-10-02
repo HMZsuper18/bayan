@@ -58,6 +58,12 @@ android {
             // Or:        flutter build appbundle --split-debug-info=build/debug-info
         }
     }
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 flutter {

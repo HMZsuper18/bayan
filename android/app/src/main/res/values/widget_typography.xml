@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="WidgetTajawalTitle" parent="">
+        <item name="android:fontFamily">@font/tajawal_bold</item>
+        <item name="android:textFontWeight">700</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="WidgetTajawalBody" parent="">
+        <item name="android:fontFamily">@font/tajawal_medium</item>
+        <item name="android:textFontWeight">500</item>
+    </style>
+</resources>

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:home_widget/home_widget.dart';
@@ -7,11 +8,12 @@ import '../../../data/models/search_result_model.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
+import '../../../core/widget_launch.dart';
 import '../../../core/utils/responsive_spacing.dart';
 import '../../../core/widgets/glass_container.dart';
 import '../../../core/widgets/mini_player.dart';
-import '../../../data/database/settings_service.dart';
 import '../../../data/database/hive_service.dart';
+import '../../../data/database/settings_service.dart';
 import '../../../data/models/prayer_time_model.dart';
 import '../../../data/models/reciter_model.dart';
 import '../../../data/repositories/quran_repository.dart';
@@ -24,7 +26,10 @@ import 'widgets/prayer_times_widget.dart';
 import 'widgets/primary_action_card.dart';
 import 'widgets/active_downloads_card.dart';
 import 'widgets/ayah_of_week_card.dart';
+import 'widgets/ayah_of_week_share.dart';
 import 'widgets/azkar_widget.dart';
+import 'widgets/azkar_share_sheet.dart';
+import '../../../core/utils/azkar_time_logic.dart';
 import 'widgets/recitations_tray.dart';
 import '../../settings/presentation/settings_screen.dart';
 import '../../mushaf/presentation/mushaf_navigation.dart';
@@ -35,7 +40,10 @@ import '../../qiblah/presentation/qiblah_screen.dart';
 import '../../../services/reciter_store_service.dart';
 import '../../../services/audio_playback_service.dart';
 import '../../../services/dhikr_widget_service.dart';
+import '../../../services/ayah_of_week_service.dart';
 import '../../../services/ayah_widget_service.dart';
+import '../../../services/recitations_widget_service.dart';
+import '../../../services/widget_control_handler.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -63,6 +71,7 @@ class _DashboardViewState extends State<DashboardView>
   bool _locating = false;
   Timer? _searchDebounce;
   StreamSubscription? _downloadSub;
+  StreamSubscription<Uri?>? _widgetClickSub;
   final Set<String> _downloadingIds = {};
   final Map<String, double> _downloadProgress = {};
   Timer? _refreshTimer;
@@ -74,10 +83,13 @@ class _DashboardViewState extends State<DashboardView>
     WidgetsBinding.instance.removeObserver(this);
     _searchDebounce?.cancel();
     _downloadSub?.cancel();
+    _widgetClickSub?.cancel();
     _refreshTimer?.cancel();
     _pageController.dispose();
     super.dispose();
   }
+
+  bool _launchHandled = false;
 
   @override
   void initState() {
@@ -85,32 +97,84 @@ class _DashboardViewState extends State<DashboardView>
     WidgetsBinding.instance.addObserver(this);
     _syncActiveDownloads();
     _setupDownloadListener();
+
+    // Cold start from a widget: [main] already captured the URI — handle
+    // audio-only actions (play/toggle/cancel) synchronously here so playback
+    // starts one frame earlier. Context-dependent URIs (store, scanner,
+    // share, location) wait for the post-frame below.
+    final early = WidgetLaunch.take();
+    if (early != null) {
+      final s = early.toString();
+      if (s.startsWith('bayan://play/') ||
+          s.startsWith('bayan://widget/')) {
+        _launchHandled = true;
+        _handleWidgetUri(s);
+      }
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      Uri? launchData;
-      try {
-        launchData = await HomeWidget.initiallyLaunchedFromHomeWidget();
-      } catch (_) {
-        launchData = null;
+      if (_launchHandled) return;
+      Uri? launchData = early;
+      if (launchData == null) {
+        try {
+          launchData = await HomeWidget.initiallyLaunchedFromHomeWidget();
+        } catch (_) {
+          launchData = null;
+        }
       }
       if (!mounted) return;
-      final uri = launchData?.toString() ?? '';
-      if (uri == 'bayan://location') {
-        _onLocationTap();
-      } else if (uri == 'bayan://scanner') {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const MushafScannerScreen()),
-        );
-      } else if (uri == 'bayan://share/dhikr') {
-        _shareDhikr();
-      } else if (uri == 'bayan://share/ayah') {
-        _shareAyah();
-      } else if (uri.startsWith('bayan://play/')) {
-        final reciterId = uri.replaceFirst('bayan://play/', '');
-        _playReciterById(reciterId);
+      if (launchData != null) {
+        _launchHandled = true;
+        _handleWidgetUri(launchData.toString());
       } else {
         _maybeAutoUpdateLocation();
       }
     });
+    // Warm start: app already alive when the widget is tapped — the plugin
+    // delivers the URI through this stream instead of the initial intent.
+    _widgetClickSub = HomeWidget.widgetClicked.listen((uri) {
+      if (mounted && uri != null) _handleWidgetUri(uri.toString());
+    });
+  }
+
+  void _handleWidgetUri(String uri) {
+    if (uri == 'bayan://location') {
+      _onLocationTap();
+    } else if (uri == 'bayan://scanner') {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => const MushafScannerScreen()),
+      );
+    } else if (uri == 'bayan://share/dhikr') {
+      _shareDhikr();
+    } else if (uri == 'bayan://share/ayah') {
+      _shareAyah();
+    } else if (uri.startsWith('bayan://play/')) {
+      final reciterId = uri.replaceFirst('bayan://play/', '');
+      _playReciterById(reciterId);
+      _backgroundFromWidget();
+    } else if (uri.startsWith('bayan://widget/toggle')) {
+      AudioPlaybackService.instance.togglePlayPause();
+      _backgroundFromWidget();
+    } else if (uri.startsWith('bayan://widget/stop') ||
+        uri.startsWith('bayan://widget/cancel')) {
+      AudioPlaybackService.instance.stop();
+      _backgroundFromWidget();
+    } else if (uri.startsWith('bayan://store')) {
+      _openRecitersStore();
+    } else {
+      _maybeAutoUpdateLocation();
+    }
+  }
+
+  /// Widget actions were launched with `bayan_background_play`; hand control
+  /// back to the launcher as soon as we've issued the action so the app
+  /// doesn't sit in front waiting for a fixed timer.
+  Future<void> _backgroundFromWidget() async {
+    try {
+      await const MethodChannel(
+        'com.hamzah.bayan/app',
+      ).invokeMethod('moveToBackground');
+    } catch (_) {}
   }
 
   void _setupDownloadListener() {
@@ -123,6 +187,8 @@ class _DashboardViewState extends State<DashboardView>
             _downloadingIds.remove(progress.reciterId);
             _downloadProgress.remove(progress.reciterId);
           });
+          // Newly downloaded reciters become eligible for the widget list.
+          RecitationsWidgetService.refresh();
           Future.delayed(const Duration(milliseconds: 800), () {
             if (mounted) {
               context
@@ -245,6 +311,7 @@ class _DashboardViewState extends State<DashboardView>
         context.read<DashboardBloc>().add(const RefreshDownloadedReciters());
       }
     });
+    RecitationsWidgetService.refresh();
   }
 
   void _onReciterTap(ReciterModel reciter) {
@@ -255,27 +322,53 @@ class _DashboardViewState extends State<DashboardView>
       audioService.togglePlayPause();
     } else {
       audioService.playAllSurahs(reciter: reciter, startSurahId: 1);
+      RecitationsWidgetService.update(
+        lastPlayedReciterId: reciter.id,
+        lastPlayedReciterName: reciter.arabicName,
+      );
     }
   }
 
+  /// Whole-widget tap on the home-screen dhikr widget. On Friday (Kahf
+  /// window) it opens Surat Al-Kahf in the mushaf; otherwise it opens the
+  /// azkar share sheet — recomputing the current item so a slightly stale
+  /// widget still shows the right content.
   Future<void> _shareDhikr() async {
-    await AyahWidgetService.update();
+    final now = DateTime.now();
+    final prayerTimes = context.read<DashboardBloc>().state.prayerTimes;
+    final type = getAzkarType(now, prayerTimes: prayerTimes);
+    if (!mounted) return;
+    if (type == AzkarWidgetType.kahf) {
+      unawaited(MushafNavigation.open(context, MushafNavigation.forSurah(18)));
+      return;
+    }
+    final item = getAzkarItem(type, now);
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => AzkarShareSheet(item: item, type: type),
+    );
+    if (mounted) DhikrWidgetService.update(type: type, item: item);
   }
 
   Future<void> _shareAyah() async {
-    await DhikrWidgetService.update();
+    final verse = AyahOfWeekService.verse;
+    final surah = verse == null
+        ? null
+        : HiveService.surahsBox.get(verse.surahId);
+    if (verse == null || surah == null || !mounted) return;
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => AyahOfWeekShareSheet(verse: verse, surah: surah),
+    );
+    if (mounted) AyahWidgetService.update();
   }
 
   void _playReciterById(String reciterId) {
-    try {
-      final allReciters = HiveService.getAllReciters();
-      for (final r in allReciters) {
-        if (r.id == reciterId) {
-          _onReciterTap(r);
-          return;
-        }
-      }
-    } catch (_) {}
+    WidgetControlHandler.playReciter(reciterId);
   }
 
   @override

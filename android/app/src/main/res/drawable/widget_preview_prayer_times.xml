@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Static picker preview (API ≤ 11 / fallback): prayer-times card with 5 chips. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="160dp"
+    android:viewportWidth="400"
+    android:viewportHeight="160">
+
+    <!-- Card background -->
+    <path
+        android:fillColor="#FDFBF7"
+        android:pathData="M12,0 H388 A12,12 0 0 1 400,12 V148 A12,12 0 0 1 388,160 H12 A12,12 0 0 1 0,148 V12 A12,12 0 0 1 12,0 Z" />
+
+    <!-- Title -->
+    <path
+        android:fillColor="#00674F"
+        android:pathData="M16,22 H110 V34 H16 Z" />
+    <path
+        android:fillColor="#00674F"
+        android:fillAlpha="0.55"
+        android:pathData="M118,22 H148 V34 H118 Z" />
+
+    <!-- 5 time chips -->
+    <path
+        android:fillColor="#E8F5F0"
+        android:pathData="M16,48 H76 A10,10 0 0 1 86,58 V130 A10,10 0 0 1 76,140 H16 A10,10 0 0 1 6,130 V58 A10,10 0 0 1 16,48 Z" />
+    <path
+        android:fillColor="#E8F5F0"
+        android:pathData="M94,48 H154 A10,10 0 0 1 164,58 V130 A10,10 0 0 1 154,140 H94 A10,10 0 0 1 84,130 V58 A10,10 0 0 1 94,48 Z" />
+    <path
+        android:fillColor="#E8F5F0"
+        android:pathData="M172,48 H232 A10,10 0 0 1 242,58 V130 A10,10 0 0 1 232,140 H172 A10,10 0 0 1 162,130 V58 A10,10 0 0 1 172,48 Z" />
+    <path
+        android:fillColor="#E8F5F0"
+        android:pathData="M250,48 H310 A10,10 0 0 1 320,58 V130 A10,10 0 0 1 310,140 H250 A10,10 0 0 1 240,130 V58 A10,10 0 0 1 250,48 Z" />
+    <path
+        android:fillColor="#E8F5F0"
+        android:pathData="M328,48 H378 A10,10 0 0 1 388,58 V130 A10,10 0 0 1 378,140 H328 A10,10 0 0 1 318,130 V58 A10,10 0 0 1 328,48 Z" />
+
+    <!-- Sample label + time bars in each chip -->
+    <path android:fillColor="#00674F" android:fillAlpha="0.45" android:pathData="M24,72 H68 V80 H24 Z" />
+    <path android:fillColor="#1A1A1A" android:pathData="M28,96 H64 V112 H28 Z" />
+
+    <path android:fillColor="#00674F" android:fillAlpha="0.45" android:pathData="M102,72 H146 V80 H102 Z" />
+    <path android:fillColor="#1A1A1A" android:pathData="M106,96 H142 V112 H106 Z" />
+
+    <path android:fillColor="#00674F" android:fillAlpha="0.45" android:pathData="M180,72 H224 V80 H180 Z" />
+    <path android:fillColor="#1A1A1A" android:pathData="M184,96 H220 V112 H184 Z" />
+
+    <path android:fillColor="#00674F" android:fillAlpha="0.45" android:pathData="M258,72 H302 V80 H258 Z" />
+    <path android:fillColor="#1A1A1A" android:pathData="M262,96 H298 V112 H262 Z" />
+
+    <path android:fillColor="#00674F" android:fillAlpha="0.45" android:pathData="M334,72 H372 V80 H334 Z" />
+    <path android:fillColor="#1A1A1A" android:pathData="M336,96 H370 V112 H336 Z" />
+</vector>

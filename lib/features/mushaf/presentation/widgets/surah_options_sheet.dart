@@ -259,7 +259,6 @@ class _SurahOptionsSheetState extends State<SurahOptionsSheet> {
                     : Colors.white.withValues(alpha: 0.3)),
             width: isCentered ? 1.5 : 0.8,
           ),
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

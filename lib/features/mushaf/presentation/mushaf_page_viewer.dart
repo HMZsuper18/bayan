@@ -623,7 +623,7 @@ class _PageContentState extends State<_PageContent> {
             '${l10n.page} ${_formatUiNumber(widget.pageNum, useArabicIndic)}',
             style: TextStyle(
               fontFamily: QuranRenderConfig.fontFamily,
-              fontFamilyFallback: QuranRenderConfig.fontFamilyFallback,
+              fontFamilyFallback: const <String>[],
               fontSize: fontSize * 0.7,
               color: colors.onSurface.withValues(alpha: 0.5),
             ),

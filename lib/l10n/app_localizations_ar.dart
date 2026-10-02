@@ -428,6 +428,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get downloadReciter => 'تحميل قارئ';
 
   @override
+  String get surahLabel => 'سورة';
+
+  @override
   String get warning => 'تنبيه';
 
   @override
@@ -657,8 +660,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get iconRoyal => 'ملكي';
 
   @override
+  String get dockIconHelpTitle => 'تحديث أيقونة الشريط السفلي';
+
+  @override
+  String get dockIconHelpBody =>
+      'إذا لم تتحدث الأيقونة في الشريط السفلي بعد، افتح إعدادات تطبيق الشاشة الرئيسية واضغط إيقاف إجباري ثم أعد فتح بيان.';
+
+  @override
+  String get iqamahTimes => 'أوقات الإقامة';
+
+  @override
   String get iqamahTimesDescription =>
-      'فترة الإقامة الافتراضية بعد الأذان لكل صلاة';
+      'مدة الإقامة افتراضية بعد الأذان لكل صلاة';
 
   @override
   String get wallpaperGallery => 'معرض الخلفيات';

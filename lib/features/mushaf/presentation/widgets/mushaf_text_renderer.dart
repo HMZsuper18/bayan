@@ -238,7 +238,7 @@ class MushafTextRenderer extends StatelessWidget {
                   ? TextDirection.ltr
                   : TextDirection.rtl,
               child: Text(
-                translation,
+                QuranTextNormalizer.preProcessForDisplay(translation),
                 style: TextStyle(
                   fontFamily: 'Tajawal',
                   fontSize: fontSize * 0.6,

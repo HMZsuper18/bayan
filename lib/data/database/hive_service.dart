@@ -15,22 +15,28 @@ class HiveService {
   static const String _bookmarksBox = 'bookmarks';
   static const String _downloadCheckpointsBox = 'download_checkpoints';
 
+  static Future<void>? _tafseerOpen;
+
   static Future<void> init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(SurahModelAdapter());
     Hive.registerAdapter(VerseModelAdapter());
     Hive.registerAdapter(ReciterModelAdapter());
+    // Everything the first frame needs. The 3.9MB tafseer box opens in the
+    // background — [ensureTafseerBox] awaits it for seed/detail use.
     await Future.wait([
       Hive.openBox<SurahModel>(_surahsBox),
       Hive.openBox<VerseModel>(_versesBox),
       Hive.openBox<ReciterModel>(_recitersBox),
-      Hive.openBox<String>(_tafseerBox),
       Hive.openBox<String>(_qiraatBox),
       Hive.openBox<String>(_translationBox),
       Hive.openBox<String>(_bookmarksBox),
       Hive.openBox<String>(_downloadCheckpointsBox),
     ]);
+    _tafseerOpen = Hive.openBox<String>(_tafseerBox);
   }
+
+  static Future<void> ensureTafseerBox() => _tafseerOpen ?? Future.value();
 
   static Box<SurahModel> get surahsBox => Hive.box<SurahModel>(_surahsBox);
   static Box<VerseModel> get versesBox => Hive.box<VerseModel>(_versesBox);
@@ -104,6 +110,7 @@ class HiveService {
   }
 
   static String? getTafseer(String verseKey, {String language = 'ar'}) {
+    if (!Hive.isBoxOpen(_tafseerBox)) return null;
     final String? result;
     if (language == 'ar') {
       result = tafseerBox.get(verseKey);

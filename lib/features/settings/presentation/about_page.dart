@@ -156,25 +156,29 @@ class AboutPage extends StatelessWidget {
                   blur: 8,
                   opacity: 0.1,
                   padding: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      Icon(Icons.info_outline,
-                          color: AppColors.primaryGreen.withValues(alpha: 0.7),
-                          size: 20),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          l10n.iqamahTimesDescription,
-                          style: AppTextStyles.englishBody.copyWith(
-                            fontSize: 12,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.6),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      children: [
+                        SizedBox(width:8),
+                        Icon(Icons.info_outline,
+                            color: AppColors.primaryGreen.withValues(alpha: 0.7),
+                            size: 25),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            l10n.iqamahTimesDescription,
+                            style: AppTextStyles.englishBody.copyWith(
+                              fontSize: 15,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withValues(alpha: 0.6),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ],

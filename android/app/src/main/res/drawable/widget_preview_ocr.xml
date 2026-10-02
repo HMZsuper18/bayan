@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Static picker preview (API ≤ 11 / fallback): OCR / scan-page card. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="160dp"
+    android:viewportWidth="160"
+    android:viewportHeight="160">
+
+    <!-- Card background -->
+    <path
+        android:fillColor="#FDFBF7"
+        android:pathData="M12,0 H148 A12,12 0 0 1 160,12 V148 A12,12 0 0 1 148,160 H12 A12,12 0 0 1 0,148 V12 A12,12 0 0 1 12,0 Z" />
+
+    <!-- Soft chip behind camera -->
+    <path
+        android:fillColor="#E8F5F0"
+        android:pathData="M40,40 H120 A16,16 0 0 1 136,56 V104 A16,16 0 0 1 120,120 H40 A16,16 0 0 1 24,104 V56 A16,16 0 0 1 40,40 Z" />
+
+    <!-- Camera body -->
+    <path
+        android:fillColor="#00674F"
+        android:pathData="M44,62 H62 L68,54 H92 L98,62 H116 A8,8 0 0 1 124,70 V100 A8,8 0 0 1 116,108 H44 A8,8 0 0 1 36,100 V70 A8,8 0 0 1 44,62 Z" />
+
+    <!-- Lens -->
+    <path
+        android:fillColor="#FDFBF7"
+        android:pathData="M80,70 A18,18 0 1 1 79.9,70 Z" />
+    <path
+        android:fillColor="#00674F"
+        android:pathData="M80,76 A12,12 0 1 1 79.9,76 Z" />
+</vector>

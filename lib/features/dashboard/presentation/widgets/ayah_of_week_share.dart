@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/quran_render_config.dart';
 import '../../../../core/utils/quran_text_normalizer.dart';
@@ -57,7 +58,7 @@ class _AyahOfWeekShareSheetState extends State<AyahOfWeekShareSheet> {
               name: 'ayah_of_the_week.png',
             ),
           ],
-          text: l10n.ayahOfTheWeekAd,
+          text: '${l10n.ayahOfTheWeekAd}\n${AppConstants.playStoreUrl}',
         ),
       );
     } catch (e) {

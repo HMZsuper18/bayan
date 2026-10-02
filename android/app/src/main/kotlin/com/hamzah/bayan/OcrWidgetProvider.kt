@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Build
@@ -13,6 +14,11 @@ import android.widget.RemoteViews
 import es.antonborri.home_widget.HomeWidgetLaunchIntent
 
 class OcrWidgetProvider : AppWidgetProvider() {
+
+    companion object {
+        private const val LIGHT_ICON = 0xFF00674F.toInt()
+        private const val DARK_ICON = 0xFF4CAF9F.toInt()
+    }
 
     override fun onUpdate(
         context: Context,
@@ -40,13 +46,20 @@ class OcrWidgetProvider : AppWidgetProvider() {
     ) {
         val views = RemoteViews(context.packageName, R.layout.ocr_widget)
 
-        val isDark = isDarkMode(context)
-        val iconColor = if (isDark) 0xFF4CAF9F.toInt() else 0xFF00674F.toInt()
+        val prefs: SharedPreferences =
+            context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)
+        val isDark = resolveDark(context, prefs)
+
+        views.setInt(
+            R.id.ocr_root,
+            "setBackgroundResource",
+            if (isDark) R.drawable.widget_bg_night else R.drawable.widget_bg_day
+        )
 
         if (Build.VERSION.SDK_INT >= 29) {
             views.setColorStateList(
                 R.id.ocr_icon, "setImageTintList",
-                ColorStateList.valueOf(iconColor)
+                ColorStateList.valueOf(if (isDark) DARK_ICON else LIGHT_ICON)
             )
         }
 
@@ -58,13 +71,17 @@ class OcrWidgetProvider : AppWidgetProvider() {
             context, 6, scannerIntent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+        views.setOnClickPendingIntent(R.id.ocr_root, scannerPendingIntent)
         views.setOnClickPendingIntent(R.id.ocr_icon, scannerPendingIntent)
-        views.setOnClickPendingIntent(R.id.widget_title, scannerPendingIntent)
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
-    private fun isDarkMode(context: Context): Boolean {
+    private fun resolveDark(context: Context, prefs: SharedPreferences): Boolean {
+        when (prefs.getString("widget_theme", null)) {
+            "dark" -> return true
+            "light" -> return false
+        }
         val mode = context.resources.configuration.uiMode and
                 android.content.res.Configuration.UI_MODE_NIGHT_MASK
         return mode == android.content.res.Configuration.UI_MODE_NIGHT_YES

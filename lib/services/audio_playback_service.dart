@@ -9,6 +9,7 @@ import 'package:hive/hive.dart';
 import '../data/models/reciter_model.dart';
 import '../data/database/hive_service.dart';
 import 'reciter_store_service.dart';
+import 'recitations_widget_service.dart';
 
 enum PlaybackMode { singleVerse, fromVerseToEnd, fullSurah }
 
@@ -86,6 +87,8 @@ class AudioPlaybackService {
   int _currentSurahId = 0;
   ReciterModel? _currentReciter;
   bool _listenersSetup = false;
+  DateTime? _lastWidgetSync;
+  String _widgetSignature = '';
 
   AudioPlayer get player => _player;
 
@@ -144,6 +147,42 @@ class AudioPlaybackService {
     if (!_stateController.isClosed) {
       _stateController.add(_state);
     }
+    _syncWidgetPlayback();
+  }
+
+  /// Mirrors the playback state onto the home screen widget playbar.
+  /// Pushes immediately whenever reciter/surah/playing-state changes and
+  /// otherwise at most every 3 seconds (for the progress bar).
+  void _syncWidgetPlayback({bool force = false}) {
+    final s = _state;
+    final active = s.reciter != null;
+    final signature =
+        '${s.reciter?.id}|${s.surahId}|${s.isPlaying}|${s.isLoading}';
+    final now = DateTime.now();
+    final last = _lastWidgetSync;
+    if (!force &&
+        signature == _widgetSignature &&
+        last != null &&
+        now.difference(last) < const Duration(seconds: 3)) {
+      return;
+    }
+    _widgetSignature = signature;
+    _lastWidgetSync = now;
+
+    final progress = s.duration.inMilliseconds > 0
+        ? ((s.position.inMilliseconds * 100) / s.duration.inMilliseconds)
+            .round()
+            .clamp(0, 100)
+            .toInt()
+        : 0;
+
+    RecitationsWidgetService.syncPlayback(
+      active: active,
+      reciter: s.reciter,
+      surahId: s.surahId,
+      paused: active && !s.isPlaying && !s.isLoading,
+      progress: progress,
+    );
   }
 
   Future<String> _recitersDir() async {
@@ -312,6 +351,8 @@ class AudioPlaybackService {
     if (nextSurahId > 114) {
       _state = _state.copyWith(isPlaying: false);
       _emitState();
+      // Whole mushaf finished — hide the widget playbar.
+      RecitationsWidgetService.syncPlayback(active: false);
       return;
     }
     await _playSurahInternal(nextSurahId, mode: PlaybackMode.fullSurah);
@@ -395,10 +436,43 @@ class AudioPlaybackService {
     }
   }
 
-  /// Probes the audio file's total duration and compares it with the
-  /// last loaded timestamp.  When the file is significantly longer than
-  /// what the timestamps describe (e.g. Isti'adhah prepended), all
-  /// verse boundaries are shifted forward by the detected offset.
+  /// A gap between the file duration and the last segment boundary smaller
+  /// than this is normal container/padding slop, not prepended content.
+  static const int gapThresholdMs = 1000;
+
+  /// No Isti'adhah invocation is longer than this.  A gap above it means the
+  /// segment data does not belong to this file, so shifting would be worse
+  /// than leaving the timestamps alone.
+  static const int maxPreambleMs = 6000;
+
+  /// How far every verse timestamp must be shifted to line up with [audioMs]
+  /// of actual audio, in milliseconds (0 = leave the timestamps alone).
+  ///
+  /// The gap between the file duration and the last segment can be prepended
+  /// Isti'adhah (shift forward) or trailing content such as a closing du'a
+  /// (shift nothing) — and only the length is observable, so the decision
+  /// leans on two guards:
+  ///
+  ///  * segments whose first verse already starts past 0 carry the preamble
+  ///    offset themselves, so shifting would double-count it;
+  ///  * a gap past [maxPreambleMs] is far too long to be an invocation.
+  static int timestampShiftMs({
+    required int audioMs,
+    required List<VerseTimestamp> timestamps,
+  }) {
+    if (timestamps.isEmpty) return 0;
+    final sorted = [...timestamps]
+      ..sort((a, b) => a.startMs.compareTo(b.startMs));
+    final gap = audioMs - sorted.last.endMs;
+    if (gap <= gapThresholdMs) return 0;
+    if (sorted.first.startMs > 0) return 0;
+    if (gap > maxPreambleMs) return 0;
+    return gap;
+  }
+
+  /// Probes the audio file's total duration and, when it is longer than the
+  /// segment data describes, shifts every verse boundary forward by the
+  /// preamble amount decided by [timestampShiftMs].
   Future<void> _adjustTimestampsForIstiadhah(String audioPath) async {
     if (_currentTimestamps.isEmpty) return;
 
@@ -415,20 +489,17 @@ class AudioPlaybackService {
 
       if (duration == null) return;
 
-      final audioMs = duration.inMilliseconds;
-      final lastTsEnd = _currentTimestamps.last.endMs;
+      final shift = timestampShiftMs(
+        audioMs: duration.inMilliseconds,
+        timestamps: _currentTimestamps,
+      );
+      if (shift == 0) return;
 
-      // The audio should be slightly shorter or equal to the last
-      // timestamp boundary.  A gap larger than 1 s strongly suggests
-      // extra leading content (Isti'adhah averages ~3 s).
-      if (audioMs > lastTsEnd + 1000) {
-        final offset = audioMs - lastTsEnd;
-        _currentTimestamps = _currentTimestamps.map((ts) => VerseTimestamp(
-          verseKey: ts.verseKey,
-          startMs: ts.startMs + offset,
-          endMs: ts.endMs + offset,
-        )).toList();
-      }
+      _currentTimestamps = _currentTimestamps.map((ts) => VerseTimestamp(
+        verseKey: ts.verseKey,
+        startMs: ts.startMs + shift,
+        endMs: ts.endMs + shift,
+      )).toList();
     } catch (_) {}
   }
 
@@ -573,6 +644,7 @@ class AudioPlaybackService {
     _currentTimestamps = [];
     _state = const PlaybackState();
     _emitState();
+    RecitationsWidgetService.syncPlayback(active: false);
   }
 
   Future<void> seek(Duration position) async {
@@ -588,6 +660,8 @@ class AudioPlaybackService {
       final box = Hive.box<String>('settings');
       box.put(_lastReciterKey, reciterId);
     } catch (_) {}
+    RecitationsWidgetService.recordListen(reciterId);
+    RecitationsWidgetService.update();
   }
 
   void _saveLastSurah(int surahId) {

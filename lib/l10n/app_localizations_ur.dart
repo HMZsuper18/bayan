@@ -429,6 +429,9 @@ class AppLocalizationsUr extends AppLocalizations {
   String get downloadReciter => 'قاری ڈاؤن لوڈ کریں';
 
   @override
+  String get surahLabel => 'سورت';
+
+  @override
   String get warning => 'انتباہ';
 
   @override
@@ -657,6 +660,16 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get iconRoyal => 'شاہانہ';
+
+  @override
+  String get dockIconHelpTitle => 'ڈاک آئیکن تازہ کریں';
+
+  @override
+  String get dockIconHelpBody =>
+      'اگر ڈاک میں آئیکن ابھی اپ ڈیٹ نہیں ہوئی، تو ہوم اسکرین ایپ کی ترتیبات کھولیں، فورس اسٹاپ دبائیں، پھر بیان دوبارہ کھولیں۔';
+
+  @override
+  String get iqamahTimes => 'اقامت کے اوقات';
 
   @override
   String get iqamahTimesDescription =>
